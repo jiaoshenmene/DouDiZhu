@@ -50,7 +50,7 @@ public:
     
     void startGame();
     void settingGame();
-//    void exitGame();
+    void exitGame();
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     

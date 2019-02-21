@@ -138,7 +138,7 @@ bool HelloWorld::init()
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    CCSprite* pSprite = CCSprite::create("Backgroundimage.png");
+    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
     pSprite->setRotation(90);
     pSprite->setPosition( ccp(size.width/2, size.height/2) );
     this->addChild(pSprite, 0);
@@ -158,7 +158,7 @@ bool HelloWorld::init()
     exitLabel->setPosition(ccp(3*size.width/4, 1.5*size.height/5));
     addChild(exitLabel);
     
-    
+    startGame(); 
     return true;
 }
 #pragma mark -----进入游戏界面
@@ -194,4 +194,14 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void HelloWorld::exitGame()
+{
+    CCDirector::sharedDirector()->end();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+    
 }

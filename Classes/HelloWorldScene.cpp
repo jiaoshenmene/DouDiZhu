@@ -24,6 +24,9 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "TypeEnmu.h"
+#include "StartGame.h"
+#include "GameSetting.h"
 
 USING_NS_CC;
 
@@ -115,8 +118,65 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+    
+    if (!CCUserDefault::sharedUserDefault()->getBoolForKey("GameSettingXML")) {
+        CCUserDefault::sharedUserDefault()->setBoolForKey("GameSettingXML", true);
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("BackGroundMusic", GAME_MUSIC_OPEN);
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("SoundEffectMusic", GAME_MUSIC_OPEN);
+        
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("CoinsOfPerson", EVERY_PLAYER_COINS_NUMBER);
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("CoinsOfUpComputer", EVERY_PLAYER_COINS_NUMBER);
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("CoinsOfNextComputer",EVERY_PLAYER_COINS_NUMBER);
+        CCUserDefault::sharedUserDefault()->flush();
+        //初始化游戏设置
+        //        CCLOG("文件不存在 创建文件");
+    }
+    else
+    {
+        //        CCLOG("文件已经存在");
+    }
+    
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
+    CCSprite* pSprite = CCSprite::create("Backgroundimage.png");
+    pSprite->setRotation(90);
+    pSprite->setPosition( ccp(size.width/2, size.height/2) );
+    this->addChild(pSprite, 0);
+    
+    startLabel=CCLabelTTF::create("开始游戏", "", 30);
+    startLabel->setColor(ccc3(128, 255, 255));
+    startLabel->setPosition(ccp(3*size.width/4, 3.5*size.height/5));
+    addChild(startLabel);
+    
+    settingLabel=CCLabelTTF::create("游戏设置", "", 30);
+    settingLabel->setColor(ccc3(128, 255, 255));
+    settingLabel->setPosition(ccp(3*size.width/4, 2.5*size.height/5));
+    addChild(settingLabel);
+    
+    exitLabel=CCLabelTTF::create("退出游戏", "", 30);
+    exitLabel->setColor(ccc3(128, 255, 255));
+    exitLabel->setPosition(ccp(3*size.width/4, 1.5*size.height/5));
+    addChild(exitLabel);
+    
+    
     return true;
 }
+#pragma mark -----进入游戏界面
+
+void HelloWorld::startGame()
+{
+    CCTransitionSlideInL * transition=CCTransitionSlideInR::create(0.2f,
+                                                                   StartGame::scene());
+    CCDirector::sharedDirector()->replaceScene(transition);
+}
+#pragma mark -----进入最高分界面
+void HelloWorld::settingGame()
+{
+    CCTransitionSlideInL * transition=CCTransitionSlideInR::create(0.2f,
+                                                                   GameSetting::scene());
+    CCDirector::sharedDirector()->replaceScene(transition);
+}
+
 
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

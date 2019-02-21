@@ -26,6 +26,14 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+//USING_NS_CC;
+
+typedef enum TargetScence
+{
+    TargetScenceStartScence,
+    TargetScenceSettingScence,
+}TargetScence;
+
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -39,6 +47,29 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+    
+    void startGame();
+    void settingGame();
+//    void exitGame();
+    
+    // preprocessor macro for "static create()" constructor ( node() deprecated )
+    
+    TargetScence targetScence;
+    
+//    virtual void onEnter();
+//    virtual void onExit();
+//    virtual void onEnterTransitionDidFinish();
+    
+//    static cocos2d::CCScene * creatWithSenceTarget(TargetScence target);
+//    bool initWithSenceTarget(TargetScence target);
+//    void reolaceScenceUpdate(float t);
+    
+private:
+    cocos2d::LabelTTF * startLabel;
+    cocos2d::LabelTTF * settingLabel;
+    cocos2d::LabelTTF * exitLabel;
+    
+    
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -6,7 +6,9 @@
 //
 //
 
-#include "cocos2d.h"
+#include "DecidePoker.h"
+#include "TypeEnmu.h"
+
 
 static DecidePoker * sh;
 DecidePoker * DecidePoker::sharedDecidePoker()

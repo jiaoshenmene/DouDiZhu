@@ -9,7 +9,9 @@
 #ifndef __MyGame__GameRules__
 #define __MyGame__GameRules__
 
-#include "MyGameHeader.h"
+#include "cocos2d.h"
+USING_NS_CC;
+
 class GameRules:public CCObject
 {
 public:

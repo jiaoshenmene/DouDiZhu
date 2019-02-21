@@ -19,10 +19,10 @@ PokerInit * PokerInit::sharedPokerInit()
 CCDictionary * PokerInit::initArraysAndRootDic()
 {
     //save four "2" in arrA
-    CCSprite* a1 = CCSprite::create("F3.png");
-    CCSprite* a2 = CCSprite::create("HT3.png");
-    CCSprite* a3 = CCSprite::create("Meihua3.png");
-    CCSprite* a4 = CCSprite::create("H3.png");
+    Sprite* a1 = Sprite::create("F3.png");
+    Sprite* a2 = Sprite::create("HT3.png");
+    Sprite* a3 = Sprite::create("Meihua3.png");
+    Sprite* a4 = Sprite::create("H3.png");
     arrA=new CCArray();
     arrA->addObject(a1);
     arrA->addObject(a2);
@@ -30,10 +30,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrA->addObject(a4);
     
     //save four "3" in arrB
-    CCSprite* b1 = CCSprite::create("F4.png");
-    CCSprite* b2 = CCSprite::create("HT4.png");
-    CCSprite* b3 = CCSprite::create("Meihua4.png");
-    CCSprite* b4 = CCSprite::create("H4.png");
+    Sprite* b1 = Sprite::create("F4.png");
+    Sprite* b2 = Sprite::create("HT4.png");
+    Sprite* b3 = Sprite::create("Meihua4.png");
+    Sprite* b4 = Sprite::create("H4.png");
     arrB=new CCArray();
     arrB->addObject(b1);
     arrB->addObject(b2);
@@ -41,10 +41,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrB->addObject(b4);
     
     //save four "4" in arrC
-    CCSprite* c1 = CCSprite::create("F5.png");
-    CCSprite* c2 = CCSprite::create("HT5.png");
-    CCSprite* c3 = CCSprite::create("Meihua5.png");
-    CCSprite* c4 = CCSprite::create("H5.png");
+    Sprite* c1 = Sprite::create("F5.png");
+    Sprite* c2 = Sprite::create("HT5.png");
+    Sprite* c3 = Sprite::create("Meihua5.png");
+    Sprite* c4 = Sprite::create("H5.png");
     arrC=new CCArray();
     arrC->addObject(c1);
     arrC->addObject(c2);
@@ -52,10 +52,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrC->addObject(c4);
     
     //save four "5" in arrD
-    CCSprite* d1 = CCSprite::create("F6.png");
-    CCSprite* d2 = CCSprite::create("HT6.png");
-    CCSprite* d3 = CCSprite::create("Meihua6.png");
-    CCSprite* d4 = CCSprite::create("H6.png");
+    Sprite* d1 = Sprite::create("F6.png");
+    Sprite* d2 = Sprite::create("HT6.png");
+    Sprite* d3 = Sprite::create("Meihua6.png");
+    Sprite* d4 = Sprite::create("H6.png");
     arrD=new CCArray();
     arrD->addObject(d1);
     arrD->addObject(d2);
@@ -63,10 +63,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrD->addObject(d4);
     
     //save four "6" in arrE
-    CCSprite* e1 = CCSprite::create("F7.png");
-    CCSprite* e2 = CCSprite::create("HT7.png");
-    CCSprite* e3 = CCSprite::create("Meihua7.png");
-    CCSprite* e4 = CCSprite::create("H7.png");
+    Sprite* e1 = Sprite::create("F7.png");
+    Sprite* e2 = Sprite::create("HT7.png");
+    Sprite* e3 = Sprite::create("Meihua7.png");
+    Sprite* e4 = Sprite::create("H7.png");
     arrE=new CCArray();
     arrE->addObject(e1);
     arrE->addObject(e2);
@@ -74,10 +74,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrE->addObject(e4);
     
     //save four "7" in arrF
-    CCSprite* f1 = CCSprite::create("F8.png");
-    CCSprite* f2 = CCSprite::create("HT8.png");
-    CCSprite* f3 = CCSprite::create("Meihua8.png");
-    CCSprite* f4 = CCSprite::create("H8.png");
+    Sprite* f1 = Sprite::create("F8.png");
+    Sprite* f2 = Sprite::create("HT8.png");
+    Sprite* f3 = Sprite::create("Meihua8.png");
+    Sprite* f4 = Sprite::create("H8.png");
     arrF=new CCArray();
     arrF->addObject(f1);
     arrF->addObject(f2);
@@ -85,10 +85,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrF->addObject(f4);
     
     //save four "8" in arrG
-    CCSprite* g1 = CCSprite::create("F9.png");
-    CCSprite* g2 = CCSprite::create("HT9.png");
-    CCSprite* g3 = CCSprite::create("Meihua9.png");
-    CCSprite* g4 = CCSprite::create("H9.png");
+    Sprite* g1 = Sprite::create("F9.png");
+    Sprite* g2 = Sprite::create("HT9.png");
+    Sprite* g3 = Sprite::create("Meihua9.png");
+    Sprite* g4 = Sprite::create("H9.png");
     arrG=new CCArray();
     arrG->addObject(g1);
     arrG->addObject(g2);
@@ -96,10 +96,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrG->addObject(g4);
     
     //save four "9" in arrH
-    CCSprite* h1 = CCSprite::create("F10.png");
-    CCSprite* h2 = CCSprite::create("HT10.png");
-    CCSprite* h3 = CCSprite::create("Meihua10.png");
-    CCSprite* h4 = CCSprite::create("H10.png");
+    Sprite* h1 = Sprite::create("F10.png");
+    Sprite* h2 = Sprite::create("HT10.png");
+    Sprite* h3 = Sprite::create("Meihua10.png");
+    Sprite* h4 = Sprite::create("H10.png");
     arrH=new CCArray();
     arrH->addObject(h1);
     arrH->addObject(h2);
@@ -107,10 +107,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrH->addObject(h4);
     
     //save four "10" in arrI
-    CCSprite* i1 = CCSprite::create("F11.png");
-    CCSprite* i2 = CCSprite::create("HT11.png");
-    CCSprite* i3 = CCSprite::create("Meihua11.png");
-    CCSprite* i4 = CCSprite::create("H11.png");
+    Sprite* i1 = Sprite::create("F11.png");
+    Sprite* i2 = Sprite::create("HT11.png");
+    Sprite* i3 = Sprite::create("Meihua11.png");
+    Sprite* i4 = Sprite::create("H11.png");
     arrI=new CCArray();
     arrI->addObject(i1);
     arrI->addObject(i2);
@@ -118,10 +118,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrI->addObject(i4);
     
     //save four "11" in arrJ
-    CCSprite* j1 = CCSprite::create("F12.png");
-    CCSprite* j2 = CCSprite::create("HT12.png");
-    CCSprite* j3 = CCSprite::create("Meihua12.png");
-    CCSprite* j4 = CCSprite::create("H12.png");
+    Sprite* j1 = Sprite::create("F12.png");
+    Sprite* j2 = Sprite::create("HT12.png");
+    Sprite* j3 = Sprite::create("Meihua12.png");
+    Sprite* j4 = Sprite::create("H12.png");
     arrJ=new CCArray();
     arrJ->addObject(j1);
     arrJ->addObject(j2);
@@ -129,10 +129,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrJ->addObject(j4);
     
     //save four "12" in arrK
-    CCSprite* k1 = CCSprite::create("F13.png");
-    CCSprite* k2 = CCSprite::create("HT13.png");
-    CCSprite* k3 = CCSprite::create("Meihua13.png");
-    CCSprite* k4 = CCSprite::create("H13.png");
+    Sprite* k1 = Sprite::create("F13.png");
+    Sprite* k2 = Sprite::create("HT13.png");
+    Sprite* k3 = Sprite::create("Meihua13.png");
+    Sprite* k4 = Sprite::create("H13.png");
     arrK=new CCArray();
     arrK->addObject(k1);
     arrK->addObject(k2);
@@ -140,10 +140,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrK->addObject(k4);
     
     //save four "13" in arrL
-    CCSprite* l1 = CCSprite::create("F1.png");
-    CCSprite* l2 = CCSprite::create("HT1.png");
-    CCSprite* l3 = CCSprite::create("Meihua1.png");
-    CCSprite* l4 = CCSprite::create("H1.png");
+    Sprite* l1 = Sprite::create("F1.png");
+    Sprite* l2 = Sprite::create("HT1.png");
+    Sprite* l3 = Sprite::create("Meihua1.png");
+    Sprite* l4 = Sprite::create("H1.png");
     arrL=new CCArray();
     arrL->addObject(l1);
     arrL->addObject(l2);
@@ -151,10 +151,10 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrL->addObject(l4);
     
     //save four "1" in arrM
-    CCSprite* m1 = CCSprite::create("F2.png");
-    CCSprite* m2 = CCSprite::create("HT2.png");
-    CCSprite* m3 = CCSprite::create("Meihua2.png");
-    CCSprite* m4 = CCSprite::create("H2.png");
+    Sprite* m1 = Sprite::create("F2.png");
+    Sprite* m2 = Sprite::create("HT2.png");
+    Sprite* m3 = Sprite::create("Meihua2.png");
+    Sprite* m4 = Sprite::create("H2.png");
     arrM=new CCArray();
     arrM->addObject(m1);
     arrM->addObject(m2);
@@ -162,12 +162,12 @@ CCDictionary * PokerInit::initArraysAndRootDic()
     arrM->addObject(m4);
     
     //save four "xw" in arrN
-    CCSprite* n1 = CCSprite::create("XW.png");
+    Sprite* n1 = Sprite::create("XW.png");
     arrN=new CCArray();
     arrN->addObject(n1);
     
     //save four "dw" in arrO
-    CCSprite* t1 = CCSprite::create("DW.png");
+    Sprite* t1 = Sprite::create("DW.png");
     arrT=new CCArray();
     arrT->addObject(t1);
     

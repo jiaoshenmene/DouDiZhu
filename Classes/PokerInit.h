@@ -11,7 +11,7 @@
 
 #include "cocos2d.h"
 USING_NS_CC;
-class PokerInit:public CCObject {
+class PokerInit:public Node {
 public:
     //用来存放所有的牌
     CCDictionary * rootDic;

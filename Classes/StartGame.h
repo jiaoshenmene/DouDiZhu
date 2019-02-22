@@ -30,11 +30,11 @@ public:
 //    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 //    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-    ~StartGame();
+//    ~StartGame();
 public:
     //用来存放所有的牌
-    CCDictionary * mpRootDic;
-    CCArray * mpRootKeys;
+//    Map<std::string, Vector<Sprite *>> mpRootDic;
+//    std::vector<std::string> mpRootKeys;
   
     
     CCArray * mpArrByRand;
@@ -73,9 +73,9 @@ public:
     CCLabelTTF * mpPersonIdentityLabel;
     CCLabelTTF * mpNextComIdentityLabel;//显示每个玩家身份的Label
     
-    CCLabelTTF * mpTimerCountDown;
-    CCLabelTTF * mpNextComputertimerCountDown;
-    CCLabelTTF * mpUpComputertimerCountDown;
+    Label * mpTimerCountDown;
+    Label * mpNextComputertimerCountDown;
+    Label * mpUpComputertimerCountDown;
     //显示倒计时
     CCLabelTTF * mpComputerUpLabel;
     CCLabelTTF * mpPersonLabel;
@@ -121,8 +121,8 @@ public:
     
 public:
     void initArraysAndRootDic();//初始化
-    void GameStart();//开始游戏
-    virtual void update(float);
+    void gameStart();//开始游戏
+//    void update(float);
     void adjustPokerOrder();//调整牌序
     void sendPokerOutEveryPlayer();//发牌到每个玩家
     void displayPersonPoker();//显示person手中的牌
@@ -130,11 +130,11 @@ public:
     void outOfTheCards();//符合规则出牌
     void personConsiderTimeRunOutAndRandOneOfPersonPokers();
     void passThisRecycle();//过牌
-    
+
     void personConsiderTimeCountDown(float considerTime);
     void nextConsiderTimeCountDown(float considerTime);
     void upConsiderTimeCountDown(float considerTime);
-  
+
     void nextComputeroutOfTheCards();
     //下家电脑出牌
     void personOutOfCardsManyTimeNextStartConsider(float t);
@@ -150,21 +150,20 @@ public:
     void gameAgain();//重新开始游戏
     void clearScreenAndManyArr();
     void unscheduleInStartGameAllUpdate();
-    
+
 public:
     void menuCloseCallback();
-    CREATE_FUNC(StartGame);
-    
     TargetPlayScence targetPlayScence;
-    
-    virtual void onEnter();
-    virtual void onExit();
-    virtual void onEnterTransitionDidFinish();
-    
-    static CCScene * creatWithSenceTarget(TargetPlayScence target);
+//
+//    virtual void onEnter();
+//    virtual void onExit();
+//    virtual void onEnterTransitionDidFinish();
+//    
+    static Scene * creatWithSenceTarget(TargetPlayScence target);
     bool initWithSenceTarget(TargetPlayScence target);
     void reolaceScenceUpdate(float t);
 
+    static StartGame *create();
 };
 
 #endif /* defined(__MyGame__StartGame__) */

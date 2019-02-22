@@ -14,25 +14,25 @@ USING_NS_CC;
 class PokerInit:public Node {
 public:
     //用来存放所有的牌
-    CCDictionary * rootDic;
-    //用来存放大小相等的牌
-    CCArray * arrA;
-    CCArray * arrB;
-    CCArray * arrC;
-    CCArray * arrD;
-    CCArray * arrE;
-    CCArray * arrF;
-    CCArray * arrG;
-    CCArray * arrH;
-    CCArray * arrI;
-    CCArray * arrJ;
-    CCArray * arrK;
-    CCArray * arrL;
-    CCArray * arrM;
-    CCArray * arrN;
-    CCArray * arrT;
-    
-    CCDictionary * initArraysAndRootDic();//初始化
+//    Map<std::string, Vector<Sprite *>> rootDic;
+//    //用来存放大小相等的牌
+//    Vector<Sprite *> arrA;
+//    Vector<Sprite *> arrB;
+//    Vector<Sprite *> arrC;
+//    Vector<Sprite *> arrD;
+//    Vector<Sprite *> arrE;
+//    Vector<Sprite *> arrF;
+//    Vector<Sprite *> arrG;
+//    Vector<Sprite *> arrH;
+//    Vector<Sprite *> arrI;
+//    Vector<Sprite *> arrJ;
+//    Vector<Sprite *> arrK;
+//    Vector<Sprite *> arrL;
+//    Vector<Sprite *> arrM;
+//    Vector<Sprite *> arrN;
+//    Vector<Sprite *> arrT;
+//    
+//    Map<std::string, Vector<Sprite *> > initArraysAndRootDic();//初始化
     
 public:
     static PokerInit * sharedPokerInit();

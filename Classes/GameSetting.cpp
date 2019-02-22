@@ -9,11 +9,12 @@
 #include "GameSetting.h"
 #include "TypeEnmu.h"
 #include "HelloWorldScene.h"
+#include "PublicItem.h"
 
-CCScene* GameSetting::scene()
+Scene* GameSetting::scene()
 {
     // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();
+    Scene *scene = Scene::create();
     
     // 'layer' is an autorelease object
     GameSetting *layer = GameSetting::create();
@@ -30,47 +31,45 @@ bool GameSetting::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !CCLayer::init() )
+    if ( !Layer::init() )
     {
         return false;
     }
     
     auto pCloseItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",CC_CALLBACK_0(GameSetting::menuCloseCallback, this));
     
-    pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
+    pCloseItem->setPosition( Vec2(Director::getInstance()->getWinSize().width - 20, 20) );
     
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-    pMenu->setPosition( CCPointZero );
+    Menu* pMenu = Menu::create(pCloseItem, NULL);
+    pMenu->setPosition( Vec2::ZERO );
     this->addChild(pMenu, 1);
     
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    CCSprite* pSprite = CCSprite::create("backgroundimage.png");
-    pSprite->setRotation(90);
-    pSprite->setPosition( ccp(size.width/2, size.height/2) );
+    Size size = Director::getInstance()->getWinSize();
+    Sprite* pSprite = PublicItem::backgroundSprite();
     this->addChild(pSprite, 0);
     
     mpBackGroundMusic=CCLabelTTF::create("背景音乐：", "", 30);
-    mpBackGroundMusic->setColor(ccc3(255, 255, 0));
-    mpBackGroundMusic->setPosition(ccp(size.width/2+80, size.height/2+30));
+    mpBackGroundMusic->setColor(Color3B(255, 255, 0));
+    mpBackGroundMusic->setPosition(Vec2(size.width/2+80, size.height/2+30));
     addChild(mpBackGroundMusic);
     
     mpBackGroundMusicTT=CCLabelTTF::create("", "", 30);
-    mpBackGroundMusicTT->setColor(ccc3(255, 255, 0));
-    mpBackGroundMusicTT->setPosition(ccp(size.width/2+160, size.height/2+30));
+    mpBackGroundMusicTT->setColor(Color3B(255, 255, 0));
+    mpBackGroundMusicTT->setPosition(Vec2(size.width/2+160, size.height/2+30));
     addChild(mpBackGroundMusicTT);
     
     mpBackGroundSoundEffect=CCLabelTTF::create("游戏音效：", "", 30);
-    mpBackGroundSoundEffect->setColor(ccc3(0, 255, 255));
-    mpBackGroundSoundEffect->setPosition(ccp(size.width/2+80, size.height/2-30));
+    mpBackGroundSoundEffect->setColor(Color3B(0, 255, 255));
+    mpBackGroundSoundEffect->setPosition(Vec2(size.width/2+80, size.height/2-30));
     addChild(mpBackGroundSoundEffect);
     
     mpBackGroundSoundEffectTT=CCLabelTTF::create("", "", 30);
-    mpBackGroundSoundEffectTT->setColor(ccc3(0, 255, 255));
-    mpBackGroundSoundEffectTT->cocos2d::CCNode::setPosition(ccp(size.width/2+160, size.height/2-30));
+    mpBackGroundSoundEffectTT->setColor(Color3B(0, 255, 255));
+    mpBackGroundSoundEffectTT->CCNode::setPosition(Vec2(size.width/2+160, size.height/2-30));
     addChild(mpBackGroundSoundEffectTT);
     
-    int bValue=CCUserDefault::sharedUserDefault()->getIntegerForKey("BackGroundMusic");
-    int gValue=CCUserDefault::sharedUserDefault()->getIntegerForKey("SoundEffectMusic");
+    int bValue=UserDefault::getInstance()->getIntegerForKey("BackGroundMusic");
+    int gValue=UserDefault::getInstance()->getIntegerForKey("SoundEffectMusic");
     //读取游戏设置
     if (bValue==GAME_MUSIC_OPEN) {
         mbBMusicIsOpen=true;
@@ -98,7 +97,7 @@ bool GameSetting::init()
 
 //void GameSetting::registerWithTouchDispatcher(void)
 //{
-//    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 5, true);
+//    Director::getInstance()->getTouchDispatcher()->addTargetedDelegate(this, 5, true);
 //}
 //bool GameSetting::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 //{
@@ -107,15 +106,15 @@ bool GameSetting::init()
 //        if (mbBMusicIsOpen) {
 //            mbBMusicIsOpen=false;
 //            mpBackGroundMusicTT->setString("关");
-//            CCUserDefault::sharedUserDefault()->setIntegerForKey("BackGroundMusic", GAME_MUSIC_CLOSE);
-//            CCUserDefault::sharedUserDefault()->flush();
+//            UserDefault::getInstance()->setIntegerForKey("BackGroundMusic", GAME_MUSIC_CLOSE);
+//            UserDefault::getInstance()->flush();
 //        }
 //        else
 //        {
 //            mbBMusicIsOpen=true;
 //            mpBackGroundMusicTT->setString("开");
-//            CCUserDefault::sharedUserDefault()->setIntegerForKey("BackGroundMusic", GAME_MUSIC_OPEN);
-//            CCUserDefault::sharedUserDefault()->flush();
+//            UserDefault::getInstance()->setIntegerForKey("BackGroundMusic", GAME_MUSIC_OPEN);
+//            UserDefault::getInstance()->flush();
 //        }
 //    }
 //
@@ -123,15 +122,15 @@ bool GameSetting::init()
 //        if (mbGMusicIsOpen) {
 //            mbGMusicIsOpen=false;
 //            mpBackGroundSoundEffectTT->setString("关");
-//            CCUserDefault::sharedUserDefault()->setIntegerForKey("SoundEffectMusic", GAME_MUSIC_CLOSE);
-//            CCUserDefault::sharedUserDefault()->flush();
+//            UserDefault::getInstance()->setIntegerForKey("SoundEffectMusic", GAME_MUSIC_CLOSE);
+//            UserDefault::getInstance()->flush();
 //        }
 //        else
 //        {
 //            mbGMusicIsOpen=true;
 //            mpBackGroundSoundEffectTT->setString("开");
-//            CCUserDefault::sharedUserDefault()->setIntegerForKey("SoundEffectMusic", GAME_MUSIC_OPEN);
-//            CCUserDefault::sharedUserDefault()->flush();
+//            UserDefault::getInstance()->setIntegerForKey("SoundEffectMusic", GAME_MUSIC_OPEN);
+//            UserDefault::getInstance()->flush();
 //        }
 //    }
 //    //若 更改游戏设置 记录
@@ -175,6 +174,6 @@ void GameSetting::menuCloseCallback()
     
     CCTransitionShrinkGrow * transition=CCTransitionShrinkGrow::create(1.0f,
                                                                      HelloWorld::createScene());
-    CCDirector::sharedDirector()->replaceScene(transition);
+    Director::getInstance()->replaceScene(transition);
     
 }

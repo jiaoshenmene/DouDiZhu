@@ -16,11 +16,11 @@ typedef enum TargetSettingScence
 {
     TargetSettingScenceHelloWorld,
 }TargetSettingScence;
-class GameSetting : public cocos2d::CCLayer
+class GameSetting : public cocos2d::Layer
 {
 public:
     virtual bool init();
-    static cocos2d::CCScene* scene();
+    static cocos2d::Scene* scene();
     CREATE_FUNC(GameSetting);
     
 public:
@@ -39,7 +39,7 @@ public:
     virtual void onExit();
     virtual void onEnterTransitionDidFinish();
     
-    static CCScene * creatWithSenceTarget(TargetSettingScence target);
+    static Scene * creatWithSenceTarget(TargetSettingScence target);
     bool initWithSenceTarget(TargetSettingScence target);
     void reolaceScenceUpdate(float t);
     

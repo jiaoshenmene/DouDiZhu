@@ -43,7 +43,7 @@ public:
     virtual bool init();
     
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    void menuCloseCallback();
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
@@ -60,14 +60,14 @@ public:
 //    virtual void onExit();
 //    virtual void onEnterTransitionDidFinish();
     
-//    static cocos2d::CCScene * creatWithSenceTarget(TargetScence target);
+//    static cocos2d::Scene * creatWithSenceTarget(TargetScence target);
 //    bool initWithSenceTarget(TargetScence target);
 //    void reolaceScenceUpdate(float t);
     
 private:
-    cocos2d::LabelTTF * startLabel;
-    cocos2d::LabelTTF * settingLabel;
-    cocos2d::LabelTTF * exitLabel;
+//    cocos2d::Label * startLabel;
+    cocos2d::Label * settingLabel;
+    cocos2d::Label * exitLabel;
     
     
 };

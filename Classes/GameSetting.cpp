@@ -38,7 +38,7 @@ bool GameSetting::init()
     
     auto pCloseItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",CC_CALLBACK_0(GameSetting::menuCloseCallback, this));
     
-    pCloseItem->setPosition( Vec2(Director::getInstance()->getWinSize().width - 20, 20) );
+    pCloseItem->setPosition( Vec2(Director::getInstance()->getWinSize().width - 100, 20) );
     
     Menu* pMenu = Menu::create(pCloseItem, NULL);
     pMenu->setPosition( Vec2::ZERO );
@@ -48,7 +48,9 @@ bool GameSetting::init()
     Sprite* pSprite = PublicItem::backgroundSprite();
     this->addChild(pSprite, 0);
     
-    mpBackGroundMusic=CCLabelTTF::create("背景音乐：", "", 30);
+    mpBackGroundMusic=Label::create();
+    mpBackGroundMusic->setString("背景音乐：");
+    mpBackGroundMusic->setSystemFontSize(30);
     mpBackGroundMusic->setColor(Color3B(255, 255, 0));
     mpBackGroundMusic->setPosition(Vec2(size.width/2+80, size.height/2+30));
     addChild(mpBackGroundMusic);
@@ -58,14 +60,17 @@ bool GameSetting::init()
     mpBackGroundMusicTT->setPosition(Vec2(size.width/2+160, size.height/2+30));
     addChild(mpBackGroundMusicTT);
     
-    mpBackGroundSoundEffect=CCLabelTTF::create("游戏音效：", "", 30);
+    mpBackGroundSoundEffect=Label::create();
+    mpBackGroundSoundEffect->setString("游戏音效：");
+    mpBackGroundSoundEffect->setSystemFontSize(30);
     mpBackGroundSoundEffect->setColor(Color3B(0, 255, 255));
     mpBackGroundSoundEffect->setPosition(Vec2(size.width/2+80, size.height/2-30));
     addChild(mpBackGroundSoundEffect);
     
+    
     mpBackGroundSoundEffectTT=CCLabelTTF::create("", "", 30);
     mpBackGroundSoundEffectTT->setColor(Color3B(0, 255, 255));
-    mpBackGroundSoundEffectTT->CCNode::setPosition(Vec2(size.width/2+160, size.height/2-30));
+    mpBackGroundSoundEffectTT->setPosition(Vec2(size.width/2+160, size.height/2-30));
     addChild(mpBackGroundSoundEffectTT);
     
     int bValue=UserDefault::getInstance()->getIntegerForKey("BackGroundMusic");
@@ -89,8 +94,7 @@ bool GameSetting::init()
         mbGMusicIsOpen=false;
         mpBackGroundSoundEffectTT->setString("关");
     }
-    //根据游戏设置显示状态
-    setTouchEnabled(true);
+
     
     return true;
 }
@@ -172,8 +176,7 @@ void GameSetting::menuCloseCallback()
 {
     //CCTransitionSplitRows
     
-    CCTransitionShrinkGrow * transition=CCTransitionShrinkGrow::create(1.0f,
-                                                                     HelloWorld::createScene());
+    TransitionShrinkGrow * transition=TransitionShrinkGrow::create(1.0f,HelloWorld::createScene());
     Director::getInstance()->replaceScene(transition);
     
 }

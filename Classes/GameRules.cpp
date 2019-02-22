@@ -31,8 +31,8 @@ int GameRules::decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCAr
     }
     
     if (selectValueArr->count()==2) {
-        CCString *s0 = (CCString *)s0;
-        CCString *s1 = (CCString *)s1;
+        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
+        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
         if (s0->isEqual(s1)) {
             return POKER_TYPE_DOUBLE;
             //对子可以出

@@ -37,58 +37,58 @@ public:
     std::vector<std::string> mpRootKeys;
   
     
-    CCArray * mpArrByRand;
+    std::vector<Sprite *> mpArrByRand;
     //储存随机后的精灵
-    CCArray * mpKeyArrByRand;
+    std::vector<std::string> mpKeyArrByRand;
     //储存随机后的精灵对应的key
     
-    CCArray * mpPersonArr;
-    CCArray * mpKeysOfpersonArr;
+    std::vector<Sprite *> mpPersonArr;
+    std::vector<std::string> mpKeysOfpersonArr;
     //储存玩家的牌及对应的key
-    CCArray * mpComputerNextArr;
-    CCArray * mpKeysOfcomputerNextArr;
+    std::vector<Sprite *> mpComputerNextArr;
+    std::vector<std::string> mpKeysOfcomputerNextArr;
     //储存玩家下家的牌及对应的key
-    CCArray * mpComputerUpArr;
-    CCArray * mpKeysOfcomputerUpArr;
+    std::vector<Sprite *> mpComputerUpArr;
+    std::vector<std::string> mpKeysOfcomputerUpArr;
     //储存玩家上家的牌及对应的key
-    CCArray * mpLastThreeArr;
-    CCArray * mpKeysOflastThreeArr;
+    std::vector<Sprite *> mpLastThreeArr;
+    std::vector<std::string> mpKeysOflastThreeArr;
     //储存底牌及对应的key
-    CCArray * mpPokerWhetherMoveArr;
+    std::vector<std::string> mpPokerWhetherMoveArr;
     //储存移动状态
-    CCArray * mpPokerIsSlectArr;
+    std::vector<std::string> mpPokerIsSlectArr;
     
-    CCArray * mpSelectValueArr;
-    CCArray * mpSelectKeysArr;
+    std::vector<Sprite *> mpSelectValueArr;
+    std::vector<std::string> mpSelectKeysArr;
     //用来存储选中玩家的精灵和对应的key
    
-    CCArray * mpNextComputerSelectArr;
-    CCArray * mpKeysOfnextComputerSelectArr;
+    std::vector<Sprite *> mpNextComputerSelectArr;
+    std::vector<std::string> mpKeysOfnextComputerSelectArr;
     //下家电脑应该出的牌
-    CCArray * mpUpComputerSelectArr;
-    CCArray * mpKeysOfupComputerSelectArr;;
+    std::vector<Sprite *> mpUpComputerSelectArr;
+    std::vector<std::string> mpKeysOfupComputerSelectArr;;
     //上家电脑应该出的牌 
     
-    CCLabelTTF * mpUpComIdentityLabel;
-    CCLabelTTF * mpPersonIdentityLabel;
-    CCLabelTTF * mpNextComIdentityLabel;//显示每个玩家身份的Label
+    Label * mpUpComIdentityLabel;
+    Label * mpPersonIdentityLabel;
+    Label * mpNextComIdentityLabel;//显示每个玩家身份的Label
     
     Label * mpTimerCountDown;
     Label * mpNextComputertimerCountDown;
     Label * mpUpComputertimerCountDown;
     //显示倒计时
-    CCLabelTTF * mpComputerUpLabel;
-    CCLabelTTF * mpPersonLabel;
-    CCLabelTTF * mpComputerNextLabel;
+    Label * mpComputerUpLabel;
+    Label * mpPersonLabel;
+    Label * mpComputerNextLabel;
     //显示各个玩家不出的label
     
-    CCLabelTTF * mpPersonHaveCoinsLabel;
-    CCLabelTTF * mpUpComHaveCoinsLabel;
-    CCLabelTTF * mpNextComHaveCoinsLabel;
+    Label * mpPersonHaveCoinsLabel;
+    Label * mpUpComHaveCoinsLabel;
+    Label * mpNextComHaveCoinsLabel;
     //显示各个玩家拥有的金币数
     
-    CCLabelTTF * mpGameOverLabel;
-    CCLabelTTF * mpGameAgainLabel;
+    Label * mpGameOverLabel;
+    Label * mpGameAgainLabel;
     //继续游戏的label
     
     bool upcomputerIsOutOfCards;

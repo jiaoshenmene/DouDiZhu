@@ -105,8 +105,6 @@ bool HelloWorld::init()
     auto startMenu = Menu::create(startItem,settingItem,exitItem, NULL);
     startMenu->setPosition(Vec2::ZERO);
     this->addChild(startMenu, 1);
-
-//    startGame();
     
     return true;
 }

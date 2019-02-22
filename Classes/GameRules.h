@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-class GameRules:public CCObject
+class GameRules:public Node
 {
 public:
     int decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCArray * selectKeysArr);//判断选中的牌是否符合规则

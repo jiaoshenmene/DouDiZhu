@@ -924,39 +924,44 @@ bool StartGame::init()
 #pragma mark ------初始化-----
 void StartGame::initArraysAndRootDic()
 {
-    mpPokerWhetherMoveArr=CCArray::createWithCapacity(20);
+    mpPokerWhetherMoveArr=std::vector<std::string>();
     //记录每个排当前的状态
-    mpPokerIsSlectArr=CCArray::createWithCapacity(20);
+    mpPokerIsSlectArr=std::vector<std::string>();
     //记录选中的牌
-    mpSelectValueArr=new CCArray();
-    mpSelectKeysArr=new CCArray();
+    mpSelectValueArr=std::vector<Sprite *>();
+    mpSelectKeysArr=std::vector<std::string>();
 
-    mpArrByRand=new CCArray();
-    mpKeyArrByRand=new CCArray();
+    mpArrByRand=std::vector<Sprite *>();
+    mpKeyArrByRand=std::vector<std::string>();
     //储存随机后的牌
 
-    mpComputerUpArr=new CCArray();
-    mpPersonArr=new CCArray();
-    mpComputerNextArr=new CCArray();
-    mpLastThreeArr=new CCArray();
+    mpComputerUpArr=std::vector<Sprite *>();
+    mpPersonArr=std::vector<Sprite *>();
+    mpComputerNextArr=std::vector<Sprite *>();
+    mpLastThreeArr=std::vector<Sprite *>();
 
-    mpKeysOfcomputerUpArr=new CCArray();
-    mpKeysOfpersonArr=new CCArray();
-    mpKeysOfcomputerNextArr=new CCArray();
-    mpKeysOflastThreeArr=new CCArray();
+    mpKeysOfcomputerUpArr=std::vector<std::string>();
+    mpKeysOfpersonArr=std::vector<std::string>();
+    mpKeysOfcomputerNextArr=std::vector<std::string>();
+    mpKeysOflastThreeArr=std::vector<std::string>();
     //储存玩家，上家电脑，下家电脑，底牌及相应的key
 
-    mpNextComputerSelectArr=new CCArray();
-    mpKeysOfnextComputerSelectArr=new CCArray();
+    mpNextComputerSelectArr=std::vector<Sprite *>();
+    mpKeysOfnextComputerSelectArr=std::vector<std::string>();
     //记录下家电脑应该出得牌
 
-    mpUpComputerSelectArr=new CCArray();
-    mpKeysOfupComputerSelectArr=new CCArray();
+    mpUpComputerSelectArr=std::vector<Sprite *>();
+    mpKeysOfupComputerSelectArr=std::vector<std::string>();
     //记录上家电脑应该出的牌
 
-    mpNextComIdentityLabel=CCLabelTTF::create("","",START_GAME_LABEL_SIZE);
-    mpUpComIdentityLabel=CCLabelTTF::create("","",START_GAME_LABEL_SIZE);
-    mpPersonIdentityLabel=CCLabelTTF::create("","",START_GAME_LABEL_SIZE);
+    mpNextComIdentityLabel=Label::create();
+    mpNextComIdentityLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
+    
+    mpUpComIdentityLabel=Label::create();
+    mpUpComIdentityLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
+    
+    mpPersonIdentityLabel=Label::create();
+    mpPersonIdentityLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
 
     mpNextComIdentityLabel->setPosition(Vec2(430, 230));
     mpNextComIdentityLabel->setColor(Color3B(0, 255, 255));
@@ -971,13 +976,22 @@ void StartGame::initArraysAndRootDic()
     addChild(mpPersonIdentityLabel);
     //显示玩家的身份
 
-    CCString * pNextStr=CCString::createWithFormat("%d",UserDefault::getInstance()->getIntegerForKey("CoinsOfNextComputer"));
-    CCString * pUpStr=CCString::createWithFormat("%d",UserDefault::getInstance()->getIntegerForKey("CoinsOfUpComputer"));
-    CCString * pPerStr=CCString::createWithFormat("%d",UserDefault::getInstance()->getIntegerForKey("CoinsOfPerson"));
+    std::string pNextStr = std::to_string(UserDefault::getInstance()->getIntegerForKey("CoinsOfNextComputer"));
+    
+    std::string pUpStr=std::to_string(UserDefault::getInstance()->getIntegerForKey("CoinsOfUpComputer"));
+    std::string pPerStr=std::to_string(UserDefault::getInstance()->getIntegerForKey("CoinsOfPerson"));
 
-    mpPersonHaveCoinsLabel=CCLabelTTF::create(pPerStr->getCString(), "", START_GAME_LABEL_SIZE);
-    mpNextComHaveCoinsLabel=CCLabelTTF::create(pNextStr->getCString(),"", START_GAME_LABEL_SIZE);
-    mpUpComHaveCoinsLabel=CCLabelTTF::create(pUpStr->getCString(), "", START_GAME_LABEL_SIZE);
+    mpPersonHaveCoinsLabel=Label::create();
+    mpPersonHaveCoinsLabel->setString(pPerStr);
+    mpPersonHaveCoinsLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
+    
+    mpNextComHaveCoinsLabel=Label::create();
+    mpNextComHaveCoinsLabel->setString(pNextStr);
+    mpNextComHaveCoinsLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
+    
+    mpUpComHaveCoinsLabel=Label::create();
+    mpUpComHaveCoinsLabel->setString(pUpStr);
+    mpUpComHaveCoinsLabel->setSystemFontSize(START_GAME_LABEL_SIZE);
 
     mpNextComHaveCoinsLabel->setPosition(Vec2(430, 255));
     mpNextComHaveCoinsLabel->setColor(Color3B(0, 255, 255));
@@ -992,26 +1006,32 @@ void StartGame::initArraysAndRootDic()
     addChild(mpPersonHaveCoinsLabel);
     //显示每个玩家拥有多少金币
 
-    mpComputerNextLabel=CCLabelTTF::create("", "", 20);
+    mpComputerNextLabel=Label::create();
+    mpComputerNextLabel->setSystemFontSize(20);
     mpComputerNextLabel->setColor(Color3B(255, 255, 0));
     addChild(mpComputerNextLabel);
 
-    mpComputerUpLabel=CCLabelTTF::create("", "", 20);
+    mpComputerUpLabel=Label::create();
+    mpComputerUpLabel->setSystemFontSize(20);
     mpComputerUpLabel->setColor(Color3B(255, 255, 0));
     addChild(mpComputerUpLabel);
 
-    mpPersonLabel=CCLabelTTF::create("", "", 20);
+    mpPersonLabel=Label::create();
+    mpPersonLabel->setSystemFontSize(20);
     mpPersonLabel->setColor(Color3B(255, 255, 0));
     addChild(mpPersonLabel);
     //创建不出 label
 
-    mpGameAgainLabel=CCLabelTTF::create("继续游戏", "", 30);
+    mpGameAgainLabel=Label::create();
+    mpGameAgainLabel->setString("继续游戏");
+    mpGameAgainLabel->setSystemFontSize(30);
     mpGameAgainLabel->setPosition(Vec2(OUT_OF_SCREEN_POINT_Y, OUT_OF_SCREEN_POINT_Y));
     mpGameAgainLabel->setColor(Color3B(255, 255, 0));
     addChild(mpGameAgainLabel,10);
     //创建继续游戏 label
 
-    mpGameOverLabel=CCLabelTTF::create("", "", 30);
+    mpGameOverLabel=Label::create("", "", 30);
+    mpGameOverLabel->setSystemFontSize(30);
     mpGameOverLabel->setPosition(Vec2(OUT_OF_SCREEN_POINT_Y, OUT_OF_SCREEN_POINT_Y));
     mpGameOverLabel->setColor(Color3B(0, 255, 255));
     addChild(mpGameOverLabel,10);
@@ -1034,15 +1054,13 @@ void StartGame::gameStart()
     }
 
 
-    CCString * str=CCString::create("@");
+    std::string str= "@";
     for(int i=0;i<20;i++)
     {
-        mpPokerWhetherMoveArr->addObject(str);//初始化牌的状态
-        mpPokerIsSlectArr->addObject(str);//初始化选中的牌
+        mpPokerWhetherMoveArr.push_back(str);//->addObject(str);//初始化牌的状态
+        mpPokerIsSlectArr.push_back(str);//初始化选中的牌
 
     }
-    mpPokerWhetherMoveArr->retain();
-    mpPokerIsSlectArr->retain();
 
 
     mbPersonTimeOutOfCards=false;

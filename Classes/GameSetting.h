@@ -24,8 +24,8 @@ public:
     CREATE_FUNC(GameSetting);
     
 public:
-    CCLabelTTF * mpBackGroundMusic;
-    CCLabelTTF * mpBackGroundSoundEffect;
+    Label * mpBackGroundMusic;
+    Label * mpBackGroundSoundEffect;
     CCLabelTTF * mpBackGroundMusicTT;
     CCLabelTTF * mpBackGroundSoundEffectTT;
 //    virtual void registerWithTouchDispatcher(void);

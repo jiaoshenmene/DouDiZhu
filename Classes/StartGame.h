@@ -17,14 +17,14 @@ typedef enum TargetPlayScence
 {
     TargetPlayScenceHelloWorld,
 }TargetPlayScence;
-class StartGame : public cocos2d::CCLayer
+class StartGame : public cocos2d::Layer
 {
 public:
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
     virtual bool init();
     
     // there's no 'id' in cpp, so we recommend to return the class instance pointer
-    static cocos2d::CCScene* scene();
+    static cocos2d::Scene* scene();
     
 //    virtual void registerWithTouchDispatcher(void);
 //    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);

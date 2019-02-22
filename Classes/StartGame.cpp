@@ -1017,57 +1017,62 @@ void StartGame::initArraysAndRootDic()
     addChild(mpGameOverLabel,10);
     //游戏结束显示胜负
 
-//    gameStart();//开始游戏
+    gameStart();//开始游戏
 
 }
 
 #pragma mark------开始游戏
-//void StartGame::gameStart()
-//{
-//
-//    mpRootDic=PokerInit::sharedPokerInit()->initArraysAndRootDic();
-//    
-//    mpRootKeys = mpRootDic.keys();
-//
-//    CCString * str=CCString::create("@");
-//    for(int i=0;i<20;i++)
-//    {
-//        mpPokerWhetherMoveArr->addObject(str);//初始化牌的状态
-//        mpPokerIsSlectArr->addObject(str);//初始化选中的牌
-//
-//    }
-//    mpPokerWhetherMoveArr->retain();
-//    mpPokerIsSlectArr->retain();
-//
-//
-//    mbPersonTimeOutOfCards=false;
-//    //玩家考虑时间
-//    mbCanOrCannotOutOfCards=true;
-//    //初始时玩家是否可以出牌
-//    mbPersonFirstIsOutOfCards=true;
-//    //用来记录玩家以他为起点开始新的一轮的时候是否出牌
-//    personIsOutOfCards=false;
-//    //玩家是否出牌
-//    upcomputerIsOutOfCards=false;
-//    //up是否出牌
-//    nextcomputerIsOutOfCards=false;
-//    //next是否出牌
-//    mbPersonIsWin=false;
-//    mbUpComputerIsWin=false;
-//    mbNextComputerIsWin=false;
-//    //判断谁先出完牌
-//    miPokerTypeID=-1;
-//    miBaseTime=1;
-//
-//    mbNextComputerISLandlord=false;
-//    mbPersonIsLandlord=false;
-//    mbUpComputerIsLandlord=false;
-//    mbGameIsOver=false;
-//
-//    srand(time(NULL));
-//
-////    this->adjustPokerOrder();//洗牌
-//}
+void StartGame::gameStart()
+{
+
+    mpRootDic = PokerInit::sharedPokerInit()->initArraysAndRootDic();
+    mpRootKeys = std::vector<std::string>();
+    
+    for (const auto& iter : mpRootDic)
+    {
+        mpRootKeys.push_back(iter.first);
+    }
+
+
+    CCString * str=CCString::create("@");
+    for(int i=0;i<20;i++)
+    {
+        mpPokerWhetherMoveArr->addObject(str);//初始化牌的状态
+        mpPokerIsSlectArr->addObject(str);//初始化选中的牌
+
+    }
+    mpPokerWhetherMoveArr->retain();
+    mpPokerIsSlectArr->retain();
+
+
+    mbPersonTimeOutOfCards=false;
+    //玩家考虑时间
+    mbCanOrCannotOutOfCards=true;
+    //初始时玩家是否可以出牌
+    mbPersonFirstIsOutOfCards=true;
+    //用来记录玩家以他为起点开始新的一轮的时候是否出牌
+    personIsOutOfCards=false;
+    //玩家是否出牌
+    upcomputerIsOutOfCards=false;
+    //up是否出牌
+    nextcomputerIsOutOfCards=false;
+    //next是否出牌
+    mbPersonIsWin=false;
+    mbUpComputerIsWin=false;
+    mbNextComputerIsWin=false;
+    //判断谁先出完牌
+    miPokerTypeID=-1;
+    miBaseTime=1;
+
+    mbNextComputerISLandlord=false;
+    mbPersonIsLandlord=false;
+    mbUpComputerIsLandlord=false;
+    mbGameIsOver=false;
+
+    srand(time(NULL));
+
+//    this->adjustPokerOrder();//洗牌
+}
 
 //void StartGame:: registerWithTouchDispatcher(void)
 //{

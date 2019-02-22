@@ -33,8 +33,8 @@ public:
 //    ~StartGame();
 public:
     //用来存放所有的牌
-//    Map<std::string, Vector<Sprite *>> mpRootDic;
-//    std::vector<std::string> mpRootKeys;
+    std::map<std::string, std::vector<Sprite *>> mpRootDic;
+    std::vector<std::string> mpRootKeys;
   
     
     CCArray * mpArrByRand;

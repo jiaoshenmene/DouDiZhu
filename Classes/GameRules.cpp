@@ -23,7 +23,7 @@ GameRules * GameRules::sharedGameRules()
 int GameRules::decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCArray * selectKeysArr)//判断选中的牌是否符合规则
 {
 
-    CCLOG("selectArr count =%d,selectKeyArr count =%d",selectValueArr->count(),selectKeysArr->count());
+//    CCLOG("selectArr count =%d,selectKeyArr count =%d",selectValueArr->count(),selectKeysArr->count());
     sortedForArray(selectValueArr, selectKeysArr);
     if (selectValueArr->count()==1) {
         return POKER_TYPE_SINGLE;

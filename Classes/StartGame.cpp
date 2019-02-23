@@ -1030,7 +1030,7 @@ void StartGame::initArraysAndRootDic()
     addChild(mpGameAgainLabel,10);
     //创建继续游戏 label
 
-    mpGameOverLabel=Label::create("", "", 30);
+    mpGameOverLabel=Label::create();
     mpGameOverLabel->setSystemFontSize(30);
     mpGameOverLabel->setPosition(Vec2(OUT_OF_SCREEN_POINT_Y, OUT_OF_SCREEN_POINT_Y));
     mpGameOverLabel->setColor(Color3B(0, 255, 255));
@@ -1341,7 +1341,7 @@ void StartGame::menuCloseCallback()
 {
     //CCTransitionSplitRows
 
-    CCTransitionSplitRows * transition=CCTransitionSplitRows::create(1.0f,
+    TransitionSplitRows * transition= TransitionSplitRows::create(1.0f,
                                                                    HelloWorld::createScene());
     Director::getInstance()->replaceScene(transition);
 

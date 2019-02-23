@@ -20,521 +20,475 @@ GameRules * GameRules::sharedGameRules()
     return sh;
 }
 
-int GameRules::decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCArray * selectKeysArr)//判断选中的牌是否符合规则
+int GameRules::decideSelectedPokerIfConformToRules(std::vector<Sprite *> selectValueArr,std::vector<std::string> selectKeysArr)//判断选中的牌是否符合规则
 {
 
 //    CCLOG("selectArr count =%d,selectKeyArr count =%d",selectValueArr->count(),selectKeysArr->count());
-    sortedForArray(selectValueArr, selectKeysArr);
-    if (selectValueArr->count()==1) {
+//    sortedForArray(selectValueArr, selectKeysArr);
+    if (selectValueArr.size()==1) {
         return POKER_TYPE_SINGLE;
         //单牌可以出
     }
     
-    if (selectValueArr->count()==2) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        if (s0->isEqual(s1)) {
+    if (selectValueArr.size()==2) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        if (s0.compare(s1) == 0) {
             return POKER_TYPE_DOUBLE;
             //对子可以出
         }
-        CCString * strT=CCString::create("T");
-        CCString * strN=CCString::create("N");
+        std::string strT="T";
+        std::string strN="N";
         
-        if (s0->isEqual(strT)&&s1->isEqual(strN)) {
+        if (!s0.compare(strT) && !s1.compare(strN) ) {
             return  POKER_MAX_BOOM;
             //王炸
         }
     }
     
-    if (selectValueArr->count()==3) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        if (s0->isEqual(s1)&&s0->isEqual(s2)) {
+    if (selectValueArr.size()==3) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        if (!s0.compare(s1)&&!s0.compare(s2)) {
             return POKER_TYPE_THREE;
             //三张
         }
     }
     
-    if (selectValueArr->count()==4) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
+    if (selectValueArr.size()==4) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
         
-        if (s0->isEqual(s1)&&s0->isEqual(s2)) {
+        if (s0.compare(s1)&&s0.compare(s2)) {
             return POKER_TYPE_FOUR;
             //前三张牌一样
         }
-        if (s1->isEqual(s2)&&s1->isEqual(s3)) {
+        if (s1.compare(s2)&&s1.compare(s3)) {
             return POKER_TYPE_FOUR;
             //后三张牌一样
         }
         
     }
-    if (selectValueArr->count()==5) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
+    if (selectValueArr.size()==5) {
+        std::string s0 = (std::string )selectKeysArr.at(0);
+        std::string s1 = (std::string )selectKeysArr.at(1);
+        std::string s2 = (std::string )selectKeysArr.at(2);
+        std::string s3 = (std::string )selectKeysArr.at(3);
+        std::string s4 = (std::string )selectKeysArr.at(4);
         
-        if (s0->isEqual(s1)&&s0->isEqual(s2)
-            &&s3->isEqual(s4)) {
+        if (s0.compare(s1)&&s0.compare(s2)
+            &&s3.compare(s4)) {
             return POKER_TYPE_FIVE_THREE_WITH_TWO;
             //前三张牌一样后两张牌一样 3-2
         }
-        if (s2->isEqual(s3)&&s2->isEqual(s4)
-            &&s0->isEqual(s1)) {
+        if (s2.compare(s3)&&s2.compare(s4)
+            &&s0.compare(s1)) {
             return POKER_TYPE_FIVE_THREE_WITH_TWO;
             //后三张牌一样前两张牌一样2-3
         }
         
-        if (s0->isEqual(s1)&&
-            s0->isEqual(s2)&&
-            s0->isEqual(s3)
+        if (s0.compare(s1)&&
+            s0.compare(s2)&&
+            s0.compare(s3)
             ) {
             return POKER_TYPE_FIVE_FOUR_WITH_ONE;
             //四带一
         }
         
-        if (s1->isEqual(s2)&&
-            s1->isEqual(s3)&&
-            s1->isEqual(s4)) {
+        if (s1.compare(s2)&&
+            s1.compare(s3)&&
+            s1.compare(s4)) {
             return POKER_TYPE_FIVE_FOUR_WITH_ONE;
             //四带一
         }
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==4){
+        
+        s0.compare( (selectKeysArr.at(selectKeysArr.size() - 1) ) );
+        if (s0.compare(s1)&&
+            s1.compare(s2)&&
+            s2.compare(s3)&&
+            s3.compare(s4)
+            &&s0.compare(selectKeysArr.at(selectKeysArr.size() - 1)) == 4
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
     }
     
-    if (selectKeysArr->count()==6) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
+    if (selectKeysArr.size()==6) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
        
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s4->isEqual(s5)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s4.compare(s5)
+            &&s0.compare(selectKeysArr.at(selectKeysArr.size() - 1)) == 1
             ) {
             return POKER_TYPE_THREE_STRAIGHT;
             //前三张牌一样后三张牌一样（飞机不带翅膀）
         }
         
-        for(int i=0;i<selectKeysArr->count()-3 ;i++){
-            CCString *si = (CCString *)selectKeysArr->objectAtIndex(i);
-            if (si->isEqual(selectKeysArr->objectAtIndex(i+1))
-                &&si->isEqual(selectKeysArr->objectAtIndex(i+2))
-                &&si->isEqual(selectKeysArr->objectAtIndex(i+3))) {
+        for(int i=0;i<selectKeysArr.size()-3 ;i++){
+            std::string si = (std::string )selectKeysArr.at(i);
+            if (si.compare(selectKeysArr.at(i+1))
+                &&si.compare(selectKeysArr.at(i+2))
+                &&si.compare(selectKeysArr.at(i+3))) {
 
                 return POKER_TYPE_SIX_FOUR_WITH_TWO;
                 //前四张牌一样（四带二）
             }
         }
         
-        if (s0->isEqual(s1)&&
-            s2->isEqual(s3)
-            &&s4->isEqual(s5)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s2)->getCString())==1
-            &&((CCString *)(s2))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1) {
+        if (s0.compare(s1)&&
+            s2.compare(s3)
+            &&s4.compare(s5)
+            &&s0.compare(s2)
+            &&!s2.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ){
             return POKER_TYPE_DOUBLE_STRAIGHT;
             //拖拉机
         }
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==5){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)
+            &&s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))== 5
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
         
     }
-    if (selectKeysArr->count()==7) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
+    if (selectKeysArr.size()==7) {
+        std::string s0 = (std::string )selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==6){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)
+//            &&
+//            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+//            ->compare((selectKeysArr.at(selectKeysArr.size()-1)))==6
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
     }
-    if (selectKeysArr->count()==8) {
+    if (selectKeysArr.size()==8) {
         
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
-        CCString *s7 = (CCString *)selectKeysArr->objectAtIndex(7);
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
+        std::string s7 = selectKeysArr.at(7);
         
         
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s3)->getCString())==1
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s3.compare(s5)
+            && s0.compare(s3)==1
             ) {
             return POKER_TYPE_EIGHT_ONE;
             //前六张牌出现飞机（飞机带翅膀）
         }
         
-        if (s1->isEqual(s2)
-            &&s1->isEqual(s3)
-            &&s4->isEqual(s5)
-            &&s4->isEqual(s6)
-            &&
-            ((CCString *)(s1))
-            ->compare(((CCString *)s4)->getCString())==1
+        if (s1.compare(s2)
+            &&s1.compare(s3)
+            &&s4.compare(s5)
+            &&s4.compare(s6)
+            &&s1.compare(s4)
             ) {
             return POKER_TYPE_EIGHT_TWO;
             //中间六张牌出现飞机（飞机带翅膀）
         }
         
-        if (s2->isEqual(s3)
-            &&s2->isEqual(s4)
-            &&s5->isEqual(s6)
-            &&s5->isEqual(s7)
-            &&
-            ((CCString *)(s2))
-            ->compare(((CCString *)s5)->getCString())==1
+        if (s2.compare(s3)
+            &&s2.compare(s4)
+            &&s5.compare(s6)
+            &&s5.compare(s7)
+            &&s2.compare(s5)
             ) {
             return POKER_TYPE_EIGHT_THREE;
             //后六张牌出现飞机（飞机带翅膀）
         }
         
-        if (s0->isEqual(s1)&&
-            s2->isEqual(s3)
-            &&s4->isEqual(s5)
+        if (s0.compare(s1)&&
+            s2.compare(s3)
+            &&s4.compare(s5)
             &&
-            s6->isEqual(s7)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s2)->getCString())==1
-            &&((CCString *)(s2))
-            ->compare(((CCString *)s4)->getCString())==1
-            &&((CCString *)(s4))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1) {
+            s6.compare(s7)
+            &&s0.compare(s2)
+            &&s2.compare(s4)
+            &&s4.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ) {
             return POKER_TYPE_DOUBLE_STRAIGHT;
             //拖拉机
         }
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            !s6->isEqual(s7)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==7){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)&&
+            !s6.compare(s7)&&
+            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
         
     }
-    if (selectKeysArr->count()==9) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
-        CCString *s7 = (CCString *)selectKeysArr->objectAtIndex(7);
-        CCString *s8 = (CCString *)selectKeysArr->objectAtIndex(8);
+    if (selectKeysArr.size()==9) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
+        std::string s7 = selectKeysArr.at(7);
+        std::string s8 = selectKeysArr.at(8);
         
         
         
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&s6->isEqual(s7)
-            &&s6->isEqual(s8)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s3)->getCString())==1
-            &&
-            ((CCString *)(s3))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s3.compare(s5)
+            &&s6.compare(s7)
+            &&s6.compare(s8)
+            &&s0.compare(s3)
+            &&s3.compare(selectKeysArr.at(selectKeysArr.size() - 1))
             ) {
             return POKER_TYPE_THREE_STRAIGHT;
             //三飞不带翅膀
         }
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            !s6->isEqual(s7)&&
-            !s7->isEqual(s8)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==8){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)&&
+            !s6.compare(s7)&&
+            !s7.compare(s8)&&
+            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
         
         
     }
-    if (selectKeysArr->count()==10) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
-        CCString *s7 = (CCString *)selectKeysArr->objectAtIndex(7);
-        CCString *s8 = (CCString *)selectKeysArr->objectAtIndex(8);
-        CCString *s9 = (CCString *)selectKeysArr->objectAtIndex(9);
+    if (selectKeysArr.size()==10) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
+        std::string s7 = selectKeysArr.at(7);
+        std::string s8 = selectKeysArr.at(8);
+        std::string s9 = selectKeysArr.at(9);
         
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s3)->getCString())==1
-            &&s6->isEqual(s7)
-            &&s8->isEqual(s9)
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s3.compare(s5)
+            &&s0.compare(s3)
+            &&s6.compare(s7)
+            &&s8.compare(s9)
             ) {
             return POKER_TYPE_TEN;
             //前六张出现飞机（飞机带双翅膀）
         }
         
         
-        if (s2->isEqual(s3)
-            &&s2->isEqual(s4)
-            &&s5->isEqual(s6)
-            &&s5->isEqual(s7)
-            &&
-            ((CCString *)(s2))
-            ->compare(((CCString *)s5)->getCString())==1
-            &&s0->isEqual(s1)
-            &&s8->isEqual(s9)
+        if (s2.compare(s3)
+            &&s2.compare(s4)
+            &&s5.compare(s6)
+            &&s5.compare(s7)
+            &&s2.compare(s5)
+            &&s0.compare(s1)
+            &&s8.compare(s9)
             ) {
             return POKER_TYPE_TEN;
             //中间六张出现飞机（飞机带双翅膀）
         }
         
         
-        if (s4->isEqual(s5)
-            &&s4->isEqual(s6)
-            &&s7->isEqual(s8)
-            &&s7->isEqual(s9)
-            &&
-            ((CCString *)(s4))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1
-            &&s0->isEqual(s1)
-            &&s2->isEqual(s3)
+        if (s4.compare(s5)
+            &&s4.compare(s6)
+            &&s7.compare(s8)
+            &&s7.compare(s9)
+            &&s4.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            &&s0.compare(s1)
+            &&s2.compare(s3)
             ) {
             return POKER_TYPE_TEN;
             //后六张出现飞机（飞机带双翅膀）
         }
         
         
-        if (s0->isEqual(s1)&&
-            s2->isEqual(s3)
-            &&s4->isEqual(s5)
+        if (s0.compare(s1)&&
+            s2.compare(s3)
+            &&s4.compare(s5)
             &&
-            s6->isEqual(s7)
+            s6.compare(s7)
             &&
-            s8->isEqual(s9)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s2)->getCString())==1
-            &&((CCString *)(s2))
-            ->compare(((CCString *)s4)->getCString())==1
-            &&((CCString *)(s4))
-            ->compare(((CCString *)s6)->getCString())==1
-            &&((CCString *)(s6))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1) {
+            s8.compare(s9)
+            &&s0.compare(s2)
+            &&s2.compare(s4)
+            &&s4.compare(s6)
+            &&s6.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ) {
             return POKER_TYPE_DOUBLE_STRAIGHT;
             //拖拉机
         }
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            !s6->isEqual(s7)&&
-            !s7->isEqual(s8)&&
-            !s8->isEqual(s9)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==9){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)&&
+            !s6.compare(s7)&&
+            !s7.compare(s8)&&
+            !s8.compare(s9)&&
+            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1)) ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
         
     }
-    if (selectKeysArr->count()==11) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
-        CCString *s7 = (CCString *)selectKeysArr->objectAtIndex(7);
-        CCString *s8 = (CCString *)selectKeysArr->objectAtIndex(8);
-        CCString *s9 = (CCString *)selectKeysArr->objectAtIndex(9);
-        CCString *s10 = (CCString *)selectKeysArr->objectAtIndex(10);
+    if (selectKeysArr.size()==11) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
+        std::string s7 = selectKeysArr.at(7);
+        std::string s8 = selectKeysArr.at(8);
+        std::string s9 = selectKeysArr.at(9);
+        std::string s10 = selectKeysArr.at(10);
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            !s6->isEqual(s7)&&
-            !s7->isEqual(s8)&&
-            !s8->isEqual(s9)&&
-            !s9->isEqual(s10)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==10){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)&&
+            !s6.compare(s7)&&
+            !s7.compare(s8)&&
+            !s8.compare(s9)&&
+            !s9.compare(s10)&&
+            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
         
     }
     
-    if (selectKeysArr->count()==12) {
-        CCString *s0 = (CCString *)selectKeysArr->objectAtIndex(0);
-        CCString *s1 = (CCString *)selectKeysArr->objectAtIndex(1);
-        CCString *s2 = (CCString *)selectKeysArr->objectAtIndex(2);
-        CCString *s3 = (CCString *)selectKeysArr->objectAtIndex(3);
-        CCString *s4 = (CCString *)selectKeysArr->objectAtIndex(4);
-        CCString *s5 = (CCString *)selectKeysArr->objectAtIndex(5);
-        CCString *s6 = (CCString *)selectKeysArr->objectAtIndex(6);
-        CCString *s7 = (CCString *)selectKeysArr->objectAtIndex(7);
-        CCString *s8 = (CCString *)selectKeysArr->objectAtIndex(8);
-        CCString *s9 = (CCString *)selectKeysArr->objectAtIndex(9);
-        CCString *s10 = (CCString *)selectKeysArr->objectAtIndex(10);
-        CCString *s11 = (CCString *)selectKeysArr->objectAtIndex(11);
+    if (selectKeysArr.size()==12) {
+        std::string s0 = selectKeysArr.at(0);
+        std::string s1 = selectKeysArr.at(1);
+        std::string s2 = selectKeysArr.at(2);
+        std::string s3 = selectKeysArr.at(3);
+        std::string s4 = selectKeysArr.at(4);
+        std::string s5 = selectKeysArr.at(5);
+        std::string s6 = selectKeysArr.at(6);
+        std::string s7 = selectKeysArr.at(7);
+        std::string s8 = selectKeysArr.at(8);
+        std::string s9 = selectKeysArr.at(9);
+        std::string s10 = selectKeysArr.at(10);
+        std::string s11 = selectKeysArr.at(11);
         
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&s6->isEqual(s7)
-            &&s6->isEqual(s8)
-            &&s9->isEqual(s10)
-            &&s9->isEqual(s11)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s3)->getCString())==1
-            &&
-            ((CCString *)(s3))
-            ->compare(((CCString *)s6)->getCString())==1
-            &&
-            ((CCString *)(s6))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s3.compare(s5)
+            &&s6.compare(s7)
+            &&s6.compare(s8)
+            &&s9.compare(s10)
+            &&s9.compare(s11)
+            &&s0.compare(s3)
+            &&s3.compare(s6)
+            &&s6.compare(selectKeysArr.at(selectKeysArr.size() - 1))
             ) {
             return POKER_TYPE_THREE_STRAIGHT;
             //四飞不带翅膀
         }
-        if (s0->isEqual(s1)
-            &&s0->isEqual(s2)
-            &&s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&s6->isEqual(s7)
-            &&s6->isEqual(s8)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s3)->getCString())==1
-            &&
-            ((CCString *)(s3))
-            ->compare(((CCString *)s6)->getCString())==1
+        if (s0.compare(s1)
+            &&s0.compare(s2)
+            &&s3.compare(s4)
+            &&s3.compare(s5)
+            &&s6.compare(s7)
+            &&s6.compare(s8)
+            &&s0.compare(s3)
+            &&s3.compare(s6)
             ) {
             return 122;
             //前面出现三飞带单翅膀
         }
-        if (s1->isEqual(s2)
-            &&s1->isEqual(s3)
-            &&s4->isEqual(s5)
-            &&s4->isEqual(s6)
-            &&s7->isEqual(s8)
-            &&s7->isEqual(s9)
-            &&
-            ((CCString *)(s1))
-            ->compare(((CCString *)s4)->getCString())==1
-            &&
-            ((CCString *)(s4))
-            ->compare(((CCString *)s7)->getCString())==1
+        if (s1.compare(s2)
+            &&s1.compare(s3)
+            &&s4.compare(s5)
+            &&s4.compare(s6)
+            &&s7.compare(s8)
+            &&s7.compare(s9)
+            &&s1.compare(s4)
+            &&s4.compare(s7)
             ) {
             return 123;
             //中间出现三飞带单翅膀
         }
         
-        if (s2->isEqual(s3)
-            &&s2->isEqual(s4)
-            &&s5->isEqual(s6)
-            &&s5->isEqual(s7)
-            &&s8->isEqual(s9)
-            &&s8->isEqual(s10)
-            &&
-            ((CCString *)(s2))
-            ->compare(((CCString *)s5)->getCString())==1
-            &&
-            ((CCString *)(s5))
-            ->compare(((CCString *)s8)->getCString())==1
+        if (s2.compare(s3)
+            &&s2.compare(s4)
+            &&s5.compare(s6)
+            &&s5.compare(s7)
+            &&s8.compare(s9)
+            &&s8.compare(s10)
+            &&s2.compare(s5)
+            &&s5.compare(s8)
             ) {
             return 124;
             //中间出现三飞带单翅膀
         }
         
-        if (s3->isEqual(s4)
-            &&s3->isEqual(s5)
-            &&s6->isEqual(s7)
-            &&s6->isEqual(s8)
-            &&s9->isEqual(s10)
-            &&s9->isEqual(s11)
-            &&
-            ((CCString *)(s3))
-            ->compare(((CCString *)s6)->getCString())==1
-            &&
-            ((CCString *)(s6))
-            ->compare(((CCString *)s9)->getCString())==1
+        if (s3.compare(s4)
+            &&s3.compare(s5)
+            &&s6.compare(s7)
+            &&s6.compare(s8)
+            &&s9.compare(s10)
+            &&s9.compare(s11)
+            &&s3.compare(s6)
+            &&s6.compare(s9)
             ) {
             return 125;
             //后面出现三飞带单翅膀
@@ -542,44 +496,39 @@ int GameRules::decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCAr
         
         
         
-        if (s0->isEqual(s1)&&
-            s2->isEqual(s3)
-            &&s4->isEqual(s5)
+        if (s0.compare(s1)&&
+            s2.compare(s3)
+            &&s4.compare(s5)
             &&
-            s6->isEqual(s7)
+            s6.compare(s7)
             &&
-            s8->isEqual(s9)
+            s8.compare(s9)
             &&
-            s10->isEqual(s11)
-            &&
-            ((CCString *)(s0))
-            ->compare(((CCString *)s2)->getCString())==1
-            &&((CCString *)(s2))
-            ->compare(((CCString *)s4)->getCString())==1
-            &&((CCString *)(s4))
-            ->compare(((CCString *)s6)->getCString())==1
-            &&((CCString *)(s6))
-            ->compare(((CCString *)s8)->getCString())==1
-            &&((CCString *)(s8))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==1) {
+            s10.compare(s11)
+            &&s0.compare(s2)
+            
+            &&s2.compare(s4)
+            &&s4.compare(s6)
+            &&s6.compare(s8)
+            &&s8.compare(selectKeysArr.at(selectKeysArr.size() - 1)) ) {
             return POKER_TYPE_DOUBLE_STRAIGHT;
             //拖拉机
         }
         
         
-        if (!s0->isEqual(s1)&&
-            !s1->isEqual(s2)&&
-            !s2->isEqual(s3)&&
-            !s3->isEqual(s4)&&
-            !s4->isEqual(s5)&&
-            !s5->isEqual(s6)&&
-            !s6->isEqual(s7)&&
-            !s7->isEqual(s8)&&
-            !s8->isEqual(s9)&&
-            !s9->isEqual(s10)&&
-            !s10->isEqual(s11)&&
-            ((CCString *)(s0))
-            ->compare(((CCString *)selectKeysArr->objectAtIndex(selectKeysArr->count()-1))->getCString())==11){
+        if (!s0.compare(s1)&&
+            !s1.compare(s2)&&
+            !s2.compare(s3)&&
+            !s3.compare(s4)&&
+            !s4.compare(s5)&&
+            !s5.compare(s6)&&
+            !s6.compare(s7)&&
+            !s7.compare(s8)&&
+            !s8.compare(s9)&&
+            !s9.compare(s10)&&
+            !s10.compare(s11)&&
+            s0.compare(selectKeysArr.at(selectKeysArr.size() - 1))
+            ){
             return POKER_TYPE_STRAIGHT;
             //顺子
         }
@@ -589,17 +538,17 @@ int GameRules::decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCAr
 
 }
 
-void GameRules::sortedForArray(CCArray * valueArr,CCArray * keyArr)
+void GameRules::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr)
 {
-    for (int i=0; i<keyArr->count()-1; i++){
-        for (int j=keyArr->count()-1; j>i; j--) {
-            CCString * key=(CCString *)keyArr->objectAtIndex(j);
-            CCString * upkey=(CCString *)keyArr->objectAtIndex(j-1);
-            if (key->compare(upkey->getCString())>0) {
-                keyArr->exchangeObjectAtIndex(j, j-1);
-                valueArr->exchangeObjectAtIndex(j, j-1);
+    size_t kcount = keyArr.size();
+    for (size_t i = 0; i < kcount - 1; i++) {
+        for (size_t j = kcount - 1; j > i; j--) {
+            std::string key = keyArr[j];
+            std::string upkey = keyArr[j - 1];
+            if (key.compare(upkey) > 0) {
+                std::swap(keyArr[j], keyArr[j - 1]);
+                std::swap(valueArr[j], valueArr[j - 1]);
             }
         }
-        
     }
 }

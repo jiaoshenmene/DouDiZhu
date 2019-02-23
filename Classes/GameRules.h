@@ -15,9 +15,9 @@ USING_NS_CC;
 class GameRules:public Node
 {
 public:
-    int decideSelectedPokerIfConformToRules(CCArray * selectValueArr,CCArray * selectKeysArr);//判断选中的牌是否符合规则
+    int decideSelectedPokerIfConformToRules(std::vector<Sprite *> selectValueArr,std::vector<std::string> selectKeysArr);//判断选中的牌是否符合规则
     
-    void sortedForArray(CCArray * valueArr,CCArray * keyArr);
+    void sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr);
 public:
     static  GameRules * sharedGameRules();
 

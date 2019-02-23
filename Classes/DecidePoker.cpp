@@ -20,24 +20,23 @@ DecidePoker * DecidePoker::sharedDecidePoker()
 }
 
 #pragma mark ------此函数用来非第二圈判断玩家是否可以打住桌面上的牌
-bool DecidePoker:: decidePersonMoreBigSHowPoker(CCArray * keysOfNextShowArr, CCArray * keysOfNowShowArr)
+bool DecidePoker:: decidePersonMoreBigSHowPoker(std::vector<std::string> keysOfNextShowArr, std::vector<std::string> keysOfNowShowArr)
 {
     int countCompare=0;
-    if (keysOfNextShowArr->count()==keysOfNowShowArr->count()) {
-        if(keysOfNowShowArr->count()==1)
+    if (keysOfNextShowArr.size()==keysOfNowShowArr.size()) {
+        if(keysOfNowShowArr.size()==1)
         {
-            if (((CCString *)(keysOfNextShowArr->objectAtIndex(0)))->compare(((CCString *)(keysOfNowShowArr->objectAtIndex(0)))->getCString())>0) {
+            if (!keysOfNextShowArr.at(0).compare(keysOfNowShowArr.at(0))) {
                 return true;
             }
-            
         }
         else
         {
-            for (int i=0; i<keysOfNowShowArr->count()-1; i++) {
-                if (((CCString *)(keysOfNextShowArr->objectAtIndex(i)))->compare(((CCString *)(keysOfNowShowArr->objectAtIndex(i)))->getCString())==((CCString *)(keysOfNextShowArr->objectAtIndex(i+1)))->compare(((CCString *)(keysOfNowShowArr->objectAtIndex(i+1)))->getCString())) {
+            for (int i=0; i<keysOfNowShowArr.size()-1; i++) {
+                if(keysOfNextShowArr.at(i).compare(keysOfNowShowArr.at(i))==keysOfNextShowArr.at(i+1).compare(keysOfNowShowArr.at(i+1))) {
                     countCompare++;
                 }
-                if (countCompare==keysOfNowShowArr->count()-1) {
+                if (countCompare==keysOfNowShowArr.size()-1) {
                     CCLOG("%d",countCompare);
                     return true;
                 }
@@ -50,21 +49,21 @@ bool DecidePoker:: decidePersonMoreBigSHowPoker(CCArray * keysOfNextShowArr, CCA
 }
 #pragma mark------判断当前出牌玩家手中是否有压得住桌面上的牌----
 bool DecidePoker:: decideWhetherHaveSuitablePokers(
-                                                 CCArray *nowScreenShowPokerArr,
-                                                 CCArray *keysOfnowScreenShowPokerArr,
-                                                 CCArray *nextTimeShouldShowPokerArr,
-                                                 CCArray *keysOfnextTimeShouldShowPokerArr,
-                                                 CCArray *requireConsiderWhetherOutOfArr,
-                                                 CCArray *keysOfrequireConsiderWhetherOutOfArr,
+                                                   std::vector<Sprite *> nowScreenShowPokerArr,
+                                                   std::vector<std::string> keysOfnowScreenShowPokerArr ,
+                                                   std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                                   std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                                   std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                                   std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
                                                  int miPokerTypeID)
 {
-    int length=keysOfnowScreenShowPokerArr->count();
-    int requireLength=keysOfrequireConsiderWhetherOutOfArr->count();
+    int length=keysOfnowScreenShowPokerArr.size();
+    int requireLength=keysOfrequireConsiderWhetherOutOfArr.size();
     //one
     if(requireLength>=length){
         if (length==1) {
             for (int i=requireLength-1; i>=0; i--) {
-                if (((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(0)))->getCString())>0)
+                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0)
                 {
                     saveEligibilityPokersAndRelevantKeys(i, length,
                                                          nextTimeShouldShowPokerArr,
@@ -78,32 +77,32 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
         //two
         if (length==2) {
             for (int i=requireLength-1; i>=1; i--) {
-                if (((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(0)))->getCString())>0
+                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
                     &&
-                    ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-1)))->getCString())==0)
+                    ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0)
                 {//
                     saveEligibilityPokersAndRelevantKeys(i-1, length,
                                                          nextTimeShouldShowPokerArr,
                                                          keysOfnextTimeShouldShowPokerArr,
                                                          requireConsiderWhetherOutOfArr,
                                                          keysOfrequireConsiderWhetherOutOfArr);
-                    
+
                     return true;
                 }
             }
         }
-        
-        
+
+
         //three
         if (length==3) {
             for (int i=requireLength-1; i>=3; i--) {
-                if (((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(0)))->getCString())>0
+                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
                     &&
-                    ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-1)))->getCString())==0
+                    ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0
                     &&
-                    ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-2)))->getCString())==0
+                    ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-2))))==0
                     &&
-                    ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-3)))->getCString())!=0
+                    ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-3))))!=0
                     )
                 {
                     saveEligibilityPokersAndRelevantKeys(i-2, length,
@@ -111,12 +110,12 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                                                          keysOfnextTimeShouldShowPokerArr,
                                                          requireConsiderWhetherOutOfArr,
                                                          keysOfrequireConsiderWhetherOutOfArr);
-                    
+
                     return true;
                 }
             }
         }
-        
+
         //four
         if (length==4) {
             //3-1
@@ -129,13 +128,13 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
             //4-0
             if (miPokerTypeID==POKER_COMMON_BOOM) {
                 for (int i=requireLength-1; i>=3; i--) {
-                    if (((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(0)))->getCString())>0
+                    if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-1)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-2)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-2))))==0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-3)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-3))))==0
                         )
                     {
                         saveEligibilityPokersAndRelevantKeys(i-3, length,
@@ -143,13 +142,13 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                                                              keysOfnextTimeShouldShowPokerArr,
                                                              requireConsiderWhetherOutOfArr,
                                                              keysOfrequireConsiderWhetherOutOfArr);
-                        
+
                         return true;
                     }
                 }
             }
         }
-        
+
         //3-2 five
         if (miPokerTypeID==POKER_TYPE_FIVE_THREE_WITH_TWO) {
             if (planeWithDoubleWings(length-2, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
@@ -157,7 +156,7 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                     return true;
                 }
             }
-        
+
         //顺子 5 6 7 8 ....
         if (miPokerTypeID==POKER_TYPE_STRAIGHT){
             CCLOG("类型顺子");
@@ -171,7 +170,7 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                 return true;
             }
         }
-        
+
         //拖拉机 6 8 10 12 ....
         if (miPokerTypeID==POKER_TYPE_DOUBLE_STRAIGHT) {
             if (doubleStraight(length, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr,
@@ -195,17 +194,17 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
             }
         }
 
-        
+
         //4-2
         if (miPokerTypeID==POKER_TYPE_SIX_FOUR_WITH_TWO) {
             for (int i=requireLength-1; i>=3; i--) {
-                if (((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(0)))->getCString())>0
+                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-1)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-2)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-2))))==0
                         &&
-                        ((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i)))->compare(((CCString *)(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i-3)))->getCString())==0
+                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-3))))==0
                         )
                     {
                         saveEligibilityPokersAndRelevantKeys(i-3, length,
@@ -214,75 +213,75 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                                                              requireConsiderWhetherOutOfArr,
                                                              keysOfrequireConsiderWhetherOutOfArr);
                         return true;
-                        
+
                     }
                 }
             }
-          
-            
-        
+
+
+
 
         if (length==8) {
             //3-3-1-1
             if (miPokerTypeID==POKER_TYPE_EIGHT_ONE) {
-                
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=0; i<keysOfnowScreenShowPokerArr->count()-2; i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
                 }
-                
+
             }
             //1-3-3-1
             if (miPokerTypeID==POKER_TYPE_EIGHT_TWO) {
-                
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=1; i<keysOfnowScreenShowPokerArr->count()-1; i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=1; i<keysOfnowScreenShowPokerArr.size()-1; i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
                 }
-                
+
             }
             //1-1-3-3
             if (miPokerTypeID==POKER_TYPE_EIGHT_THREE) {
-                
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=2; i<keysOfnowScreenShowPokerArr->count(); i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=2; i<keysOfnowScreenShowPokerArr.size(); i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
                 }
-                
+
             }
         }
-        
-        
-        
-        
+
+
+
+
         if (length==10) {
-            
+
             //3-3-2-2
             if (miPokerTypeID==101) {
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=0; i<keysOfnowScreenShowPokerArr->count()-4; i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-4; i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
@@ -290,108 +289,111 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
             }
             //2-3-3-2
             if (miPokerTypeID==102) {
-                
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=2; i<keysOfnowScreenShowPokerArr->count()-2; i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=2; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
                 }
-                
+
             }
             //2-2-3-3
             if (miPokerTypeID==103) {
-                
-                CCArray * keysOfDecideContainNowShowPokers=new CCArray();
-                for (int i=4; i<keysOfnowScreenShowPokerArr->count(); i++) {
-                    keysOfDecideContainNowShowPokers->addObject(keysOfnowScreenShowPokerArr->objectAtIndex(i));
+
+                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+                for (int i=4; i<keysOfnowScreenShowPokerArr.size(); i++) {
+                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
                 }
                 //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers->count();
+                int newlength=keysOfDecideContainNowShowPokers.size();
                 if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
                 {
                     return true;
                 }
-                
+
             }
-            
+
         }
     }
 
     return  false;
-    
+
 }
 
 #pragma mark------如果当前出牌玩家手中有压得住桌面上的牌--保存----
 void DecidePoker:: saveEligibilityPokersAndRelevantKeys(int location,
                                                       int length,
-                                                      CCArray * nextTimeShouldShowPokerArr,
-                                                      CCArray * keysOfnextTimeShouldShowPokerArr,
-                                                      CCArray * requireConsiderWhetherOutOfArr,
-                                                      CCArray *keysOfrequireConsiderWhetherOutOfArr)
+                                                      std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                                      std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                                      std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                                      std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr)
 {
     for (int i=location; i<location+length; i++) {
-        nextTimeShouldShowPokerArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfnextTimeShouldShowPokerArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+        nextTimeShouldShowPokerArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfnextTimeShouldShowPokerArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
-    
+
 }
 #pragma mark------判断是否有压得住桌面上的顺子----
 bool DecidePoker:: singleStraight(int length,
-                                CCArray * keysOfnowScreenShowPokerArr,
-                                CCArray * nextTimeShouldShowPokerArr,
-                                CCArray * keysOfnextTimeShouldShowPokerArr,
-                                CCArray * requireConsiderWhetherOutOfArr,
-                                CCArray * keysOfrequireConsiderWhetherOutOfArr,
+                                std::vector<std::string> keysOfnowScreenShowPokerArr,
+                                std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
                                 int miPokerTypeID)
 
 {
     bool mHaveSuitablePokers=false;
     //成功判断
     CCLOG("判断是否压得住顺子");
-    CCArray * newRequireConsiderArr=new CCArray();    //copy
-    CCArray * keysOfNewRequireConsiderArr=new CCArray();//copy
-    for (int i=0; i<requireConsiderWhetherOutOfArr->count(); i++) {
-        newRequireConsiderArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfNewRequireConsiderArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
+    std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
+    for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
+        newRequireConsiderArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfNewRequireConsiderArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
+
+
+    std::vector<Sprite *> singleValueArr =std::vector<Sprite *>();
+    std::vector<std::string> keysOfSingleArr=std::vector<std::string>();
+
+    std::vector<Sprite *> doubleValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfDoubleValueArr=std::vector<std::string>();
     
     
-    CCArray * singleValueArr =new CCArray();
-    CCArray * keysOfSingleArr=new CCArray();
-    
-    CCArray * doubleValueArr=new CCArray();
-    CCArray * keysOfDoubleValueArr=new CCArray();
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfSingleArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            singleValueArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-            keysOfSingleArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfSingleArr.begin(), keysOfSingleArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfSingleArr.end()) {
+            singleValueArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+            keysOfSingleArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
         }
     }
-    
-    newRequireConsiderArr->removeObjectsInArray(singleValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfSingleArr);
-    
-    for (int i=0; i<newRequireConsiderArr->count(); i++) {
-        if (!(keysOfDoubleValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            doubleValueArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-            keysOfDoubleValueArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    newRequireConsiderArr.erase(singleValueArr.begin(), singleValueArr.end());
+
+    keysOfNewRequireConsiderArr.erase(keysOfSingleArr.begin(),keysOfSingleArr.end());
+
+    for (int i=0; i<newRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfDoubleValueArr.begin(), keysOfDoubleValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfSingleArr.end()) {
+            doubleValueArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+            keysOfDoubleValueArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
         }
-        
+
     }
-    //    singleValueArr->removeObjectsInArray(doubleValueArr);
-    //    keysOfSingleArr->removeObjectsInArray(keysOfDoubleValueArr);
+        singleValueArr.erase(doubleValueArr.begin(),doubleValueArr.end());
+        keysOfSingleArr.erase(keysOfDoubleValueArr.begin(),keysOfDoubleValueArr.end());
     //取 single 若此句不注销 则出顺子时 电脑不会拆牌
-    if (keysOfSingleArr->count()>=length) {
-        for (int i=keysOfSingleArr->count()-1; i>=length-1; i--) {
-            if ((((CCString *)(keysOfSingleArr->objectAtIndex(i))))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(length-1)))->getCString())>0
+    if (keysOfSingleArr.size()>=length) {
+        for (int i=keysOfSingleArr.size()-1; i>=length-1; i--) {
+            if ((((keysOfSingleArr.at(i)))).compare(((keysOfnowScreenShowPokerArr.at(length-1))))>0
                 &&
-                (((CCString *)(keysOfSingleArr->objectAtIndex(i))))->compare(((CCString *)(keysOfSingleArr->objectAtIndex(i-length+1)))->getCString())==-(length-1)) {
+                (((keysOfSingleArr.at(i)))).compare(((keysOfSingleArr.at(i-length+1))))==-(length-1)) {
                 //-(length-1)因为是从后面开始比较所以后面的牌应该比前面的牌小
                 saveEligibilityPokersAndRelevantKeys(
                                                      i-length+1,
@@ -401,95 +403,100 @@ bool DecidePoker:: singleStraight(int length,
                                                      singleValueArr,
                                                      keysOfSingleArr);
                 CCLOG("true");
-                
+
                 mHaveSuitablePokers=true;
                 break;
             }
         }
     }
-    CC_SAFE_DELETE(newRequireConsiderArr);
-    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
-    CC_SAFE_DELETE(singleValueArr);
-    CC_SAFE_DELETE(keysOfSingleArr);
-    CC_SAFE_DELETE(doubleValueArr);
-    CC_SAFE_DELETE(keysOfDoubleValueArr);
+//    CC_SAFE_DELETE(newRequireConsiderArr);
+//    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
+//    CC_SAFE_DELETE(singleValueArr);
+//    CC_SAFE_DELETE(keysOfSingleArr);
+//    CC_SAFE_DELETE(doubleValueArr);
+//    CC_SAFE_DELETE(keysOfDoubleValueArr);
     //判断如果存在符合条件 保存输出
     return mHaveSuitablePokers;
 }
 #pragma mark------判断是否有压得住桌面上的拖拉机----
 bool DecidePoker:: doubleStraight(int length,
-                                CCArray * keysOfnowScreenShowPokerArr,
-                                CCArray * nextTimeShouldShowPokerArr,
-                                CCArray * keysOfnextTimeShouldShowPokerArr,
-                                CCArray * requireConsiderWhetherOutOfArr,
-                                CCArray * keysOfrequireConsiderWhetherOutOfArr,
+                                std::vector<std::string> keysOfnowScreenShowPokerArr,
+                                std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
                                 int miPokerTypeID)
 {
     bool mHaveSuitablePokers=false;
     //判断成功
     CCLOG("判断是否压得住拖拉机");
-    CCArray * newRequireConsiderArr=new CCArray();    //copy
-    CCArray * keysOfNewRequireConsiderArr=new CCArray();//copy
-    for (int i=0; i<requireConsiderWhetherOutOfArr->count(); i++) {
-        newRequireConsiderArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfNewRequireConsiderArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
+    std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
+    for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
+        newRequireConsiderArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfNewRequireConsiderArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
-    
-    
-    
-    CCArray * firstDoubleValueArr=new CCArray();
-    CCArray * keysOfFirstDoubleValueArr=new CCArray();
-    
-    
-    CCArray * secondDoubleValueArr=new CCArray();
-    CCArray * keysOfSecondDoubleValueArr=new CCArray();
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        CCLog("first %s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-        if (!(keysOfFirstDoubleValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            firstDoubleValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfFirstDoubleValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+
+
+
+    std::vector<Sprite *> firstDoubleValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfFirstDoubleValueArr=std::vector<std::string>();
+
+
+    std::vector<Sprite *> secondDoubleValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfSecondDoubleValueArr=std::vector<std::string>();
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfFirstDoubleValueArr.begin(), keysOfFirstDoubleValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfFirstDoubleValueArr.end()) {
+            firstDoubleValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfFirstDoubleValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //first singe key and value
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(firstDoubleValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfFirstDoubleValueArr);
+    newRequireConsiderArr.erase(firstDoubleValueArr.begin(),firstDoubleValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfFirstDoubleValueArr.begin(),keysOfFirstDoubleValueArr.end());
     //
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        CCLog("second %s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-        if (!(keysOfSecondDoubleValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            secondDoubleValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfSecondDoubleValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfSecondDoubleValueArr.begin(), keysOfSecondDoubleValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfFirstDoubleValueArr.end()) {
+            secondDoubleValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfSecondDoubleValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时secondDoubleValueArr keysOfSecondDoubleValueArr包含的value
             //和key在原数组中至少有两个
         }
     }
+
+    std::vector<Sprite *> threeDoubleValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfThreeDoubleValueArr=std::vector<std::string>();
     
-    CCArray * threeDoubleValueArr=new CCArray();
-    CCArray * keysOfThreeDoubleValueArr=new CCArray();
-    threeDoubleValueArr->addObjectsFromArray(secondDoubleValueArr);
-    keysOfThreeDoubleValueArr->addObjectsFromArray(keysOfSecondDoubleValueArr);
+    for (auto v: secondDoubleValueArr) {
+        threeDoubleValueArr.push_back(v);
+    }
+    for (auto v: keysOfSecondDoubleValueArr) {
+        keysOfThreeDoubleValueArr.push_back(v);
+    }
     
-    for (int i=0; i<keysOfFirstDoubleValueArr->count(); i++) {
-        for (int j=0; j<keysOfSecondDoubleValueArr->count(); j++) {
-            if (((CCString *)(keysOfFirstDoubleValueArr->objectAtIndex(i)))->isEqual((CCString *)(keysOfSecondDoubleValueArr->objectAtIndex(j)))) {
-                threeDoubleValueArr->addObject(firstDoubleValueArr->objectAtIndex(i));
-                keysOfThreeDoubleValueArr->addObject(keysOfFirstDoubleValueArr->objectAtIndex(i));
-                CCLog("d sec %s",((CCString *)(keysOfSecondDoubleValueArr->objectAtIndex(j)))->getCString());
+    for (int i=0; i<keysOfFirstDoubleValueArr.size(); i++) {
+        for (int j=0; j<keysOfSecondDoubleValueArr.size(); j++) {
+            std::vector<std::string>::iterator it = std::find(keysOfFirstDoubleValueArr.begin(), keysOfFirstDoubleValueArr.end(), keysOfSecondDoubleValueArr.at(i));
+            if (it != keysOfFirstDoubleValueArr.end()) {
+                threeDoubleValueArr.push_back(firstDoubleValueArr.at(i));
+                keysOfThreeDoubleValueArr.push_back(keysOfFirstDoubleValueArr.at(i));
                 
             }
         }
     }
-    CCLog("decide count %d",threeDoubleValueArr->count());
+//    CCLog("decide count %d",threeDoubleValueArr.size());
     //在此处重新排序方便显示
-    if (keysOfThreeDoubleValueArr->count()>0) {
+    if (keysOfThreeDoubleValueArr.size()>0) {
         sortedForArray(threeDoubleValueArr, keysOfThreeDoubleValueArr);
     }
-    if (keysOfThreeDoubleValueArr->count()>=length) {
-        for (int i=keysOfThreeDoubleValueArr->count()-1; i>=length-1; i--) {
-            if ((((CCString *)(keysOfThreeDoubleValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(length-1)))->getCString())>0
+    if (keysOfThreeDoubleValueArr.size()>=length) {
+        for (int i=keysOfThreeDoubleValueArr.size()-1; i>=length-1; i--) {
+            if ((((keysOfThreeDoubleValueArr.at(i)))).compare(((keysOfnowScreenShowPokerArr.at(length-1))))>0
                 &&
-                (((CCString *)(keysOfThreeDoubleValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfThreeDoubleValueArr->objectAtIndex(i-length+1)))->getCString())==-(length/2-1)) {
+                (((keysOfThreeDoubleValueArr.at(i)))).compare(((keysOfThreeDoubleValueArr.at(i-length+1))))==-(length/2-1)) {
                 //-(length-1)因为是从后面开始比较所以后面的牌应该比前面的牌小
                 saveEligibilityPokersAndRelevantKeys(
                                                      i-length+1,
@@ -501,97 +508,116 @@ bool DecidePoker:: doubleStraight(int length,
                 mHaveSuitablePokers=true;
                 break;
             }
-            
+
         }
     }
-    CC_SAFE_DELETE(newRequireConsiderArr);
-    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
-    CC_SAFE_DELETE(firstDoubleValueArr);
-    CC_SAFE_DELETE(keysOfFirstDoubleValueArr);
-    CC_SAFE_DELETE(secondDoubleValueArr);
-    CC_SAFE_DELETE(keysOfSecondDoubleValueArr);
-    CC_SAFE_DELETE(threeDoubleValueArr);
-    CC_SAFE_DELETE(keysOfThreeDoubleValueArr);
+//    CC_SAFE_DELETE(newRequireConsiderArr);
+//    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
+//    CC_SAFE_DELETE(firstDoubleValueArr);
+//    CC_SAFE_DELETE(keysOfFirstDoubleValueArr);
+//    CC_SAFE_DELETE(secondDoubleValueArr);
+//    CC_SAFE_DELETE(keysOfSecondDoubleValueArr);
+//    CC_SAFE_DELETE(threeDoubleValueArr);
+//    CC_SAFE_DELETE(keysOfThreeDoubleValueArr);
     return mHaveSuitablePokers;
-    
+
 }
 #pragma mark------判断是否有压得住桌面上的三飞不带----
 bool DecidePoker:: threeStraight(int length,
-                               CCArray * keysOfnowScreenShowPokerArr,
-                               CCArray * nextTimeShouldShowPokerArr,
-                               CCArray * keysOfnextTimeShouldShowPokerArr,
-                               CCArray * requireConsiderWhetherOutOfArr,
-                               CCArray *keysOfrequireConsiderWhetherOutOfArr,
+                               std::vector<std::string> keysOfnowScreenShowPokerArr,
+                               std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                               std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                               std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                               std::vector<std::string>keysOfrequireConsiderWhetherOutOfArr,
                                int miPokerTypeID)
 {
     bool mHaveSuitablePokers=false;
     CCLOG("判断是否有压得住桌面上的三飞不带");
-    CCArray * newRequireConsiderArr=new CCArray();    //copy
-    CCArray * keysOfNewRequireConsiderArr=new CCArray();//copy
-    for (int i=0; i<requireConsiderWhetherOutOfArr->count(); i++) {
-        newRequireConsiderArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfNewRequireConsiderArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
+    std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
+    for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
+        newRequireConsiderArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfNewRequireConsiderArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
-    
-    
-    CCArray * firstThreeValueArr=new CCArray();
-    CCArray * keysOfFirstThreeValueArr=new CCArray();
-    
-    
-    CCArray * secondThreeValueArr=new CCArray();
-    CCArray * keysOfSecondThreeValueArr=new CCArray();
-    
-    CCArray * thirdThreeValueArr=new CCArray();
-    CCArray * keysOfThirdThreeValueArr=new CCArray();
-    
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfFirstThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            firstThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfFirstThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+
+
+    std::vector<Sprite *> firstThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfFirstThreeValueArr=std::vector<std::string>();
+
+
+    std::vector<Sprite *> secondThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfSecondThreeValueArr=std::vector<std::string>();
+
+    std::vector<Sprite *> thirdThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfThirdThreeValueArr=std::vector<std::string>();
+
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfFirstThreeValueArr.begin(), keysOfFirstThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfFirstThreeValueArr.end()) {
+            firstThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfFirstThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //first singe key and value
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(firstThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfFirstThreeValueArr);
+    newRequireConsiderArr.erase(firstThreeValueArr.begin(),firstThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfFirstThreeValueArr.begin(),keysOfFirstThreeValueArr.end());
     //
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfSecondThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            secondThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfSecondThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfSecondThreeValueArr.begin(), keysOfSecondThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfThirdThreeValueArr.end()) {
+            secondThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfSecondThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时secondThreeValueArr keysOfSecondThreeValueArr包含的value
             //和key在原数组中至少有两个
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(secondThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfSecondThreeValueArr);
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfThirdThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            thirdThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfThirdThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    newRequireConsiderArr.erase(secondThreeValueArr.begin(),secondThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfSecondThreeValueArr.begin(),keysOfSecondThreeValueArr.end());
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfThirdThreeValueArr.begin(), keysOfThirdThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfThirdThreeValueArr.end()) {
+            thirdThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfThirdThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时thirdThreeValueArr keysOfThirdThreeValueArr包含的value
             //和key在原数组中至少有三个
         }
     }
+
+    std::vector<Sprite *> decideValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfDecideValueArr=std::vector<std::string>();
     
-    CCArray * decideValueArr=new CCArray();
-    CCArray * keysOfDecideValueArr=new CCArray();
-    decideValueArr->addObjectsFromArray(thirdThreeValueArr);
-    keysOfDecideValueArr->addObjectsFromArray(keysOfThirdThreeValueArr);
+    for (auto v : thirdThreeValueArr) {
+        decideValueArr.push_back(v);
+    }
     
-    decideValueArr->addObjectsFromArray(thirdThreeValueArr);
-    keysOfDecideValueArr->addObjectsFromArray(keysOfThirdThreeValueArr);
+    for (auto v : keysOfThirdThreeValueArr) {
+        keysOfDecideValueArr.push_back(v);
+    }
     
-    decideValueArr->addObjectsFromArray(thirdThreeValueArr);
-    keysOfDecideValueArr->addObjectsFromArray(keysOfThirdThreeValueArr);
+    for (auto v : thirdThreeValueArr) {
+        decideValueArr.push_back(v);
+    }
+    
+    for (auto v : keysOfThirdThreeValueArr) {
+        keysOfDecideValueArr.push_back(v);
+    }
+   
+    for (auto v : thirdThreeValueArr) {
+        decideValueArr.push_back(v);
+    }
+    
+    for (auto v : keysOfThirdThreeValueArr) {
+        keysOfDecideValueArr.push_back(v);
+    }
     
     //在此处重新排序方便显示
-    if (keysOfDecideValueArr->count()>=length) {
-        for (int i=keysOfDecideValueArr->count()-1; i>=length-1; i--) {
-            if ((((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(length-1)))->getCString())>0
+    if (keysOfDecideValueArr.size()>=length) {
+        for (int i=keysOfDecideValueArr.size()-1; i>=length-1; i--) {
+            if ((((keysOfDecideValueArr.at(i)))).compare(((keysOfnowScreenShowPokerArr.at(length-1))))>0
                 &&
-                (((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfDecideValueArr->objectAtIndex(i-length+1)))->getCString())==-(length-1)) {
+                (((keysOfDecideValueArr.at(i)))).compare(((keysOfDecideValueArr.at(i-length+1))))==-(length-1)) {
                 saveEligibilityPokersAndRelevantKeys(
                                                      i-length+1,
                                                      length,
@@ -602,130 +628,137 @@ bool DecidePoker:: threeStraight(int length,
                 mHaveSuitablePokers=true;
                 break;
             }
-            
+
         }
     }
-    CC_SAFE_DELETE(newRequireConsiderArr);
-    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
-    CC_SAFE_DELETE(firstThreeValueArr);
-    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
-    CC_SAFE_DELETE(secondThreeValueArr);
-    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
-    CC_SAFE_DELETE(thirdThreeValueArr);
-    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
-    CC_SAFE_DELETE(decideValueArr);
-    CC_SAFE_DELETE(keysOfDecideValueArr);
+//    CC_SAFE_DELETE(newRequireConsiderArr);
+//    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
+//    CC_SAFE_DELETE(firstThreeValueArr);
+//    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
+//    CC_SAFE_DELETE(secondThreeValueArr);
+//    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
+//    CC_SAFE_DELETE(thirdThreeValueArr);
+//    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
+//    CC_SAFE_DELETE(decideValueArr);
+//    CC_SAFE_DELETE(keysOfDecideValueArr);
     return mHaveSuitablePokers;
 }
 
 #pragma mark------判断是否有压得住桌面上的三带一----
 bool DecidePoker:: planeWithSingleWing(int length,
-                                     CCArray * keysOfnowScreenShowPokerArr,
-                                     CCArray * nextTimeShouldShowPokerArr,
-                                     CCArray * keysOfnextTimeShouldShowPokerArr,
-                                     CCArray * requireConsiderWhetherOutOfArr,
-                                     CCArray * keysOfrequireConsiderWhetherOutOfArr,
+                                     std::vector<std::string> keysOfnowScreenShowPokerArr,
+                                     std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                     std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                     std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                     std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
                                      int miPokerTypeID)
 {
     bool mHaveSuitable=false;
     //成功判断
     CCLOG("判断是否压得住三带一");
-    CCArray * newRequireConsiderArr=new CCArray();    //copy
-    CCArray * keysOfNewRequireConsiderArr=new CCArray();//copy
-    for (int i=0; i<requireConsiderWhetherOutOfArr->count(); i++) {
-        newRequireConsiderArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfNewRequireConsiderArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
+    std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
+    for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
+        newRequireConsiderArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfNewRequireConsiderArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
-    
-    
-    CCArray * firstThreeValueArr=new CCArray();
-    CCArray * keysOfFirstThreeValueArr=new CCArray();
-    
-    
-    CCArray * secondThreeValueArr=new CCArray();
-    CCArray * keysOfSecondThreeValueArr=new CCArray();
-    
-    CCArray * thirdThreeValueArr=new CCArray();
-    CCArray * keysOfThirdThreeValueArr=new CCArray();
-    
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        CCLOG("first%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-        if (!(keysOfFirstThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            firstThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfFirstThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+
+
+    std::vector<Sprite *> firstThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfFirstThreeValueArr=std::vector<std::string>();
+
+
+    std::vector<Sprite *> secondThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfSecondThreeValueArr=std::vector<std::string>();
+
+    std::vector<Sprite *> thirdThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfThirdThreeValueArr=std::vector<std::string>();
+
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfThirdThreeValueArr.begin(), keysOfThirdThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfThirdThreeValueArr.end()) {
+            firstThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfFirstThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //first singe key and value
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(firstThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfFirstThreeValueArr);
-    
+    newRequireConsiderArr.erase(firstThreeValueArr.begin(),firstThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfFirstThreeValueArr.begin(),keysOfFirstThreeValueArr.end());
+
     //
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        CCLOG("second%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-        if (!(keysOfSecondThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            secondThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfSecondThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfSecondThreeValueArr.begin(), keysOfSecondThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfNewRequireConsiderArr.end()) {
+            secondThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfSecondThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时secondThreeValueArr keysOfSecondThreeValueArr包含的value
             //和key在原数组中至少有两个
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(secondThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfSecondThreeValueArr);
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        CCLOG("third%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-        if (!(keysOfThirdThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            thirdThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfThirdThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    newRequireConsiderArr.erase(secondThreeValueArr.begin(),secondThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfSecondThreeValueArr.begin(),keysOfSecondThreeValueArr.end());
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfThirdThreeValueArr.begin(), keysOfThirdThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfThirdThreeValueArr.end()) {
+            thirdThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfThirdThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时thirdThreeValueArr keysOfThirdThreeValueArr包含的value
             //和key在原数组中至少有三个
         }
     }
+
+    std::vector<Sprite *> decideValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfDecideValueArr=std::vector<std::string>();
     
-    CCArray * decideValueArr=new CCArray();
-    CCArray * keysOfDecideValueArr=new CCArray();
-    decideValueArr->addObjectsFromArray(thirdThreeValueArr);
-    keysOfDecideValueArr->addObjectsFromArray(keysOfThirdThreeValueArr);
+    for (auto v : thirdThreeValueArr) {
+        decideValueArr.push_back(v);
+    }
     
-    for (int i=0; i<keysOfFirstThreeValueArr->count(); i++) {
-        for(int j=0;j<keysOfThirdThreeValueArr->count();j++){
-            if (((CCString *)(keysOfThirdThreeValueArr->objectAtIndex(j)))->isEqual((CCString *)(keysOfFirstThreeValueArr->objectAtIndex(i)))) {
-                decideValueArr->addObject(firstThreeValueArr->objectAtIndex(i));
-                keysOfDecideValueArr->addObject(keysOfFirstThreeValueArr->objectAtIndex(i));
+    for (auto v : keysOfThirdThreeValueArr) {
+        keysOfDecideValueArr.push_back(v);
+    }
+   
+    for (int i=0; i<keysOfFirstThreeValueArr.size(); i++) {
+        for(int j=0;j<keysOfThirdThreeValueArr.size();j++){
+            if (keysOfThirdThreeValueArr.at(j).compare(keysOfFirstThreeValueArr.at(i))) {
+                decideValueArr.push_back(firstThreeValueArr.at(i));
+                keysOfDecideValueArr.push_back(keysOfFirstThreeValueArr.at(i));
             }
         }
     }
     //此时decideValueArr中存放的是对子
-    for (int i=0; i<keysOfSecondThreeValueArr->count(); i++) {
-        for(int j=0;j<keysOfThirdThreeValueArr->count();j++){
-            if (((CCString *)(keysOfThirdThreeValueArr->objectAtIndex(j)))->isEqual((CCString *)(keysOfSecondThreeValueArr->objectAtIndex(i)))) {
-                decideValueArr->addObject(secondThreeValueArr->objectAtIndex(i));
-                keysOfDecideValueArr->addObject(keysOfSecondThreeValueArr->objectAtIndex(i));
+    for (int i=0; i<keysOfSecondThreeValueArr.size(); i++) {
+        for(int j=0;j<keysOfThirdThreeValueArr.size();j++){
+            if (((keysOfThirdThreeValueArr.at(j))).compare((keysOfSecondThreeValueArr.at(i)))) {
+                decideValueArr.push_back(secondThreeValueArr.at(i));
+                keysOfDecideValueArr.push_back(keysOfSecondThreeValueArr.at(i));
             }
         }
     }
     //此时decideValueArr中存放的是三个
-    firstThreeValueArr->removeObjectsInArray(secondThreeValueArr);
-    keysOfFirstThreeValueArr->removeObjectsInArray(keysOfSecondThreeValueArr);
+    firstThreeValueArr.erase(secondThreeValueArr.begin(),secondThreeValueArr.end());
+    keysOfFirstThreeValueArr.erase(keysOfSecondThreeValueArr.begin(),keysOfSecondThreeValueArr.end());
     //此时firstThreeValueArr中存放的仅是单牌
-    CCLOG("%d",keysOfDecideValueArr->count());
     
     //在此处重新排序方便显示
-    if (decideValueArr->count()>0) {
+    if (decideValueArr.size()>0) {
         sortedForArray(decideValueArr, keysOfDecideValueArr);
     }
-    if (keysOfDecideValueArr->count()>=length&&keysOfFirstThreeValueArr->count()>0) {
-        for (int i=keysOfDecideValueArr->count()-1; i>=length-1; i--) {
-            if ((((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(1)))->getCString())>0
+    if (keysOfDecideValueArr.size()>=length&&keysOfFirstThreeValueArr.size()>0) {
+        for (int i=keysOfDecideValueArr.size()-1; i>=length-1; i--) {
+            if ((((keysOfDecideValueArr.at(i)))).compare(((keysOfnowScreenShowPokerArr.at(1))))>0
                 &&
-                (((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfDecideValueArr->objectAtIndex(i-length+1)))->getCString())==0) {
+                (((keysOfDecideValueArr.at(i)))).compare(((keysOfDecideValueArr.at(i-length+1))))==0) {
                 {
-                    for (int j=0; j<keysOfnowScreenShowPokerArr->count()/3; j++) {
-                        decideValueArr->insertObject(firstThreeValueArr->objectAtIndex(firstThreeValueArr->count()-1), i+1);
-                        keysOfDecideValueArr->insertObject(keysOfFirstThreeValueArr->objectAtIndex(keysOfFirstThreeValueArr->count()-1),i+1);
+                    for (int j=0; j<keysOfnowScreenShowPokerArr.size()/3; j++) {
+                        decideValueArr.insert(decideValueArr.begin() + i + 1, firstThreeValueArr.at(firstThreeValueArr.size()-1));
+                        
+                        keysOfDecideValueArr.insert(keysOfDecideValueArr.begin() + i + 1, keysOfFirstThreeValueArr.at(keysOfFirstThreeValueArr.size()-1));
+                        
                     }
-                    
+
                     saveEligibilityPokersAndRelevantKeys(
                                                          i-length+1,
                                                          length+length/3,
@@ -738,153 +771,160 @@ bool DecidePoker:: planeWithSingleWing(int length,
                     break;
                 }
             }
-            
+
         }
     }
-    CC_SAFE_DELETE(newRequireConsiderArr);
-    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
-    CC_SAFE_DELETE(firstThreeValueArr);
-    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
-    CC_SAFE_DELETE(secondThreeValueArr);
-    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
-    CC_SAFE_DELETE(thirdThreeValueArr);
-    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
-    CC_SAFE_DELETE(decideValueArr);
-    CC_SAFE_DELETE(keysOfDecideValueArr);
+//    CC_SAFE_DELETE(newRequireConsiderArr);
+//    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
+//    CC_SAFE_DELETE(firstThreeValueArr);
+//    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
+//    CC_SAFE_DELETE(secondThreeValueArr);
+//    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
+//    CC_SAFE_DELETE(thirdThreeValueArr);
+//    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
+//    CC_SAFE_DELETE(decideValueArr);
+//    CC_SAFE_DELETE(keysOfDecideValueArr);
     return mHaveSuitable;
-    
-    
+
+
 }
 #pragma mark------判断是否有压得住桌面上的三带二----
 bool DecidePoker:: planeWithDoubleWings(int length,
-                                      CCArray * keysOfnowScreenShowPokerArr,
-                                      CCArray * nextTimeShouldShowPokerArr,
-                                      CCArray * keysOfnextTimeShouldShowPokerArr,
-                                      CCArray * requireConsiderWhetherOutOfArr,
-                                      CCArray * keysOfrequireConsiderWhetherOutOfArr,
+                                      std::vector<std::string> keysOfnowScreenShowPokerArr,
+                                      std::vector<Sprite *> nextTimeShouldShowPokerArr,
+                                      std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                      std::vector<Sprite *> requireConsiderWhetherOutOfArr,
+                                      std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
                                       int miPokerTypeID)
 {
     bool mHaveSuitable=false;
     //成功判断
     CCLOG("判断是否压得住三带二");
-    CCArray * newRequireConsiderArr=new CCArray();    //copy
-    CCArray * keysOfNewRequireConsiderArr=new CCArray();//copy
-    for (int i=0; i<requireConsiderWhetherOutOfArr->count(); i++) {
-        newRequireConsiderArr->addObject(requireConsiderWhetherOutOfArr->objectAtIndex(i));
-        keysOfNewRequireConsiderArr->addObject(keysOfrequireConsiderWhetherOutOfArr->objectAtIndex(i));
+    std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
+    std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
+    for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
+        newRequireConsiderArr.push_back(requireConsiderWhetherOutOfArr.at(i));
+        keysOfNewRequireConsiderArr.push_back(keysOfrequireConsiderWhetherOutOfArr.at(i));
     }
-    
-    
-    CCArray * firstThreeValueArr=new CCArray();
-    CCArray * keysOfFirstThreeValueArr=new CCArray();
-    
-    
-    CCArray * secondThreeValueArr=new CCArray();
-    CCArray * keysOfSecondThreeValueArr=new CCArray();
-    
-    CCArray * thirdThreeValueArr=new CCArray();
-    CCArray * keysOfThirdThreeValueArr=new CCArray();
-    
-    
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfFirstThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            CCLog("first%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-            firstThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfFirstThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+
+
+    std::vector<Sprite *> firstThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfFirstThreeValueArr=std::vector<std::string>();
+
+
+    std::vector<Sprite *> secondThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfSecondThreeValueArr=std::vector<std::string>();
+
+    std::vector<Sprite *> thirdThreeValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfThirdThreeValueArr=std::vector<std::string>();
+
+
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfFirstThreeValueArr.begin(), keysOfFirstThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it != keysOfFirstThreeValueArr.end()) {
+            firstThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfFirstThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //first singe key and value
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(firstThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfFirstThreeValueArr);
+    newRequireConsiderArr.erase(firstThreeValueArr.begin(),firstThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfFirstThreeValueArr.begin(),keysOfFirstThreeValueArr.end());
     //在copy的数组中移除single
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfSecondThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            CCLog("second%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-            secondThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfSecondThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfSecondThreeValueArr.begin(), keysOfSecondThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfSecondThreeValueArr.end()) {
+            
+            secondThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfSecondThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时secondThreeValueArr keysOfSecondThreeValueArr包含的value
             //和key在原数组中至少有两个
         }
     }
-    newRequireConsiderArr->removeObjectsInArray(secondThreeValueArr);
-    keysOfNewRequireConsiderArr->removeObjectsInArray(keysOfSecondThreeValueArr);
-    for (int i=0; i<keysOfNewRequireConsiderArr->count(); i++) {
-        if (!(keysOfThirdThreeValueArr->containsObject(keysOfNewRequireConsiderArr->objectAtIndex(i)))) {
-            CCLog("third%s",((CCString *)(keysOfNewRequireConsiderArr->objectAtIndex(i)))->getCString());
-            thirdThreeValueArr->addObject(newRequireConsiderArr->objectAtIndex(i));
-            keysOfThirdThreeValueArr->addObject(keysOfNewRequireConsiderArr->objectAtIndex(i));
+    newRequireConsiderArr.erase(secondThreeValueArr.begin(),secondThreeValueArr.end());
+    keysOfNewRequireConsiderArr.erase(keysOfSecondThreeValueArr.begin(),keysOfSecondThreeValueArr.end());
+    for (int i=0; i<keysOfNewRequireConsiderArr.size(); i++) {
+        std::vector<std::string>::iterator it = std::find(keysOfThirdThreeValueArr.begin(), keysOfThirdThreeValueArr.end(), keysOfNewRequireConsiderArr.at(i));
+        if (it == keysOfThirdThreeValueArr.end()) {
+            
+            thirdThreeValueArr.push_back(newRequireConsiderArr.at(i));
+            keysOfThirdThreeValueArr.push_back(keysOfNewRequireConsiderArr.at(i));
             //此时thirdThreeValueArr keysOfThirdThreeValueArr包含的value
             //和key在原数组中至少有三个
         }
     }
+
+    std::vector<Sprite *> decideValueArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfDecideValueArr=std::vector<std::string>();
     
-    CCArray * decideValueArr=new CCArray();
-    CCArray * keysOfDecideValueArr=new CCArray();
-    decideValueArr->addObjectsFromArray(thirdThreeValueArr);
-    keysOfDecideValueArr->addObjectsFromArray(keysOfThirdThreeValueArr);
+    for (auto v : thirdThreeValueArr) {
+        decideValueArr.push_back(v);
+    }
     
-    for (int i=0; i<keysOfFirstThreeValueArr->count(); i++) {
-        for(int j=0;j<keysOfThirdThreeValueArr->count();j++){
-            if (((CCString *)(keysOfThirdThreeValueArr->objectAtIndex(j)))->isEqual((CCString *)(keysOfFirstThreeValueArr->objectAtIndex(i)))) {
-                decideValueArr->addObject(firstThreeValueArr->objectAtIndex(i));
-                keysOfDecideValueArr->addObject(keysOfFirstThreeValueArr->objectAtIndex(i));
+    for (auto v : keysOfThirdThreeValueArr) {
+        keysOfDecideValueArr.push_back(v);
+    }
+    for (int i=0; i<keysOfFirstThreeValueArr.size(); i++) {
+        for(int j=0;j<keysOfThirdThreeValueArr.size();j++){
+            if (((keysOfThirdThreeValueArr.at(j))).compare((keysOfFirstThreeValueArr.at(i)))) {
+                decideValueArr.push_back(firstThreeValueArr.at(i));
+                keysOfDecideValueArr.push_back(keysOfFirstThreeValueArr.at(i));
             }
         }
     }
     //此时decideValueArr中存放的是对子
-    for (int i=0; i<keysOfSecondThreeValueArr->count(); i++) {
-        for(int j=0;j<keysOfThirdThreeValueArr->count();j++){
-            if (((CCString *)(keysOfThirdThreeValueArr->objectAtIndex(j)))->isEqual((CCString *)(keysOfSecondThreeValueArr->objectAtIndex(i)))) {
-                decideValueArr->addObject(secondThreeValueArr->objectAtIndex(i));
-                keysOfDecideValueArr->addObject(keysOfSecondThreeValueArr->objectAtIndex(i));
+    for (int i=0; i<keysOfSecondThreeValueArr.size(); i++) {
+        for(int j=0;j<keysOfThirdThreeValueArr.size();j++){
+            if (((keysOfThirdThreeValueArr.at(j))).compare((keysOfSecondThreeValueArr.at(i)))) {
+                decideValueArr.push_back(secondThreeValueArr.at(i));
+                keysOfDecideValueArr.push_back(keysOfSecondThreeValueArr.at(i));
             }
         }
     }
     //此时decideValueArr中存放的是三个
-    CCLog("decide third =%d",decideValueArr->count());
-    
-    
-    CCArray * temArr=new CCArray();
-    CCArray * keysOfTemArr=new CCArray();
-    
-    for (int i=0; i<keysOfThirdThreeValueArr->count(); i++){
-        for (int j=0; j<keysOfSecondThreeValueArr->count(); j++) {
-            if (((CCString *)(keysOfThirdThreeValueArr->objectAtIndex(i)))->isEqual((CCString *)(keysOfSecondThreeValueArr->objectAtIndex(j)))){
-                temArr->addObject(secondThreeValueArr->objectAtIndex(j));
-                keysOfTemArr->addObject(keysOfSecondThreeValueArr->objectAtIndex(j));
+    CCLog("decide third =%d",decideValueArr.size());
+
+
+    std::vector<Sprite *> temArr=std::vector<Sprite *>();
+    std::vector<std::string> keysOfTemArr=std::vector<std::string>();
+
+    for (int i=0; i<keysOfThirdThreeValueArr.size(); i++){
+        for (int j=0; j<keysOfSecondThreeValueArr.size(); j++) {
+            if (((keysOfThirdThreeValueArr.at(i))).compare((keysOfSecondThreeValueArr.at(j)))){
+                temArr.push_back(secondThreeValueArr.at(j));
+                keysOfTemArr.push_back(keysOfSecondThreeValueArr.at(j));
             }
         }
     }
-    secondThreeValueArr->removeObjectsInArray(temArr);
-    keysOfSecondThreeValueArr->removeObjectsInArray(keysOfTemArr);
+    secondThreeValueArr.erase(temArr.begin(),temArr.end());
+    keysOfSecondThreeValueArr.erase(keysOfTemArr.begin(),keysOfTemArr.end());
     //此时secondThreeValueArr keysOfSecondThreeValueArr保存的时double
-    int countSec=secondThreeValueArr->count();
+    int countSec=secondThreeValueArr.size();
     CCLog("single second%d",countSec);
-    for (int i=0; i<keysOfFirstThreeValueArr->count(); i++) {
+    for (int i=0; i<keysOfFirstThreeValueArr.size(); i++) {
         for(int j=0;j<countSec;j++){
-            if (((CCString *)(keysOfSecondThreeValueArr->objectAtIndex(j)))->isEqual((CCString *)(keysOfFirstThreeValueArr->objectAtIndex(i)))) {
-                secondThreeValueArr->addObject(firstThreeValueArr->objectAtIndex(i));
-                keysOfSecondThreeValueArr->addObject(keysOfFirstThreeValueArr->objectAtIndex(i));
+            if (((keysOfSecondThreeValueArr.at(j))).compare((keysOfFirstThreeValueArr.at(i)))) {
+                secondThreeValueArr.push_back(firstThreeValueArr.at(i));
+                keysOfSecondThreeValueArr.push_back(keysOfFirstThreeValueArr.at(i));
             }
         }
     }
     //此时secondThreeValueArr中存放的仅是对子
-    CCLog("only second =%d",secondThreeValueArr->count());
-    
+    CCLog("only second =%d",secondThreeValueArr.size());
+
     //在此处重新排序方便显示
-    if (secondThreeValueArr->count()>0&&decideValueArr->count()>0) {
+    if (secondThreeValueArr.size()>0&&decideValueArr.size()>0) {
         sortedForArray(secondThreeValueArr, keysOfSecondThreeValueArr);
         sortedForArray(decideValueArr, keysOfDecideValueArr);
     }
-    if (keysOfDecideValueArr->count()>=length&&keysOfSecondThreeValueArr->count()>0) {
-        for (int i=keysOfDecideValueArr->count()-1; i>=length-1; i--) {
-            if ((((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfnowScreenShowPokerArr->objectAtIndex(2)))->getCString())>0
+    if (keysOfDecideValueArr.size()>=length&&keysOfSecondThreeValueArr.size()>0) {
+        for (int i=keysOfDecideValueArr.size()-1; i>=length-1; i--) {
+            if ((((keysOfDecideValueArr.at(i)))).compare(((keysOfnowScreenShowPokerArr.at(2))))>0
                 &&
-                (((CCString *)(keysOfDecideValueArr->objectAtIndex(i))))->compare(((CCString *)(keysOfDecideValueArr->objectAtIndex(i-length+1)))->getCString())==0) {
-                
+                (((keysOfDecideValueArr.at(i)))).compare(((keysOfDecideValueArr.at(i-length+1))))==0) {
+
                 for (int j=0; j<2*length/3; j++) {
-                    decideValueArr->insertObject(secondThreeValueArr->objectAtIndex(j), i+1);
-                    keysOfDecideValueArr->insertObject(keysOfSecondThreeValueArr->objectAtIndex(j), i+1);
+                    decideValueArr.insert(decideValueArr.begin() + i + 1, secondThreeValueArr.at(j));
+                    keysOfDecideValueArr.insert(keysOfDecideValueArr.begin() + i + 1, keysOfSecondThreeValueArr.at(j));
                 }
                 saveEligibilityPokersAndRelevantKeys(
                                                      i-length+1,
@@ -896,36 +936,36 @@ bool DecidePoker:: planeWithDoubleWings(int length,
                 mHaveSuitable=true;
                 break;
             }
-            
+
         }
     }
-    CC_SAFE_DELETE(newRequireConsiderArr);
-    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
-    CC_SAFE_DELETE(firstThreeValueArr);
-    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
-    CC_SAFE_DELETE(secondThreeValueArr);
-    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
-    CC_SAFE_DELETE(thirdThreeValueArr);
-    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
-    CC_SAFE_DELETE(decideValueArr);
-    CC_SAFE_DELETE(keysOfDecideValueArr);
-    CC_SAFE_DELETE(temArr);
-    CC_SAFE_DELETE(keysOfTemArr);
+//    CC_SAFE_DELETE(newRequireConsiderArr);
+//    CC_SAFE_DELETE(keysOfNewRequireConsiderArr);
+//    CC_SAFE_DELETE(firstThreeValueArr);
+//    CC_SAFE_DELETE(keysOfFirstThreeValueArr);
+//    CC_SAFE_DELETE(secondThreeValueArr);
+//    CC_SAFE_DELETE(keysOfSecondThreeValueArr);
+//    CC_SAFE_DELETE(thirdThreeValueArr);
+//    CC_SAFE_DELETE(keysOfThirdThreeValueArr);
+//    CC_SAFE_DELETE(decideValueArr);
+//    CC_SAFE_DELETE(keysOfDecideValueArr);
+//    CC_SAFE_DELETE(temArr);
+//    CC_SAFE_DELETE(keysOfTemArr);
     return mHaveSuitable;
-    
-    
+
+
 }
-void DecidePoker::sortedForArray(CCArray * valueArr,CCArray * keyArr)
+void DecidePoker::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr)
 {
-    for (int i=0; i<keyArr->count()-1; i++){
-        for (int j=keyArr->count()-1; j>i; j--) {
-            CCString * key=(CCString *)keyArr->objectAtIndex(j);
-            CCString * upkey=(CCString *)keyArr->objectAtIndex(j-1);
-            if (key->compare(upkey->getCString())>0) {
-                keyArr->exchangeObjectAtIndex(j, j-1);
-                valueArr->exchangeObjectAtIndex(j, j-1);
+    size_t kcount = keyArr.size();
+    for (size_t i = 0; i < kcount - 1; i++) {
+        for (size_t j = kcount - 1; j > i; j--) {
+            std::string key = keyArr[j];
+            std::string upkey = keyArr[j - 1];
+            if (key.compare(upkey) > 0) {
+                std::swap(keyArr[j], keyArr[j - 1]);
+                std::swap(valueArr[j], valueArr[j - 1]);
             }
         }
-        
     }
 }

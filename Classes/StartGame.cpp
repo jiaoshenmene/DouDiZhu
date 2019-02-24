@@ -324,7 +324,7 @@ void StartGame::displayPersonPoker()
         this->addChild(sp);
     }
     if (mbPersonIsLandlord) {
-//        schedule(schedule_selector(StartGame::personConsiderTimeCountDown), 0.01);
+        schedule(schedule_selector(StartGame::personConsiderTimeCountDown), 0.01);
     } else if (mpNextComIdentityLabel) {
 //        nextComputeroutOfTheCards();//下家是地主 下家第一个出牌
     } else {
@@ -591,40 +591,40 @@ void StartGame::personConsiderTimeRunOutAndRandOneOfPersonPokers()
         //玩家出牌后调整桌面牌的位置
         std::string str_ = "30";
         mpNextComputertimerCountDown->setString(str_);
-        schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-
+//        schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+//
         schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
         CCLOG("玩家托管");
     }
     else
     {
-        passThisRecycle();
+//        passThisRecycle();
     }
     }
 }
 //
-//#pragma mark ------玩家过牌-----
-//void StartGame::passThisRecycle()
-//{
-//    if(!mbGameIsOver){
-//    if(!mbPersonFirstIsOutOfCards&&(nextcomputerIsOutOfCards||upcomputerIsOutOfCards)){
-//    std::string str = "";
-//    mpTimerCountDown->setString(str);//清空显示的倒计时器
-//    unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//    //玩家计时器清零
-//    personIsOutOfCards=false;
-//    //玩家本轮没有出牌
-//    mpPersonLabel->setString("不出");
-//    mpPersonLabel->setPosition(Vec2(320, 160));
-//
-//    std::string str_ = "30";
-//    mpNextComputertimerCountDown->setString(str_);
-//    schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-//
-//    schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
-//    }
-//    }
-//}
+#pragma mark ------玩家过牌-----
+void StartGame::passThisRecycle()
+{
+    if(!mbGameIsOver){
+        if(!mbPersonFirstIsOutOfCards&&(nextcomputerIsOutOfCards||upcomputerIsOutOfCards)){
+            std::string str = "";
+            mpTimerCountDown->setString(str);//清空显示的倒计时器
+            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+            //玩家计时器清零
+            personIsOutOfCards=false;
+            //玩家本轮没有出牌
+            mpPersonLabel->setString("不出");
+            mpPersonLabel->setPosition(Vec2(320, 160));
+
+            std::string str_ = "30";
+            mpNextComputertimerCountDown->setString(str_);
+            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+
+            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+        }
+    }
+}
 //
 #pragma mark ------玩家出牌几秒后下家电脑考虑出牌---
 float sumTime=0;
@@ -641,28 +641,28 @@ void StartGame::personOutOfCardsManyTimeNextStartConsider(float t)
         unschedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider));
     }
 }
-//#pragma mark ------下家电脑考虑时间倒计时判断---
-//float nextComputerConsiderTime=0;
-//int nextdisplaytime=0;
-//void StartGame::nextConsiderTimeCountDown(float considerTime)
-//{
-//    nextComputerConsiderTime+=considerTime;
-//    if (nextComputerConsiderTime>=1) {
-//        nextdisplaytime++;
-//        std::string str = std::to_string(30-nextdisplaytime);
-//        mpNextComputertimerCountDown->setString(str);
-//        nextComputerConsiderTime=0;
-//        if (nextdisplaytime>=PERSON_INTERVAL_TIME_TO_NEXT_COMPUTER) {
-//            nextdisplaytime=0;//倒计时基数归零
-//            std::string str="" ;
-//            mpNextComputertimerCountDown->setString(str);//清空显示的倒计时器
-//            unschedule(schedule_selector(StartGame::nextConsiderTimeCountDown));
-//            //关闭倒计时
-//
-//        }
-//    }
-//
-//}
+#pragma mark ------下家电脑考虑时间倒计时判断---
+float nextComputerConsiderTime=0;
+int nextdisplaytime=0;
+void StartGame::nextConsiderTimeCountDown(float considerTime)
+{
+    nextComputerConsiderTime+=considerTime;
+    if (nextComputerConsiderTime>=1) {
+        nextdisplaytime++;
+        std::string str = std::to_string(30-nextdisplaytime);
+        mpNextComputertimerCountDown->setString(str);
+        nextComputerConsiderTime=0;
+        if (nextdisplaytime>=PERSON_INTERVAL_TIME_TO_NEXT_COMPUTER) {
+            nextdisplaytime=0;//倒计时基数归零
+            std::string str="" ;
+            mpNextComputertimerCountDown->setString(str);//清空显示的倒计时器
+            unschedule(schedule_selector(StartGame::nextConsiderTimeCountDown));
+            //关闭倒计时
+
+        }
+    }
+
+}
 //
 //#pragma mark ------下家电脑出牌-----
 //void StartGame::nextComputeroutOfTheCards()

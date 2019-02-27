@@ -591,7 +591,7 @@ void StartGame::personConsiderTimeRunOutAndRandOneOfPersonPokers()
         //玩家出牌后调整桌面牌的位置
         std::string str_ = "30";
         mpNextComputertimerCountDown->setString(str_);
-//        schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+        schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
 //
         schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
         CCLOG("玩家托管");

@@ -67,11 +67,11 @@ bool HelloWorld::init()
         UserDefault::getInstance()->setIntegerForKey("CoinsOfNextComputer",EVERY_PLAYER_COINS_NUMBER);
         UserDefault::getInstance()->flush();
         //初始化游戏设置
-        //        CCLOG("文件不存在 创建文件");
+        //        //CCLog("文件不存在 创建文件");
     }
     else
     {
-        //        CCLOG("文件已经存在");
+        //        //CCLog("文件已经存在");
     }
     
     Size size = Director::getInstance()->getWinSize();

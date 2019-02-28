@@ -23,7 +23,7 @@ GameRules * GameRules::sharedGameRules()
 int GameRules::decideSelectedPokerIfConformToRules(std::vector<Sprite *> selectValueArr,std::vector<std::string> selectKeysArr)//判断选中的牌是否符合规则
 {
 
-//    CCLOG("selectArr count =%d,selectKeyArr count =%d",selectValueArr.size(),selectKeysArr.size());
+//    //CCLog("selectArr count =%d,selectKeyArr count =%d",selectValueArr.size(),selectKeysArr.size());
 //    sortedForArray(selectValueArr, selectKeysArr);
     if (selectValueArr.size()==1) {
         return POKER_TYPE_SINGLE;

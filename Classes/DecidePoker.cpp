@@ -37,7 +37,7 @@ bool DecidePoker:: decidePersonMoreBigSHowPoker(std::vector<std::string> keysOfN
                     countCompare++;
                 }
                 if (countCompare==keysOfNowShowArr.size()-1) {
-                    CCLOG("%d",countCompare);
+                    //CCLog("%d",countCompare);
                     return true;
                 }
                 
@@ -60,7 +60,7 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
     int length=keysOfnowScreenShowPokerArr.size();
     int requireLength=keysOfrequireConsiderWhetherOutOfArr.size();
     //one
-    if(requireLength>=length){
+//    if(requireLength>=length){
         if (length==1) {
             for (int i=requireLength-1; i>=0; i--) {
                 if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0)
@@ -157,169 +157,169 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
                 }
             }
 
-        //顺子 5 6 7 8 ....
-        if (miPokerTypeID==POKER_TYPE_STRAIGHT){
-            CCLOG("类型顺子");
-            if (singleStraight(length,keysOfnowScreenShowPokerArr,
-                               nextTimeShouldShowPokerArr,
-                               keysOfnextTimeShouldShowPokerArr,
-                               requireConsiderWhetherOutOfArr,
-                               keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)==true)
-            {
-                CCLOG("上家出的是顺子");
-                return true;
-            }
-        }
-
-        //拖拉机 6 8 10 12 ....
-        if (miPokerTypeID==POKER_TYPE_DOUBLE_STRAIGHT) {
-            if (doubleStraight(length, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr,
-                               keysOfnextTimeShouldShowPokerArr,
-                               requireConsiderWhetherOutOfArr,
-                               keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)
-                )
-            {
-                return true;
-            }
-        }
-        //三飞不带 6 9 12 ....
-        if (miPokerTypeID==POKER_TYPE_THREE_STRAIGHT) {
-            if (threeStraight(length, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr,
-                              keysOfnextTimeShouldShowPokerArr,
-                              requireConsiderWhetherOutOfArr,
-                              keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)
-                )
-            {
-                return true;
-            }
-        }
-
-
-        //4-2
-        if (miPokerTypeID==POKER_TYPE_SIX_FOUR_WITH_TWO) {
-            for (int i=requireLength-1; i>=3; i--) {
-                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
-                        &&
-                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0
-                        &&
-                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-2))))==0
-                        &&
-                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-3))))==0
-                        )
-                    {
-                        saveEligibilityPokersAndRelevantKeys(i-3, length,
-                                                             nextTimeShouldShowPokerArr,
-                                                             keysOfnextTimeShouldShowPokerArr,
-                                                             requireConsiderWhetherOutOfArr,
-                                                             keysOfrequireConsiderWhetherOutOfArr);
-                        return true;
-
-                    }
-                }
-            }
-
-
-
-
-        if (length==8) {
-            //3-3-1-1
-            if (miPokerTypeID==POKER_TYPE_EIGHT_ONE) {
-
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-
-            }
-            //1-3-3-1
-            if (miPokerTypeID==POKER_TYPE_EIGHT_TWO) {
-
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=1; i<keysOfnowScreenShowPokerArr.size()-1; i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-
-            }
-            //1-1-3-3
-            if (miPokerTypeID==POKER_TYPE_EIGHT_THREE) {
-
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=2; i<keysOfnowScreenShowPokerArr.size(); i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-
-            }
-        }
-
-
-
-
-        if (length==10) {
-
-            //3-3-2-2
-            if (miPokerTypeID==101) {
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-4; i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-            }
-            //2-3-3-2
-            if (miPokerTypeID==102) {
-
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=2; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-
-            }
-            //2-2-3-3
-            if (miPokerTypeID==103) {
-
-                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
-                for (int i=4; i<keysOfnowScreenShowPokerArr.size(); i++) {
-                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
-                }
-                //只需判断相同的三张是否可以压住
-                int newlength=keysOfDecideContainNowShowPokers.size();
-                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
-                {
-                    return true;
-                }
-
-            }
-
-        }
-    }
+//        //顺子 5 6 7 8 ....
+//        if (miPokerTypeID==POKER_TYPE_STRAIGHT){
+//            //CCLog("类型顺子");
+//            if (singleStraight(length,keysOfnowScreenShowPokerArr,
+//                               nextTimeShouldShowPokerArr,
+//                               keysOfnextTimeShouldShowPokerArr,
+//                               requireConsiderWhetherOutOfArr,
+//                               keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)==true)
+//            {
+//                //CCLog("上家出的是顺子");
+//                return true;
+//            }
+//        }
+//
+//        //拖拉机 6 8 10 12 ....
+//        if (miPokerTypeID==POKER_TYPE_DOUBLE_STRAIGHT) {
+//            if (doubleStraight(length, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr,
+//                               keysOfnextTimeShouldShowPokerArr,
+//                               requireConsiderWhetherOutOfArr,
+//                               keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)
+//                )
+//            {
+//                return true;
+//            }
+//        }
+//        //三飞不带 6 9 12 ....
+//        if (miPokerTypeID==POKER_TYPE_THREE_STRAIGHT) {
+//            if (threeStraight(length, keysOfnowScreenShowPokerArr, nextTimeShouldShowPokerArr,
+//                              keysOfnextTimeShouldShowPokerArr,
+//                              requireConsiderWhetherOutOfArr,
+//                              keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID)
+//                )
+//            {
+//                return true;
+//            }
+//        }
+//
+//
+//        //4-2
+//        if (miPokerTypeID==POKER_TYPE_SIX_FOUR_WITH_TWO) {
+//            for (int i=requireLength-1; i>=3; i--) {
+//                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0
+//                        &&
+//                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-1))))==0
+//                        &&
+//                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-2))))==0
+//                        &&
+//                        ((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfrequireConsiderWhetherOutOfArr.at(i-3))))==0
+//                        )
+//                    {
+//                        saveEligibilityPokersAndRelevantKeys(i-3, length,
+//                                                             nextTimeShouldShowPokerArr,
+//                                                             keysOfnextTimeShouldShowPokerArr,
+//                                                             requireConsiderWhetherOutOfArr,
+//                                                             keysOfrequireConsiderWhetherOutOfArr);
+//                        return true;
+//
+//                    }
+//                }
+//            }
+//
+//
+//
+//
+//        if (length==8) {
+//            //3-3-1-1
+//            if (miPokerTypeID==POKER_TYPE_EIGHT_ONE) {
+//
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//
+//            }
+//            //1-3-3-1
+//            if (miPokerTypeID==POKER_TYPE_EIGHT_TWO) {
+//
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=1; i<keysOfnowScreenShowPokerArr.size()-1; i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//
+//            }
+//            //1-1-3-3
+//            if (miPokerTypeID==POKER_TYPE_EIGHT_THREE) {
+//
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=2; i<keysOfnowScreenShowPokerArr.size(); i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithSingleWing(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//
+//            }
+//        }
+//
+//
+//
+//
+//        if (length==10) {
+//
+//            //3-3-2-2
+//            if (miPokerTypeID==101) {
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=0; i<keysOfnowScreenShowPokerArr.size()-4; i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//            }
+//            //2-3-3-2
+//            if (miPokerTypeID==102) {
+//
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=2; i<keysOfnowScreenShowPokerArr.size()-2; i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//
+//            }
+//            //2-2-3-3
+//            if (miPokerTypeID==103) {
+//
+//                std::vector<std::string> keysOfDecideContainNowShowPokers=std::vector<std::string>();
+//                for (int i=4; i<keysOfnowScreenShowPokerArr.size(); i++) {
+//                    keysOfDecideContainNowShowPokers.push_back(keysOfnowScreenShowPokerArr.at(i));
+//                }
+//                //只需判断相同的三张是否可以压住
+//                int newlength=keysOfDecideContainNowShowPokers.size();
+//                if (planeWithDoubleWings(newlength, keysOfDecideContainNowShowPokers, nextTimeShouldShowPokerArr, keysOfnextTimeShouldShowPokerArr, requireConsiderWhetherOutOfArr, keysOfrequireConsiderWhetherOutOfArr,miPokerTypeID))
+//                {
+//                    return true;
+//                }
+//
+//            }
+//
+//        }
+//    }
 
     return  false;
 
@@ -351,7 +351,7 @@ bool DecidePoker:: singleStraight(int length,
 {
     bool mHaveSuitablePokers=false;
     //成功判断
-    CCLOG("判断是否压得住顺子");
+//    CCLOG("判断是否压得住顺子");
     std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
     std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
     for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
@@ -402,7 +402,7 @@ bool DecidePoker:: singleStraight(int length,
                                                      keysOfnextTimeShouldShowPokerArr,
                                                      singleValueArr,
                                                      keysOfSingleArr);
-                CCLOG("true");
+                //CCLog("true");
 
                 mHaveSuitablePokers=true;
                 break;
@@ -429,7 +429,7 @@ bool DecidePoker:: doubleStraight(int length,
 {
     bool mHaveSuitablePokers=false;
     //判断成功
-    CCLOG("判断是否压得住拖拉机");
+    //CCLog("判断是否压得住拖拉机");
     std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
     std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
     for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
@@ -487,7 +487,7 @@ bool DecidePoker:: doubleStraight(int length,
             }
         }
     }
-//    CCLog("decide count %d",threeDoubleValueArr.size());
+//    //CCLog("decide count %d",threeDoubleValueArr.size());
     //在此处重新排序方便显示
     if (keysOfThreeDoubleValueArr.size()>0) {
         sortedForArray(threeDoubleValueArr, keysOfThreeDoubleValueArr);
@@ -532,7 +532,7 @@ bool DecidePoker:: threeStraight(int length,
                                int miPokerTypeID)
 {
     bool mHaveSuitablePokers=false;
-    CCLOG("判断是否有压得住桌面上的三飞不带");
+    //CCLog("判断是否有压得住桌面上的三飞不带");
     std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
     std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
     for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
@@ -655,7 +655,7 @@ bool DecidePoker:: planeWithSingleWing(int length,
 {
     bool mHaveSuitable=false;
     //成功判断
-    CCLOG("判断是否压得住三带一");
+    //CCLog("判断是否压得住三带一");
     std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
     std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
     for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
@@ -766,7 +766,7 @@ bool DecidePoker:: planeWithSingleWing(int length,
                                                          keysOfnextTimeShouldShowPokerArr,
                                                          decideValueArr,
                                                          keysOfDecideValueArr);
-                    CCLOG("三带一true");
+                    //CCLog("三带一true");
                     mHaveSuitable=true;
                     break;
                 }
@@ -799,7 +799,7 @@ bool DecidePoker:: planeWithDoubleWings(int length,
 {
     bool mHaveSuitable=false;
     //成功判断
-    CCLOG("判断是否压得住三带二");
+    //CCLog("判断是否压得住三带二");
     std::vector<Sprite *> newRequireConsiderArr=std::vector<Sprite *>();    //copy
     std::vector<std::string> keysOfNewRequireConsiderArr=std::vector<std::string>();//copy
     for (int i=0; i<requireConsiderWhetherOutOfArr.size(); i++) {
@@ -881,7 +881,7 @@ bool DecidePoker:: planeWithDoubleWings(int length,
         }
     }
     //此时decideValueArr中存放的是三个
-    CCLog("decide third =%d",decideValueArr.size());
+//    //CCLog("decide third =%d",decideValueArr.size());
 
 
     std::vector<Sprite *> temArr=std::vector<Sprite *>();
@@ -899,7 +899,7 @@ bool DecidePoker:: planeWithDoubleWings(int length,
     keysOfSecondThreeValueArr.erase(keysOfTemArr.begin(),keysOfTemArr.end());
     //此时secondThreeValueArr keysOfSecondThreeValueArr保存的时double
     int countSec=secondThreeValueArr.size();
-    CCLog("single second%d",countSec);
+//    CCLog("single second%d",countSec);
     for (int i=0; i<keysOfFirstThreeValueArr.size(); i++) {
         for(int j=0;j<countSec;j++){
             if (((keysOfSecondThreeValueArr.at(j))).compare((keysOfFirstThreeValueArr.at(i)))) {
@@ -909,7 +909,7 @@ bool DecidePoker:: planeWithDoubleWings(int length,
         }
     }
     //此时secondThreeValueArr中存放的仅是对子
-    CCLog("only second =%d",secondThreeValueArr.size());
+//    CCLog("only second =%d",secondThreeValueArr.size());
 
     //在此处重新排序方便显示
     if (secondThreeValueArr.size()>0&&decideValueArr.size()>0) {

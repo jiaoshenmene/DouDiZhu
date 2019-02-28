@@ -65,14 +65,13 @@ bool StartGame::init()
     this->addChild(pMenu, 1);
 
 
-//    CCMenuItemFont * start=CCMenuItemFont::create("YES",CC_CALLBACK_0(StartGame::outOfTheCards, this));
-//    start->setPosition( Vec2(150, 150) );
-//    pMenu->addChild(start,1);
-//    //出牌按钮
-//    CCMenuItemFont * pass=CCMenuItemFont::create("NO",CC_CALLBACK_0(StartGame::passThisRecycle, this));
-//    pass->setPosition( Vec2(220, 150) );
-//    pMenu->addChild(pass,1);
+    MenuItemFont * start= MenuItemFont::create("YES",CC_CALLBACK_0(StartGame::outOfTheCards, this));
+    start->setPosition( Vec2(150, 150) );
+    pMenu->addChild(start,1);
     //出牌按钮
+    MenuItemFont * pass = MenuItemFont::create("NO",CC_CALLBACK_0(StartGame::passThisRecycle, this));
+    pass->setPosition( Vec2(220, 150) );
+    pMenu->addChild(pass,1);
 
     Sprite * backGround= PublicItem::backgroundSprite();
     this->addChild(backGround);
@@ -374,184 +373,184 @@ void StartGame::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::s
         }
     }
 }
-//
-////#pragma mark ------符合条件的出牌------
-//void StartGame::outOfTheCards()
-//{
-//    if(!mbGameIsOver){
-//    for (int i=0; i<mpUpComputerSelectArr.size(); i++) {
-//        Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
-//        sp->removeFromParent();
-//    }
-//    if (mpSelectKeysArr.size()==0) {
-//        return;
-//    }
-//
-//    sortedForArray(mpSelectValueArr, mpSelectKeysArr);  //选中的的牌排序
-//    //    本轮上家电脑有出牌
-//    if (upcomputerIsOutOfCards) {
-//        if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfupComputerSelectArr)) {
-//            //CCLog("more big than up");
-//            for (int i=0; i<mpSelectValueArr.size(); i++) {
-//                Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
-//                sp->setAnchorPoint(Vec2(0, 0));
-//                sp->setPosition(Vec2(160+mfWidth*i, 150));
-//            }
-//            personIsOutOfCards=true;
-//            //玩家本轮出牌
-//            mbPersonFirstIsOutOfCards=false;
-//            mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
-//            //从玩家手中删除出过的牌
-//            mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
-//            //从玩家手中删除出过的牌及对应的key
-//
-//            mpUpComputerSelectArr.clear();
-//            mpKeysOfupComputerSelectArr.clear();
-//            //清空上家电脑选中的牌
-//
-//
-//            for (int i=0; i<mpPersonArr.size(); i++) {
-//                Sprite * sp=(Sprite *)mpPersonArr.at(i);
-//                sp->setAnchorPoint(Vec2(0, 0));
-//                sp->setTag(TAG+i);
-//                sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size()/2)+mfWidth*i, 10));
-//            }
-//            //玩家出牌后调整桌面牌的位置
-//
-//            std::string str= "@";
-//            for(int i=0;i<20;i++)
-//            {
-//                mpPokerWhetherMoveArr.clear();
-//                mpPokerWhetherMoveArr.push_back(str);
-//
-//            }
-//
-//            std::string str_= "30";
-//            mpNextComputertimerCountDown->setString(str_);
-//            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-//            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
-//            std::string strPer= "";
-//            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
-//            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//        }
-//        else
-//        {
-//            //CCLog("你选的牌不符合规则");
-//        }
-//        if (mbPersonTimeOutOfCards) {
-//            passThisRecycle();//考虑超时
-//        }
-//    }
-//
-//    //本轮上家电脑没有出牌 但是下家出牌了
-//    if (!upcomputerIsOutOfCards&&nextcomputerIsOutOfCards) {
-//        if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfnextComputerSelectArr)) {
-//            for (int i=0; i<mpSelectValueArr.size(); i++) {
-//                Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
-//                sp->setAnchorPoint(Vec2(0, 0));
-//                sp->setPosition(Vec2(160+mfWidth*i, 150));
-//            }
-//            personIsOutOfCards=true;
-//            mbPersonFirstIsOutOfCards=false;
-//            //玩家本轮出牌
-//            mpPersonArr.erase(mpSelectValueArr.begin(), mpSelectValueArr.end());
-//            //从玩家手中删除出过的牌
-//            mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(), mpSelectKeysArr.end());
-//            //从玩家手中删除出过的牌及对应的key
-//
-//            mpNextComputerSelectArr.clear();
-//            mpKeysOfnextComputerSelectArr.clear();
-//            //清空下家电脑选中的牌
-//
-//
-//            for (int i=0; i<mpPersonArr.size(); i++) {
-//                Sprite * sp=(Sprite *)mpPersonArr.at(i);
-//                sp->setAnchorPoint(Vec2(0, 0));
-//                sp->setTag(TAG+i);
-//                sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size())/2+mfWidth*i, 10));
-//            }
-//            //玩家出牌后调整桌面牌的位置
-//
-//            std::string str = "@";
-//            for(int i=0;i<20;i++)
-//            {
-//                mpPokerWhetherMoveArr.clear();
-//                mpPokerWhetherMoveArr.push_back(str);
-//            }
-//
-//
-//            std::string str_= "30";
-//            mpNextComputertimerCountDown->setString(str_);
-//            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-//            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
-//            std::string strPer = "";
-//            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
-//            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//        }
-//        else
-//        {
-//            //CCLog("你选的牌不符合规则");
-//
-//        }
-//        if (mbPersonTimeOutOfCards) {
-//            passThisRecycle();//考虑超时
-//        }
-//
-//    }
-//
-//
-//    //    本轮上下家电脑都没有出牌 轮到玩家出牌
-//    if (!upcomputerIsOutOfCards&&!nextcomputerIsOutOfCards) {
-//        miPokerTypeID=GameRules::sharedGameRules()->decideSelectedPokerIfConformToRules(mpSelectValueArr, mpSelectKeysArr);
-//        if (miPokerTypeID&&(!mbPersonTimeOutOfCards)) {
-//
-//        std::string str = "";
-//        mpTimerCountDown->setString(str);//清空显示的倒计时器
-//        unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//
-//        for (int i=0; i<mpSelectValueArr.size(); i++) {
-//            Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
-//            sp->setAnchorPoint(Vec2(0, 0));
-//            sp->setPosition(Vec2(160+i*mfWidth, 150));
-//        }
-//
-//        personIsOutOfCards=true;
-//        //玩家本轮出牌
-//        mbPersonFirstIsOutOfCards=false;
-//        mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
-//        //从玩家手中删除出过的牌
-//        mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
-//         //从玩家手中删除出过的牌及对应的key
-//
-//
-//        for (int i=0; i<mpPersonArr.size(); i++) {
-//            Sprite * sp=(Sprite *)mpPersonArr.at(i);
-//            sp->setAnchorPoint(Vec2(0, 0));
-//            sp->setTag(TAG+i);
-//            sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size())/2+mfWidth*i, 10));
-//        }
-//        //玩家出牌后调整桌面牌的位置
-//
-//        std::string str1 ="@";
-//        for(int i=0;i<20;i++)
-//        {
-//            mpPokerWhetherMoveArr.clear();
-//            mpPokerWhetherMoveArr.push_back(str1);
-//
-//        }
-//
-//            std::string str_="30";
-//            mpNextComputertimerCountDown->setString(str_);
-//            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-//            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
-//            std::string strPer="";
-//            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
-//            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//    }
-//
-//    }
-//    }
-//}
+
+//#pragma mark ------符合条件的出牌------
+void StartGame::outOfTheCards()
+{
+    if(!mbGameIsOver){
+    for (int i=0; i<mpUpComputerSelectArr.size(); i++) {
+        Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
+        sp->removeFromParent();
+    }
+    if (mpSelectKeysArr.size()==0) {
+        return;
+    }
+
+    sortedForArray(mpSelectValueArr, mpSelectKeysArr);  //选中的的牌排序
+    //    本轮上家电脑有出牌
+    if (upcomputerIsOutOfCards) {
+        if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfupComputerSelectArr)) {
+            //CCLog("more big than up");
+            for (int i=0; i<mpSelectValueArr.size(); i++) {
+                Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
+                sp->setAnchorPoint(Vec2(0, 0));
+                sp->setPosition(Vec2(160+mfWidth*i, 150));
+            }
+            personIsOutOfCards=true;
+            //玩家本轮出牌
+            mbPersonFirstIsOutOfCards=false;
+            mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
+            //从玩家手中删除出过的牌
+            mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
+            //从玩家手中删除出过的牌及对应的key
+
+            mpUpComputerSelectArr.clear();
+            mpKeysOfupComputerSelectArr.clear();
+            //清空上家电脑选中的牌
+
+
+            for (int i=0; i<mpPersonArr.size(); i++) {
+                Sprite * sp=(Sprite *)mpPersonArr.at(i);
+                sp->setAnchorPoint(Vec2(0, 0));
+                sp->setTag(TAG+i);
+                sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size()/2)+mfWidth*i, 10));
+            }
+            //玩家出牌后调整桌面牌的位置
+
+            std::string str= "@";
+            for(int i=0;i<20;i++)
+            {
+                mpPokerWhetherMoveArr.clear();
+                mpPokerWhetherMoveArr.push_back(str);
+
+            }
+
+            std::string str_= "30";
+            mpNextComputertimerCountDown->setString(str_);
+            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+            std::string strPer= "";
+            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
+            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+        }
+        else
+        {
+            //CCLog("你选的牌不符合规则");
+        }
+        if (mbPersonTimeOutOfCards) {
+            passThisRecycle();//考虑超时
+        }
+    }
+
+    //本轮上家电脑没有出牌 但是下家出牌了
+    if (!upcomputerIsOutOfCards&&nextcomputerIsOutOfCards) {
+        if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfnextComputerSelectArr)) {
+            for (int i=0; i<mpSelectValueArr.size(); i++) {
+                Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
+                sp->setAnchorPoint(Vec2(0, 0));
+                sp->setPosition(Vec2(160+mfWidth*i, 150));
+            }
+            personIsOutOfCards=true;
+            mbPersonFirstIsOutOfCards=false;
+            //玩家本轮出牌
+            mpPersonArr.erase(mpSelectValueArr.begin(), mpSelectValueArr.end());
+            //从玩家手中删除出过的牌
+            mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(), mpSelectKeysArr.end());
+            //从玩家手中删除出过的牌及对应的key
+
+            mpNextComputerSelectArr.clear();
+            mpKeysOfnextComputerSelectArr.clear();
+            //清空下家电脑选中的牌
+
+
+            for (int i=0; i<mpPersonArr.size(); i++) {
+                Sprite * sp=(Sprite *)mpPersonArr.at(i);
+                sp->setAnchorPoint(Vec2(0, 0));
+                sp->setTag(TAG+i);
+                sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size())/2+mfWidth*i, 10));
+            }
+            //玩家出牌后调整桌面牌的位置
+
+            std::string str = "@";
+            for(int i=0;i<20;i++)
+            {
+                mpPokerWhetherMoveArr.clear();
+                mpPokerWhetherMoveArr.push_back(str);
+            }
+
+
+            std::string str_= "30";
+            mpNextComputertimerCountDown->setString(str_);
+            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+            std::string strPer = "";
+            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
+            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+        }
+        else
+        {
+            //CCLog("你选的牌不符合规则");
+
+        }
+        if (mbPersonTimeOutOfCards) {
+            passThisRecycle();//考虑超时
+        }
+
+    }
+
+
+    //    本轮上下家电脑都没有出牌 轮到玩家出牌
+    if (!upcomputerIsOutOfCards&&!nextcomputerIsOutOfCards) {
+        miPokerTypeID=GameRules::sharedGameRules()->decideSelectedPokerIfConformToRules(mpSelectValueArr, mpSelectKeysArr);
+        if (miPokerTypeID&&(!mbPersonTimeOutOfCards)) {
+
+        std::string str = "";
+        mpTimerCountDown->setString(str);//清空显示的倒计时器
+        unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+
+        for (int i=0; i<mpSelectValueArr.size(); i++) {
+            Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
+            sp->setAnchorPoint(Vec2(0, 0));
+            sp->setPosition(Vec2(160+i*mfWidth, 150));
+        }
+
+        personIsOutOfCards=true;
+        //玩家本轮出牌
+        mbPersonFirstIsOutOfCards=false;
+        mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
+        //从玩家手中删除出过的牌
+        mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
+         //从玩家手中删除出过的牌及对应的key
+
+
+        for (int i=0; i<mpPersonArr.size(); i++) {
+            Sprite * sp=(Sprite *)mpPersonArr.at(i);
+            sp->setAnchorPoint(Vec2(0, 0));
+            sp->setTag(TAG+i);
+            sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size())/2+mfWidth*i, 10));
+        }
+        //玩家出牌后调整桌面牌的位置
+
+        std::string str1 ="@";
+        for(int i=0;i<20;i++)
+        {
+            mpPokerWhetherMoveArr.clear();
+            mpPokerWhetherMoveArr.push_back(str1);
+
+        }
+
+            std::string str_="30";
+            mpNextComputertimerCountDown->setString(str_);
+            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+            std::string strPer="";
+            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
+            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+    }
+
+    }
+    }
+}
 #pragma mark ------只应该玩家出牌时玩家托管-----
 void StartGame::personConsiderTimeRunOutAndRandOneOfPersonPokers()
 {
@@ -593,12 +592,12 @@ void StartGame::personConsiderTimeRunOutAndRandOneOfPersonPokers()
         mpNextComputertimerCountDown->setString(str_);
         schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
 //
-//        schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+        schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
         //CCLog("玩家托管");
     }
     else
     {
-//        passThisRecycle();
+        passThisRecycle();
     }
     }
 }

@@ -122,7 +122,7 @@ public:
 public:
     void initArraysAndRootDic();//初始化
     void gameStart();//开始游戏
-//    void update(float);
+//    void update(float f);
     void adjustPokerOrder();//调整牌序
     void sendPokerOutEveryPlayer();//发牌到每个玩家
     void displayPersonPoker();//显示person手中的牌

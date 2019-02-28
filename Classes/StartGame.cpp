@@ -105,9 +105,24 @@ bool StartGame::init()
     mpUpComputertimerCountDown->setSystemFontSize(20);
     mpUpComputertimerCountDown->setPosition(Vec2(50, 160));
     this->addChild(mpUpComputertimerCountDown);
+    
+    
+    
+    
     //up
     this->initArraysAndRootDic();//初始化
     srand(time(NULL));
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    CC_SAFE_RETAIN(listener);
+    listener->setSwallowTouches(true);
+    
+    listener->onTouchBegan = CC_CALLBACK_2(StartGame::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(StartGame::onTouchMove, this);
+    listener->onTouchEnded = CC_CALLBACK_2(StartGame::onTouchEnd, this);
+    
+    EventDispatcher *eventDispatcher = Director::getInstance()->getEventDispatcher();
+    eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
 }
@@ -247,81 +262,85 @@ void StartGame::sendPokerOutEveryPlayer()
 
     displayPersonPoker();
 
-//    scheduleUpdate();
+    this->schedule(schedule_selector(HelloWorld::update));
 }
-////#pragma mark ------判断输赢------
-////void StartGame::update(float)
-////{
-////
-////    if (mpComputerUpArr.size()==0) {
-////        mbGameIsOver=true;
-////        mpGameOverLabel->setString("不要灰心再来一局");
-////        mpGameOverLabel->setPosition(Vec2(240, 160));
-////        mpGameAgainLabel->setPosition(Vec2(240, 230));
-////        refreshGameOverScreenDisplay(PERSON_LOST_THE_GAME);
-////        unscheduleInStartGameAllUpdate();
-////    }
-////
-////    if (mpPersonArr.size()==0) {
-////        mbGameIsOver=true;
-////        mpGameOverLabel->setString("恭喜，您赢啦！");
-////        mpGameOverLabel->setPosition(Vec2(240, 160));
-////        mpGameAgainLabel->setPosition(Vec2(240, 230));
-////        refreshGameOverScreenDisplay(PERSON_WIN_THE_GAME);
-////        unscheduleInStartGameAllUpdate();
-////    }
-////
-////    if (mpComputerNextArr.size()==0) {
-////        mbGameIsOver=true;
-////        mpGameOverLabel->setString("不要灰心再来一局");
-////        mpGameOverLabel->setPosition(Vec2(240, 160));
-////        mpGameAgainLabel->setPosition(Vec2(240, 230));
-////        refreshGameOverScreenDisplay(PERSON_LOST_THE_GAME);
-////        unscheduleInStartGameAllUpdate();
-////    }
-////
-////}
-////
-//#pragma mark------游戏结束关闭所有的定时器
-//void StartGame::unscheduleInStartGameAllUpdate()
-//{
-//    unscheduleUpdate();
-//    unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
-//    unschedule(schedule_selector(StartGame::nextConsiderTimeCountDown));
-//    unschedule(schedule_selector(StartGame::upConsiderTimeCountDown));
-//
-//    unschedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider));
-//    unschedule(schedule_selector(StartGame::nextComputerOutOfCardsManyTimeUpStartConsider));
-//}
-//
-//#pragma mark ------游戏结束之后显示每个人拥有的金币------
-//void StartGame::refreshGameOverScreenDisplay(int decide)
-//{
-//    int perValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfPerson");
-//    int nextComValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfNextComputer");
-//    int upComValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfUpComputer");
-//
-//    UserDefault::getInstance()->setIntegerForKey("CoinsOfPerson", perValue+2*miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
-//    UserDefault::getInstance()->setIntegerForKey("CoinsOfNextComputer", nextComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
-//    UserDefault::getInstance()->setIntegerForKey("CoinsOfUpComputer", upComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
-//    UserDefault::getInstance()->flush();//写入文件
-//
-//    mpPersonHaveCoinsLabel->setString(std::to_string(perValue+2*miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
-//    mpNextComHaveCoinsLabel->setString(std::to_string(nextComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
-//    mpUpComHaveCoinsLabel->setString(std::to_string(upComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
-//
-//}
+#pragma mark ------判断输赢------
+void StartGame::update(float)
+{
+
+    if (mpComputerUpArr.size()==0) {
+        mbGameIsOver=true;
+        mpGameOverLabel->setString("不要灰心再来一局");
+        mpGameOverLabel->setPosition(Vec2(240, 160));
+        mpGameAgainLabel->setPosition(Vec2(240, 230));
+        refreshGameOverScreenDisplay(PERSON_LOST_THE_GAME);
+        unscheduleInStartGameAllUpdate();
+    }
+
+    if (mpPersonArr.size()==0) {
+        mbGameIsOver=true;
+        mpGameOverLabel->setString("恭喜，您赢啦！");
+        mpGameOverLabel->setPosition(Vec2(240, 160));
+        mpGameAgainLabel->setPosition(Vec2(240, 230));
+        refreshGameOverScreenDisplay(PERSON_WIN_THE_GAME);
+        unscheduleInStartGameAllUpdate();
+    }
+
+    if (mpComputerNextArr.size()==0) {
+        mbGameIsOver=true;
+        mpGameOverLabel->setString("不要灰心再来一局");
+        mpGameOverLabel->setPosition(Vec2(240, 160));
+        mpGameAgainLabel->setPosition(Vec2(240, 230));
+        refreshGameOverScreenDisplay(PERSON_LOST_THE_GAME);
+        unscheduleInStartGameAllUpdate();
+    }
+
+}
+
+#pragma mark------游戏结束关闭所有的定时器
+void StartGame::unscheduleInStartGameAllUpdate()
+{
+    unscheduleUpdate();
+    unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+    unschedule(schedule_selector(StartGame::nextConsiderTimeCountDown));
+    unschedule(schedule_selector(StartGame::upConsiderTimeCountDown));
+
+    unschedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider));
+    unschedule(schedule_selector(StartGame::nextComputerOutOfCardsManyTimeUpStartConsider));
+}
+
+#pragma mark ------游戏结束之后显示每个人拥有的金币------
+void StartGame::refreshGameOverScreenDisplay(int decide)
+{
+    int perValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfPerson");
+    int nextComValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfNextComputer");
+    int upComValue=UserDefault::getInstance()->getIntegerForKey("CoinsOfUpComputer");
+
+    UserDefault::getInstance()->setIntegerForKey("CoinsOfPerson", perValue+2*miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
+    UserDefault::getInstance()->setIntegerForKey("CoinsOfNextComputer", nextComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
+    UserDefault::getInstance()->setIntegerForKey("CoinsOfUpComputer", upComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS);
+    UserDefault::getInstance()->flush();//写入文件
+
+    mpPersonHaveCoinsLabel->setString(std::to_string(perValue+2*miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
+    mpNextComHaveCoinsLabel->setString(std::to_string(nextComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
+    mpUpComHaveCoinsLabel->setString(std::to_string(upComValue-miBaseTime*decide*EVERY_ROUND_PLAYER_COST_MINI_COINS));
+
+}
 #pragma mark ------显示玩家手中的牌------
 void StartGame::displayPersonPoker()
 {
     mfWidth=POKER_WIDTH/mpPersonArr.size();
+    Size winSize = Director::getInstance()->getWinSize();
+    float ox = (winSize.width - mpPersonArr.size() * mfWidth) / 2;
     for (int i=0; i<mpPersonArr.size(); i++) {
         Sprite * sp=(Sprite *)mpPersonArr.at(i);
         sp->setAnchorPoint(Vec2(0, 0));
-        sp->setPosition(Vec2(60+i*mfWidth,10));
+        sp->setPosition(Vec2(ox+i*mfWidth,70));
         sp->setTag(TAG+i);
         this->addChild(sp);
     }
+
+    
     if (mbPersonIsLandlord) {
         schedule(schedule_selector(StartGame::personConsiderTimeCountDown), 0.01);
     } else if (mpNextComIdentityLabel) {
@@ -679,7 +698,7 @@ void StartGame::nextComputeroutOfTheCards()
                     for (int i=0; i<mpNextComputerSelectArr.size(); i++) {
                         Sprite * sp=(Sprite *)mpNextComputerSelectArr.at(i);
                         sp->setAnchorPoint(Vec2(0, 0));
-                        sp->setPosition(Vec2(200+i*20, 150));
+                        sp->setPosition(Vec2(200+i*20, 120));
                         this->addChild(sp);
                     };
                     nextcomputerIsOutOfCards=true;
@@ -1126,9 +1145,9 @@ void StartGame::gameStart()
 //    (this,-1,false);
 //}
 //#pragma mark ------点击判断-----
-//bool StartGame:: ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-//{
-//
+bool StartGame:: onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+
 //    if (mpGameAgainLabel->boundingBox().containsPoint(pTouch->getLocation())) {
 //        mbGameIsOver=false;
 //        gameAgain();
@@ -1160,15 +1179,17 @@ void StartGame::gameStart()
 //            return  true;
 //        }
 //    }
-//    return false;
-//}
-//void StartGame:: ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
-//{
-//}
+    return false;
+}
 
-//#pragma mark ------点击判断结束后做一定操作-----
-//void StartGame:: ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
-//{
+bool StartGame:: onTouchMove(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+    return true;
+}
+
+#pragma mark ------点击判断结束后做一定操作-----
+bool StartGame:: onTouchEnd(cocos2d::Touch *touch, cocos2d::Event *event)
+{
 //    if(!mbGameIsOver){
 //    std::string decide=CCString::createWithFormat("%d",1);
 //    for (int i=0; i<mpPersonArr.size(); i++) {
@@ -1206,7 +1227,8 @@ void StartGame::gameStart()
 //        }
 //    }
 //    }
-//}
+    return true;
+}
 
 #pragma mark------重新开始游戏
 void StartGame::gameAgain()

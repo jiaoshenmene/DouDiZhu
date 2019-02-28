@@ -27,9 +27,9 @@ public:
     static cocos2d::Scene* scene();
     
 //    virtual void registerWithTouchDispatcher(void);
-//    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-//    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-//    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+     bool onTouchMove(cocos2d::Touch *touch, cocos2d::Event *event);
+     bool onTouchEnd(cocos2d::Touch *touch, cocos2d::Event *event);
 //    ~StartGame();
 public:
     //用来存放所有的牌
@@ -122,7 +122,7 @@ public:
 public:
     void initArraysAndRootDic();//初始化
     void gameStart();//开始游戏
-//    void update(float f);
+    void update(float f);
     void adjustPokerOrder();//调整牌序
     void sendPokerOutEveryPlayer();//发牌到每个玩家
     void displayPersonPoker();//显示person手中的牌

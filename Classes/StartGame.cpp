@@ -57,7 +57,7 @@ bool StartGame::init()
                                                           "CloseNormal.png",
                                                           "CloseSelected.png",
                                                           CC_CALLBACK_0(StartGame::menuCloseCallback, this));
-    pCloseItem->setPosition( Vec2(Director::getInstance()->getWinSize().width - 20, 20) );
+    pCloseItem->setPosition( Vec2(20, Director::getInstance()->getWinSize().height * 0.8) );
 
     // create menu, it's an autorelease object
     Menu* pMenu = Menu::create(pCloseItem, NULL);
@@ -369,7 +369,7 @@ void StartGame::personConsiderTimeCountDown(float considerTime)
             displaytime=0;//倒计时基数归零
             std::string str = "";
             mpTimerCountDown->setString(str);//清空显示的倒计时器
-            personConsiderTimeRunOutAndRandOneOfPersonPokers();
+//            personConsiderTimeRunOutAndRandOneOfPersonPokers();
             unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
             //关闭倒计时
 
@@ -397,69 +397,69 @@ void StartGame::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::s
 void StartGame::outOfTheCards()
 {
     if(!mbGameIsOver){
-    for (int i=0; i<mpUpComputerSelectArr.size(); i++) {
-        Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
-        sp->removeFromParent();
-    }
-    if (mpSelectKeysArr.size()==0) {
-        return;
-    }
+        for (int i=0; i<mpUpComputerSelectArr.size(); i++) {
+            Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
+            sp->removeFromParent();
+        }
+        if (mpSelectKeysArr.size()==0) {
+            return;
+        }
 
-    sortedForArray(mpSelectValueArr, mpSelectKeysArr);  //选中的的牌排序
-    //    本轮上家电脑有出牌
-    if (upcomputerIsOutOfCards) {
-        if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfupComputerSelectArr)) {
-            //CCLog("more big than up");
-            for (int i=0; i<mpSelectValueArr.size(); i++) {
-                Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
-                sp->setAnchorPoint(Vec2(0, 0));
-                sp->setPosition(Vec2(160+mfWidth*i, 150));
+        sortedForArray(mpSelectValueArr, mpSelectKeysArr); //选中的的牌排序
+        //    本轮上家电脑有出牌
+        if (upcomputerIsOutOfCards) {
+            if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfupComputerSelectArr)) {
+                //CCLog("more big than up");
+                for (int i=0; i<mpSelectValueArr.size(); i++) {
+                    Sprite * sp=(Sprite *)mpSelectValueArr.at(i);
+                    sp->setAnchorPoint(Vec2(0, 0));
+                    sp->setPosition(Vec2(160+mfWidth*i, 150));
+                }
+                personIsOutOfCards=true;
+                //玩家本轮出牌
+                mbPersonFirstIsOutOfCards=false;
+                mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
+                //从玩家手中删除出过的牌
+                mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
+                //从玩家手中删除出过的牌及对应的key
+
+                mpUpComputerSelectArr.clear();
+                mpKeysOfupComputerSelectArr.clear();
+                //清空上家电脑选中的牌
+
+
+                for (int i=0; i<mpPersonArr.size(); i++) {
+                    Sprite * sp=(Sprite *)mpPersonArr.at(i);
+                    sp->setAnchorPoint(Vec2(0, 0));
+                    sp->setTag(TAG+i);
+                    sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size()/2)+mfWidth*i, 10));
+                }
+                //玩家出牌后调整桌面牌的位置
+
+                std::string str= "@";
+                for(int i=0;i<20;i++) {
+                    mpPokerWhetherMoveArr.clear();
+                    mpPokerWhetherMoveArr.push_back(str);
+
+                }
+
+                std::string str_= "30";
+                mpNextComputertimerCountDown->setString(str_);
+                schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
+                schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
+                std::string strPer= "";
+                mpTimerCountDown->setString(strPer);//清空显示的倒计时器
+                unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
             }
-            personIsOutOfCards=true;
-            //玩家本轮出牌
-            mbPersonFirstIsOutOfCards=false;
-            mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
-            //从玩家手中删除出过的牌
-            mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
-            //从玩家手中删除出过的牌及对应的key
-
-            mpUpComputerSelectArr.clear();
-            mpKeysOfupComputerSelectArr.clear();
-            //清空上家电脑选中的牌
-
-
-            for (int i=0; i<mpPersonArr.size(); i++) {
-                Sprite * sp=(Sprite *)mpPersonArr.at(i);
-                sp->setAnchorPoint(Vec2(0, 0));
-                sp->setTag(TAG+i);
-                sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size()/2)+mfWidth*i, 10));
-            }
-            //玩家出牌后调整桌面牌的位置
-
-            std::string str= "@";
-            for(int i=0;i<20;i++)
+            else
             {
-                mpPokerWhetherMoveArr.clear();
-                mpPokerWhetherMoveArr.push_back(str);
-
+                //CCLog("你选的牌不符合规则");
             }
-
-            std::string str_= "30";
-            mpNextComputertimerCountDown->setString(str_);
-            schedule(schedule_selector(StartGame::personOutOfCardsManyTimeNextStartConsider), 0.01f);
-            schedule(schedule_selector(StartGame::nextConsiderTimeCountDown), 0.01);
-            std::string strPer= "";
-            mpTimerCountDown->setString(strPer);//清空显示的倒计时器
-            unschedule(schedule_selector(StartGame::personConsiderTimeCountDown));
+            if (mbPersonTimeOutOfCards) {
+                passThisRecycle();//考虑超时
+            }
+            
         }
-        else
-        {
-            //CCLog("你选的牌不符合规则");
-        }
-        if (mbPersonTimeOutOfCards) {
-            passThisRecycle();//考虑超时
-        }
-    }
 
     //本轮上家电脑没有出牌 但是下家出牌了
     if (!upcomputerIsOutOfCards&&nextcomputerIsOutOfCards) {
@@ -877,9 +877,15 @@ void StartGame::upComputeroutOfTheCards()
             for (int i=0; i<mpUpComputerSelectArr.size(); i++) {
                 Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
                 sp->setAnchorPoint(Vec2(0, 0));
-                sp->setPosition(Vec2(200+i*20, 150));
+                sp->setPosition(Vec2(100+i*20, 150));
                 this->addChild(sp);
             };
+            
+            Sprite * sp= Sprite::create("HT7.png");
+            sp->setAnchorPoint(Vec2(0, 0));
+            sp->setPosition(Vec2(100, 150));
+            this->addChild(sp);
+            
             upcomputerIsOutOfCards=true;
             //本轮上家电脑出牌了
             mpComputerUpArr.erase(mpUpComputerSelectArr.begin(),mpUpComputerSelectArr.end());
@@ -1139,47 +1145,43 @@ void StartGame::gameStart()
     this->adjustPokerOrder();//洗牌
 }
 
-//void StartGame:: registerWithTouchDispatcher(void)
-//{
-//    Director::getInstance()->getTouchDispatcher()->addTargetedDelegate
-//    (this,-1,false);
-//}
 //#pragma mark ------点击判断-----
 bool StartGame:: onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
 
-//    if (mpGameAgainLabel->boundingBox().containsPoint(pTouch->getLocation())) {
-//        mbGameIsOver=false;
-//        gameAgain();
-//        return false;
-//    }
-//
-//
-//
-//
-//    for (int i=0; i<mpPersonArr.size(); i++) {
-//        Sprite * sp=(Sprite *)getChildByTag(TAG+i);
-//        CCRect rectForTouch=CCRect(sp->getPositionX(),sp->getPositionY(),mfWidth,sp->boundingBox().size.height);
-//        //重新划分触摸响应区域
-//        if (i==mpPersonArr.size()-1) {
-//            rectForTouch=CCRect(sp->getPositionX(),sp->getPositionY(),sp->boundingBox().size.width,sp->boundingBox().size.height);
-//            //最后一张牌划分单独区域
-//        }
-//        if (rectForTouch.containsPoint(pTouch->getLocation())) {
-//            std::string decide=CCString::createWithFormat("%d",1);
-//            if ((mpPokerWhetherMoveArr.at(i)).compare(decide)) {
-//                std::string strIsMove=CCString::createWithFormat("%d",0);
-//                mpPokerWhetherMoveArr->replaceObjectAtIndex(i,strIsMove);
-//            }
-//            else{
-//                std::string strIsNotMove=CCString::createWithFormat("%d",1);
-//                mpPokerWhetherMoveArr->replaceObjectAtIndex(i,strIsNotMove);
-//            }
-//
-//            return  true;
-//        }
-//    }
-    return false;
+    if (mpGameAgainLabel->getBoundingBox().containsPoint(touch->getLocation())) {
+        mbGameIsOver=false;
+        gameAgain();
+        return false;
+    }
+
+
+    printf("x = %f , y = %f",touch->getLocation().x,touch->getLocation().y);
+
+    for (int i=0; i<mpPersonArr.size(); i++) {
+        Sprite * sp=(Sprite *)getChildByTag(TAG+i);
+        Rect rectForTouch= Rect(sp->getPositionX(),sp->getPositionY(),mfWidth,sp->getBoundingBox().size.height);
+        //重新划分触摸响应区域
+        if (i==mpPersonArr.size()-1) {
+            rectForTouch=Rect(sp->getPositionX(),sp->getPositionY(),sp->getBoundingBox().size.width,sp->getBoundingBox().size.height);
+            //最后一张牌划分单独区域
+        }
+        if (rectForTouch.containsPoint(touch->getLocation())) {
+            std::string decide= "1";
+            if ((mpPokerWhetherMoveArr.at(i)).compare(decide) == 0) {
+                std::string strIsMove= "0";
+               
+                mpPokerWhetherMoveArr[i] = strIsMove;
+            }
+            else{
+                std::string strIsNotMove="1";
+                mpPokerWhetherMoveArr[i] = strIsNotMove;
+            }
+
+            return  true;
+        }
+    }
+    return true;
 }
 
 bool StartGame:: onTouchMove(cocos2d::Touch *touch, cocos2d::Event *event)
@@ -1190,43 +1192,48 @@ bool StartGame:: onTouchMove(cocos2d::Touch *touch, cocos2d::Event *event)
 #pragma mark ------点击判断结束后做一定操作-----
 bool StartGame:: onTouchEnd(cocos2d::Touch *touch, cocos2d::Event *event)
 {
-//    if(!mbGameIsOver){
-//    std::string decide=CCString::createWithFormat("%d",1);
-//    for (int i=0; i<mpPersonArr.size(); i++) {
-//        Sprite * sp=(Sprite *)getChildByTag(TAG+i);
-//        CCRect rectForTouch=CCRect(sp->getPositionX(),sp->getPositionY(),mfWidth,sp->boundingBox().size.height);
-//        //重新划分触摸响应区域
-//        if (i==mpPersonArr.size()-1) {
-//            rectForTouch=CCRect(sp->getPositionX(),sp->getPositionY(),sp->boundingBox().size.width,sp->boundingBox().size.height);
-//            //最后一张牌划分单独区域
-//        }
-//        if (rectForTouch.containsPoint(pTouch->getLocation()))
-//        {
-//            if ((mpPokerWhetherMoveArr.at(i)).compare(decide))
-//            {
-//                sp->setPositionY(sp->getPositionY()+20);
-//                std::string strIsSelect=CCString::createWithFormat("%d",1);
-//                mpPokerIsSlectArr->replaceObjectAtIndex(i,strIsSelect);
-//                mpSelectValueArr.push_back(sp);
-//                //保存选中的牌
-//                mpSelectKeysArr.push_back(mpKeysOfpersonArr.at(i));
-//                //保存选中的牌对应的key
-//
-//            }
-//            else
-//            {
-//                sp->setPositionY(sp->getPositionY()-20);
-//                std::string strIsNotSelect=CCString::createWithFormat("%d",0);
-//                mpPokerIsSlectArr->replaceObjectAtIndex(i,strIsNotSelect);
-//                mpSelectValueArr->removeObject(sp);
-//                //删除取消选中的牌
-//                mpSelectKeysArr->removeObject(mpKeysOfpersonArr.at(i));
-//                //删除取消选中的牌的key
-//            }
-//
-//        }
-//    }
-//    }
+    if(!mbGameIsOver){
+        std::string decide = "1";
+        for (int i=0; i<mpPersonArr.size(); i++) {
+            Sprite * sp=(Sprite *)getChildByTag(TAG+i);
+            Rect rectForTouch = Rect(sp->getPositionX(),sp->getPositionY(),mfWidth,sp->getBoundingBox().size.height);
+            //重新划分触摸响应区域
+            if (i==mpPersonArr.size()-1) {
+                rectForTouch = Rect(sp->getPositionX(),sp->getPositionY(),sp->getBoundingBox().size.width,sp->getBoundingBox().size.height);
+                //最后一张牌划分单独区域
+            }
+            if (rectForTouch.containsPoint(touch->getLocation()))
+            {
+                if ((mpPokerWhetherMoveArr.at(i)).compare(decide) == 0)
+                {
+                    sp->setPositionY(sp->getPositionY()+20);
+                    std::string strIsSelect = "1";
+                    mpPokerIsSlectArr[i] = strIsSelect;
+                    mpSelectValueArr.push_back(sp);
+                    //保存选中的牌
+                    mpSelectKeysArr.push_back(mpKeysOfpersonArr.at(i));
+                    //保存选中的牌对应的key
+
+                }
+                else
+                {
+                    sp->setPositionY(sp->getPositionY()-20);
+                    std::string strIsNotSelect = "0";
+                    mpPokerIsSlectArr[i] = strIsNotSelect;
+                    std::vector<Sprite *>::iterator itValue = std::find(mpSelectValueArr.begin(), mpSelectValueArr.end(), sp);
+                    mpSelectValueArr.erase(itValue);
+                    
+                    
+                    //删除取消选中的牌
+                    
+                    std::vector<std::string>::iterator itKey = std::find(mpSelectKeysArr.begin(), mpSelectKeysArr.end(), mpKeysOfpersonArr.at(i));
+                    mpSelectKeysArr.erase(itKey);
+                    //删除取消选中的牌的key
+                }
+
+            }
+        }
+    }
     return true;
 }
 

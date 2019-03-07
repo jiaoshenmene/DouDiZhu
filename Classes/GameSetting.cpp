@@ -31,8 +31,7 @@ bool GameSetting::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-    {
+    if ( !Layer::init() ) {
         return false;
     }
     
@@ -79,9 +78,7 @@ bool GameSetting::init()
     if (bValue==GAME_MUSIC_OPEN) {
         mbBMusicIsOpen=true;
         mpBackGroundMusicTT->setString("开");
-    }
-    else
-    {
+    } else {
         mbBMusicIsOpen=false;
         mpBackGroundMusicTT->setString("关");
     }

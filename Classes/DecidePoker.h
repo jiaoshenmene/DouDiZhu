@@ -21,16 +21,16 @@ public:
     bool decideWhetherHaveSuitablePokers(
                                          std::vector<Sprite *> nowScreenShowPokerArr,
                                          std::vector<std::string> keysOfnowScreenShowPokerArr ,
-                                         std::vector<Sprite *> nextTimeShouldShowPokerArr,
-                                         std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
-                                         std::vector<Sprite *> requireConsiderWhetherOutOfArr,
-                                         std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
+                                         std::vector<Sprite *> &nextTimeShouldShowPokerArr,
+                                         std::vector<std::string> &keysOfnextTimeShouldShowPokerArr,
+                                         std::vector<Sprite *> &requireConsiderWhetherOutOfArr,
+                                         std::vector<std::string> &keysOfrequireConsiderWhetherOutOfArr,
                                          int miPokerID);
     //判断有没有可以压住当前桌面上的牌
     void saveEligibilityPokersAndRelevantKeys(int location,
                                               int length,
-                                              std::vector<Sprite *> nextTimeShouldShowPokerArr,
-                                              std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                              std::vector<Sprite *> &nextTimeShouldShowPokerArr,
+                                              std::vector<std::string> &keysOfnextTimeShouldShowPokerArr,
                                               std::vector<Sprite *> requireConsiderWhetherOutOfArr,
                                               std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr);
     //如果存在 记录能压住当前桌面上的牌

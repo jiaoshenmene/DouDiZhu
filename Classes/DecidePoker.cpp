@@ -52,10 +52,10 @@ bool DecidePoker:: decidePersonMoreBigSHowPoker(std::vector<std::string> keysOfN
 bool DecidePoker:: decideWhetherHaveSuitablePokers(
                                                    std::vector<Sprite *> nowScreenShowPokerArr,
                                                    std::vector<std::string> keysOfnowScreenShowPokerArr ,
-                                                   std::vector<Sprite *> nextTimeShouldShowPokerArr,
-                                                   std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
-                                                   std::vector<Sprite *> requireConsiderWhetherOutOfArr,
-                                                   std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr,
+                                                   std::vector<Sprite *> &nextTimeShouldShowPokerArr,
+                                                   std::vector<std::string> &keysOfnextTimeShouldShowPokerArr,
+                                                   std::vector<Sprite *> &requireConsiderWhetherOutOfArr,
+                                                   std::vector<std::string> &keysOfrequireConsiderWhetherOutOfArr,
                                                  int miPokerTypeID)
 {
     int length=keysOfnowScreenShowPokerArr.size();
@@ -64,7 +64,8 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
     if(requireLength>=length){
         if (length==1) {
             for (int i=requireLength-1; i>=0; i--) {
-                if (((keysOfrequireConsiderWhetherOutOfArr.at(i))).compare(((keysOfnowScreenShowPokerArr.at(0))))>0)
+                
+                if (keysOfrequireConsiderWhetherOutOfArr.at(i). compare(keysOfnowScreenShowPokerArr.at(0)) >0 )
                 {
                     saveEligibilityPokersAndRelevantKeys(i, length,
                                                          nextTimeShouldShowPokerArr,
@@ -329,8 +330,8 @@ bool DecidePoker:: decideWhetherHaveSuitablePokers(
 #pragma mark------如果当前出牌玩家手中有压得住桌面上的牌--保存----
 void DecidePoker:: saveEligibilityPokersAndRelevantKeys(int location,
                                                       int length,
-                                                      std::vector<Sprite *> nextTimeShouldShowPokerArr,
-                                                      std::vector<std::string> keysOfnextTimeShouldShowPokerArr,
+                                                      std::vector<Sprite *> &nextTimeShouldShowPokerArr,
+                                                      std::vector<std::string> &keysOfnextTimeShouldShowPokerArr,
                                                       std::vector<Sprite *> requireConsiderWhetherOutOfArr,
                                                       std::vector<std::string> keysOfrequireConsiderWhetherOutOfArr)
 {

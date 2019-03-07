@@ -13,6 +13,8 @@
 #include "GameSetting.h"
 #include "HelloWorldScene.h"
 #include "PublicItem.h"
+#include <iostream>
+
 
 USING_NS_CC;
 
@@ -331,6 +333,7 @@ void StartGame::displayPersonPoker()
 {
     mfWidth=POKER_WIDTH/mpPersonArr.size();
     Size winSize = Director::getInstance()->getWinSize();
+    
     float ox = (winSize.width - mpPersonArr.size() * mfWidth) / 2;
     for (int i=0; i<mpPersonArr.size(); i++) {
         Sprite * sp=(Sprite *)mpPersonArr.at(i);
@@ -378,18 +381,23 @@ void StartGame::personConsiderTimeCountDown(float considerTime)
 
 }
 #pragma mark ------发到玩家手中的牌排序-----
-void StartGame::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr)
+void StartGame::sortedForArray(std::vector<Sprite *> &valueArr,std::vector<std::string> &keyArr)
 {
     size_t kcount = keyArr.size();
     for (size_t i = 0; i < kcount - 1; i++) {
-        for (size_t j = kcount - 1; j > i; j--) {
+        for (size_t j = 0; j < kcount - 1 - i; j++) {
             std::string key = keyArr[j];
-            std::string upkey = keyArr[j - 1];
-            if (key.compare(upkey) > 0) {
-                std::swap(keyArr[j], keyArr[j - 1]);
-                std::swap(valueArr[j], valueArr[j - 1]);
+            std::string upkey = keyArr[j + 1];
+            if (key.compare(upkey) < 0) {
+                
+                std::swap(keyArr[j], keyArr[j + 1]);
+                std::swap(valueArr[j], valueArr[j + 1]);
             }
         }
+    }
+    std::cout<<"--------"<<std::endl;
+    for (auto v: keyArr) {
+        std::cout<<v<<std::endl;
     }
 }
 
@@ -460,10 +468,7 @@ void StartGame::outOfTheCards()
             }
             
         }
-        
-
-    //本轮上家电脑没有出牌 但是下家出牌了
-    
+        //本轮上家电脑没有出牌 但是下家出牌了
         if (!upcomputerIsOutOfCards&&nextcomputerIsOutOfCards) {
        
             if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfnextComputerSelectArr)) {

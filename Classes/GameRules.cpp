@@ -7,6 +7,7 @@
 //
 #include "GameRules.h"
 #include "TypeEnmu.h"
+#include "Tools.h"
 
 USING_NS_CC;
 
@@ -24,7 +25,7 @@ int GameRules::decideSelectedPokerIfConformToRules(std::vector<Sprite *> selectV
 {
 
 //    //CCLog("selectArr count =%d,selectKeyArr count =%d",selectValueArr.size(),selectKeysArr.size());
-//    sortedForArray(selectValueArr, selectKeysArr);
+    Tools::sortedForArray(selectValueArr, selectKeysArr);
     if (selectValueArr.size()==1) {
         return POKER_TYPE_SINGLE;
         //单牌可以出
@@ -536,19 +537,4 @@ int GameRules::decideSelectedPokerIfConformToRules(std::vector<Sprite *> selectV
     }
     return 0;
 
-}
-
-void GameRules::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr)
-{
-    size_t kcount = keyArr.size();
-    for (size_t i = 0; i < kcount - 1; i++) {
-        for (size_t j = kcount - 1; j > i; j--) {
-            std::string key = keyArr[j];
-            std::string upkey = keyArr[j - 1];
-            if (key.compare(upkey) > 0) {
-                std::swap(keyArr[j], keyArr[j - 1]);
-                std::swap(valueArr[j], valueArr[j - 1]);
-            }
-        }
-    }
 }

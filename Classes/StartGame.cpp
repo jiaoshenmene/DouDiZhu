@@ -14,6 +14,7 @@
 #include "HelloWorldScene.h"
 #include "PublicItem.h"
 #include <iostream>
+#include "Tools.h"
 
 
 USING_NS_CC;
@@ -253,9 +254,10 @@ void StartGame::sendPokerOutEveryPlayer()
         }
 
     }
-    sortedForArray(mpComputerUpArr, mpKeysOfcomputerUpArr);
-    sortedForArray(mpPersonArr, mpKeysOfpersonArr);
-    sortedForArray(mpComputerNextArr, mpKeysOfcomputerNextArr);
+    
+    Tools::sortedForArray(mpComputerUpArr, mpKeysOfcomputerUpArr);
+    Tools::sortedForArray(mpPersonArr, mpKeysOfpersonArr);
+    Tools::sortedForArray(mpComputerNextArr, mpKeysOfcomputerNextArr);
 //    //CCLog("发牌");
 //    //CCLog("upArr count =%d,upKey count = %d",computerUpArr.size(),keysOfcomputerUpArr.size());
 //    //CCLog("perArr count =%d,perKey count = %d",personArr.size(),keysOfpersonArr.size());
@@ -380,26 +382,6 @@ void StartGame::personConsiderTimeCountDown(float considerTime)
     }
 
 }
-#pragma mark ------发到玩家手中的牌排序-----
-void StartGame::sortedForArray(std::vector<Sprite *> &valueArr,std::vector<std::string> &keyArr)
-{
-    size_t kcount = keyArr.size();
-    for (size_t i = 0; i < kcount - 1; i++) {
-        for (size_t j = 0; j < kcount - 1 - i; j++) {
-            std::string key = keyArr[j];
-            std::string upkey = keyArr[j + 1];
-            if (key.compare(upkey) < 0) {
-                
-                std::swap(keyArr[j], keyArr[j + 1]);
-                std::swap(valueArr[j], valueArr[j + 1]);
-            }
-        }
-    }
-    std::cout<<"--------"<<std::endl;
-    for (auto v: keyArr) {
-        std::cout<<v<<std::endl;
-    }
-}
 
 //#pragma mark ------符合条件的出牌------
 void StartGame::outOfTheCards()
@@ -413,7 +395,7 @@ void StartGame::outOfTheCards()
             return;
         }
 
-        sortedForArray(mpSelectValueArr, mpSelectKeysArr); //选中的的牌排序
+        Tools::sortedForArray(mpSelectValueArr, mpSelectKeysArr); //选中的的牌排序
         //    本轮上家电脑有出牌
         if (upcomputerIsOutOfCards) {
             if (DecidePoker::sharedDecidePoker()->decidePersonMoreBigSHowPoker(mpSelectKeysArr, mpKeysOfupComputerSelectArr)) {
@@ -1173,6 +1155,7 @@ bool StartGame:: onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
     printf("x = %f , y = %f",touch->getLocation().x,touch->getLocation().y);
 
     for (int i=0; i<mpPersonArr.size(); i++) {
+        std::cout<<i<<std::endl;
         Sprite * sp=(Sprite *)getChildByTag(TAG+i);
         Rect rectForTouch= Rect(sp->getPositionX(),sp->getPositionY(),mfWidth,sp->getBoundingBox().size.height);
         //重新划分触摸响应区域

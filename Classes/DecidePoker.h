@@ -78,7 +78,6 @@ public:
     //判断是否压得住三带一对
 
 public:
-    void sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr);
     static DecidePoker * sharedDecidePoker();
 };
 #endif /* defined(__MyGame__DecidePoker__) */

@@ -126,7 +126,6 @@ public:
     void adjustPokerOrder();//调整牌序
     void sendPokerOutEveryPlayer();//发牌到每个玩家
     void displayPersonPoker();//显示person手中的牌
-    void sortedForArray(std::vector<Sprite *> &valueArr,std::vector<std::string> &keyArr);//发到手中的牌排序
     void outOfTheCards();//符合规则出牌
     void personConsiderTimeRunOutAndRandOneOfPersonPokers();
     void passThisRecycle();//过牌

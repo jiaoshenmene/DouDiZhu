@@ -8,6 +8,7 @@
 
 #include "DecidePoker.h"
 #include "TypeEnmu.h"
+#include "Tools.h"
 
 
 static DecidePoker * sh;
@@ -490,7 +491,7 @@ bool DecidePoker:: doubleStraight(int length,
 //    //CCLog("decide count %d",threeDoubleValueArr.size());
     //在此处重新排序方便显示
     if (keysOfThreeDoubleValueArr.size()>0) {
-        sortedForArray(threeDoubleValueArr, keysOfThreeDoubleValueArr);
+        Tools::sortedForArray(threeDoubleValueArr, keysOfThreeDoubleValueArr);
     }
     if (keysOfThreeDoubleValueArr.size()>=length) {
         for (int i=keysOfThreeDoubleValueArr.size()-1; i>=length-1; i--) {
@@ -744,7 +745,7 @@ bool DecidePoker:: planeWithSingleWing(int length,
     
     //在此处重新排序方便显示
     if (decideValueArr.size()>0) {
-        sortedForArray(decideValueArr, keysOfDecideValueArr);
+        Tools::sortedForArray(decideValueArr, keysOfDecideValueArr);
     }
     if (keysOfDecideValueArr.size()>=length&&keysOfFirstThreeValueArr.size()>0) {
         for (int i=keysOfDecideValueArr.size()-1; i>=length-1; i--) {
@@ -913,8 +914,8 @@ bool DecidePoker:: planeWithDoubleWings(int length,
 
     //在此处重新排序方便显示
     if (secondThreeValueArr.size()>0&&decideValueArr.size()>0) {
-        sortedForArray(secondThreeValueArr, keysOfSecondThreeValueArr);
-        sortedForArray(decideValueArr, keysOfDecideValueArr);
+        Tools::sortedForArray(secondThreeValueArr, keysOfSecondThreeValueArr);
+        Tools::sortedForArray(decideValueArr, keysOfDecideValueArr);
     }
     if (keysOfDecideValueArr.size()>=length&&keysOfSecondThreeValueArr.size()>0) {
         for (int i=keysOfDecideValueArr.size()-1; i>=length-1; i--) {
@@ -954,18 +955,4 @@ bool DecidePoker:: planeWithDoubleWings(int length,
     return mHaveSuitable;
 
 
-}
-void DecidePoker::sortedForArray(std::vector<Sprite *> valueArr,std::vector<std::string> keyArr)
-{
-    size_t kcount = keyArr.size();
-    for (size_t i = 0; i < kcount - 1; i++) {
-        for (size_t j = kcount - 1; j > i; j--) {
-            std::string key = keyArr[j];
-            std::string upkey = keyArr[j - 1];
-            if (key.compare(upkey) > 0) {
-                std::swap(keyArr[j], keyArr[j - 1]);
-                std::swap(valueArr[j], valueArr[j - 1]);
-            }
-        }
-    }
 }

@@ -344,7 +344,22 @@ void StartGame::displayPersonPoker()
         sp->setTag(TAG+i);
         this->addChild(sp);
     }
-
+    
+    for (int i=0; i<mpComputerNextArr.size(); i++) {
+        Sprite * sp=(Sprite *)mpComputerNextArr.at(i);
+        sp->setAnchorPoint(Vec2(0, 0));
+        sp->setPosition(Vec2(ox+i*mfWidth,100));
+        sp->setTag(TAG+i);
+        this->addChild(sp);
+    }
+    
+    for (int i=0; i<mpComputerUpArr.size(); i++) {
+        Sprite * sp=(Sprite *)mpComputerUpArr.at(i);
+        sp->setAnchorPoint(Vec2(0, 0));
+        sp->setPosition(Vec2(ox+i*mfWidth,200));
+        sp->setTag(TAG+i);
+        this->addChild(sp);
+    }
     
     if (mbPersonIsLandlord) {
         schedule(schedule_selector(StartGame::personConsiderTimeCountDown), 0.01);
@@ -689,17 +704,32 @@ void StartGame::nextComputeroutOfTheCards()
                     }
 
                     for (int i=0; i<mpNextComputerSelectArr.size(); i++) {
+//                        Sprite * timeBackGround=Sprite::create("Circle.png");
+//                        timeBackGround->setAnchorPoint(Vec2(0, 0));
+//                        timeBackGround->setPosition(Vec2(200+i*20, 120));
+//                        this->addChild(timeBackGround);
                         Sprite * sp=(Sprite *)mpNextComputerSelectArr.at(i);
                         sp->setAnchorPoint(Vec2(0, 0));
                         sp->setPosition(Vec2(200+i*20, 120));
-                        this->addChild(sp);
+//                        this->addChild(sp);
                     };
                     
                     nextcomputerIsOutOfCards=true;
                     //本轮下家电脑有出牌
-                mpComputerNextArr.erase(mpNextComputerSelectArr.begin(),mpNextComputerSelectArr.end());
+               
+//                    mpComputerNextArr.erase(mpNextComputerSelectArr.begin(),mpNextComputerSelectArr.end());
                     //从下家电脑手中删除出过的牌
-                mpKeysOfcomputerNextArr.erase(mpKeysOfnextComputerSelectArr.begin(),mpKeysOfnextComputerSelectArr.end());
+                    
+                    for (auto sp : mpNextComputerSelectArr) {
+                        std::vector<Sprite *>::iterator it = std::find(mpComputerNextArr.begin(), mpComputerNextArr.end(), sp);
+                        mpComputerNextArr.erase(it);
+                    }
+
+                    for (auto key : mpKeysOfnextComputerSelectArr) {
+                        std::vector<std::string>::iterator itkey = std::find(mpKeysOfcomputerNextArr.begin(), mpKeysOfcomputerNextArr.end(), key);
+                        mpKeysOfcomputerNextArr.erase(itkey);
+                    }
+                    
                     //从下家电脑手中删除出过的牌
                     mpSelectValueArr.clear();
                         //出完牌记录选中person牌的数组清零
@@ -725,7 +755,7 @@ void StartGame::nextComputeroutOfTheCards()
                     Sprite * sp=(Sprite *)mpNextComputerSelectArr.at(i);
                     sp->setAnchorPoint(Vec2(0, 0));
                     sp->setPosition(Vec2(200+i*20, 150));
-                    this->addChild(sp);
+//                    this->addChild(sp);
                 };
 
                 nextcomputerIsOutOfCards=true;
@@ -764,10 +794,10 @@ void StartGame::nextComputeroutOfTheCards()
             Sprite * sp=(Sprite *)mpComputerNextArr.at(mpComputerNextArr.size()-1);
             sp->setAnchorPoint(Vec2(0, 0));
             sp->setPosition(Vec2(200, 150));
-            this->addChild(sp);
+//            this->addChild(sp);
 
             mpNextComputerSelectArr.push_back(sp);
-        mpKeysOfnextComputerSelectArr.push_back(mpKeysOfcomputerNextArr.at(mpKeysOfcomputerNextArr.size()-1));
+            mpKeysOfnextComputerSelectArr.push_back(mpKeysOfcomputerNextArr.at(mpKeysOfcomputerNextArr.size()-1));
             //添加下家电脑选中的牌
             std::vector<Sprite *>::iterator it = std::find(mpNextComputerSelectArr.begin(), mpNextComputerSelectArr.end(), sp);
             mpNextComputerSelectArr.erase(it);
@@ -839,15 +869,23 @@ void StartGame::upComputeroutOfTheCards()
                     Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
                     sp->setAnchorPoint(Vec2(0, 0));
                     sp->setPosition(Vec2(200+i*20, 150));
-                    this->addChild(sp);
-                    mpKeysOfupComputerSelectArr.push_back(mpKeysOfupComputerSelectArr.at(i));
+//                    this->addChild(sp);
+//                    mpKeysOfupComputerSelectArr.push_back(mpKeysOfupComputerSelectArr.at(i));
                 };
                 
                 upcomputerIsOutOfCards=true;
                 //本轮玩家电脑出牌了
 
-                mpComputerUpArr.erase(mpUpComputerSelectArr.begin(), mpUpComputerSelectArr.end());
-                mpKeysOfcomputerUpArr.erase(mpKeysOfupComputerSelectArr.begin(), mpKeysOfupComputerSelectArr.end());
+                for (auto sp : mpUpComputerSelectArr) {
+                    std::vector<Sprite *>::iterator it = std::find(mpComputerUpArr.begin(), mpComputerUpArr.end(), sp);
+                    mpComputerUpArr.erase(it);
+                }
+                
+                for (auto v : mpKeysOfupComputerSelectArr) {
+                    std::vector<std::string>::iterator it = std::find(mpKeysOfcomputerUpArr.begin(), mpKeysOfcomputerUpArr.end(), v);
+                    mpKeysOfcomputerUpArr.erase(it);
+                }
+                
                 //上家电脑出过的牌从手中删除
 
                 mpNextComputerSelectArr.clear();
@@ -875,13 +913,21 @@ void StartGame::upComputeroutOfTheCards()
                     Sprite * sp=(Sprite *)mpUpComputerSelectArr.at(i);
                     sp->setAnchorPoint(Vec2(0, 0));
                     sp->setPosition(Vec2(100+i*20, 150));
-                    this->addChild(sp);
+//                    this->addChild(sp);
                 };
                 
                 upcomputerIsOutOfCards=true;
                 //本轮上家电脑出牌了
-                mpComputerUpArr.erase(mpUpComputerSelectArr.begin(),mpUpComputerSelectArr.end());
-                mpKeysOfcomputerUpArr.erase(mpKeysOfupComputerSelectArr.begin() , mpKeysOfupComputerSelectArr.end());
+                for (auto sp : mpUpComputerSelectArr) {
+                    std::vector<Sprite *>::iterator it = std::find(mpComputerUpArr.begin(), mpComputerUpArr.end(), sp);
+                    mpComputerUpArr.erase(it);
+                }
+                
+                for (auto v : mpKeysOfupComputerSelectArr) {
+                    std::vector<std::string>::iterator it = std::find(mpKeysOfcomputerUpArr.begin(), mpKeysOfcomputerUpArr.end(), v);
+                    mpKeysOfcomputerUpArr.erase(it);
+                }
+                
                 //上家电脑出过的牌从手中删除
 
                 mpSelectValueArr.clear();
@@ -914,7 +960,7 @@ void StartGame::upComputeroutOfTheCards()
             Sprite * sp=(Sprite *)mpComputerUpArr.at(mpComputerUpArr.size()-1);
             sp->setAnchorPoint(Vec2(0, 0));
             sp->setPosition(Vec2(200, 150));
-            this->addChild(sp);
+//            this->addChild(sp);
             mpUpComputerSelectArr.push_back(sp);
             mpKeysOfupComputerSelectArr.push_back(mpKeysOfcomputerUpArr.at(mpKeysOfcomputerUpArr.size()-1));
 

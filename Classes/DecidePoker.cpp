@@ -27,7 +27,7 @@ bool DecidePoker:: decidePersonMoreBigSHowPoker(std::vector<std::string> keysOfN
     if (keysOfNextShowArr.size()==keysOfNowShowArr.size()) {
         if(keysOfNowShowArr.size()==1)
         {
-            if (!keysOfNextShowArr.at(0).compare(keysOfNowShowArr.at(0))) {
+            if (keysOfNextShowArr.at(0).compare(keysOfNowShowArr.at(0)) > 0) {
                 return true;
             }
         }

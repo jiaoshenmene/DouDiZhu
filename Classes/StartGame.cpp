@@ -423,21 +423,30 @@ void StartGame::outOfTheCards()
                 personIsOutOfCards=true;
                 //玩家本轮出牌
                 mbPersonFirstIsOutOfCards=false;
-                mpPersonArr.erase(mpSelectValueArr.begin(),mpSelectValueArr.end());
+                
                 //从玩家手中删除出过的牌
-                mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(),mpSelectKeysArr.end());
+                for (auto sp : mpSelectValueArr) {
+                    std::vector<Sprite *>::iterator spIterator = std::find(mpPersonArr.begin(), mpPersonArr.end(), sp);
+                    mpPersonArr.erase(spIterator);
+                }
                 //从玩家手中删除出过的牌及对应的key
+                for (auto key : mpSelectKeysArr) {
+                    std::vector<std::string>::iterator spkey = std::find(mpKeysOfpersonArr.begin(), mpKeysOfpersonArr.end(), key);
+                    mpKeysOfpersonArr.erase(spkey);
+                }
 
                 mpUpComputerSelectArr.clear();
                 mpKeysOfupComputerSelectArr.clear();
                 //清空上家电脑选中的牌
 
 
+                Size winSize = Director::getInstance()->getWinSize();
+                float ox = (winSize.width - mpPersonArr.size() * mfWidth) / 2;
                 for (int i=0; i<mpPersonArr.size(); i++) {
                     Sprite * sp=(Sprite *)mpPersonArr.at(i);
                     sp->setAnchorPoint(Vec2(0, 0));
                     sp->setTag(TAG+i);
-                    sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size()/2)+mfWidth*i, 10));
+                    sp->setPosition(Vec2(ox+i*mfWidth,70));
                 }
                 //玩家出牌后调整桌面牌的位置
                 mpPokerWhetherMoveArr.clear();
@@ -480,21 +489,32 @@ void StartGame::outOfTheCards()
             
                 mbPersonFirstIsOutOfCards=false;
                 //玩家本轮出牌
-                mpPersonArr.erase(mpSelectValueArr.begin(), mpSelectValueArr.end());
+                
                 //从玩家手中删除出过的牌
-                mpKeysOfpersonArr.erase(mpSelectKeysArr.begin(), mpSelectKeysArr.end());
+                for (auto sp : mpSelectValueArr) {
+                    std::vector<Sprite *>::iterator spIterator = std::find(mpPersonArr.begin(), mpPersonArr.end(), sp);
+                    mpPersonArr.erase(spIterator);
+                }
                 //从玩家手中删除出过的牌及对应的key
+                for (auto key : mpSelectKeysArr) {
+                    std::vector<std::string>::iterator spkey = std::find(mpKeysOfpersonArr.begin(), mpKeysOfpersonArr.end(), key);
+                    mpKeysOfpersonArr.erase(spkey);
+                }
+                
+                
 
                 mpNextComputerSelectArr.clear();
                 mpKeysOfnextComputerSelectArr.clear();
                 //清空下家电脑选中的牌
 
 
+                Size winSize = Director::getInstance()->getWinSize();
+                float ox = (winSize.width - mpPersonArr.size() * mfWidth) / 2;
                 for (int i=0; i<mpPersonArr.size(); i++) {
                     Sprite * sp=(Sprite *)mpPersonArr.at(i);
                     sp->setAnchorPoint(Vec2(0, 0));
                     sp->setTag(TAG+i);
-                    sp->setPosition(Vec2(240-mfWidth*(mpPersonArr.size())/2+mfWidth*i, 10));
+                    sp->setPosition(Vec2(ox+i*mfWidth,70));
                 }
                 //玩家出牌后调整桌面牌的位置
                 mpPokerWhetherMoveArr.clear();
